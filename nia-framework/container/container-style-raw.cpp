@@ -92,6 +92,10 @@ void ContainerStyleRaw::updateStyle(ContainerStyle* style)
 	}
 
 
+	if (_shadow != "none")
+	{
+		style->_shadow = Shadow(_shadow);
+	}
 
 
 	if (_cursor != "none")
@@ -216,5 +220,16 @@ string ContainerStyleRaw::hoverCursor()
 ContainerStyleRaw* ContainerStyleRaw::hoverCursor(string cursor_id)
 {
 	_hoverCursor = cursor_id;
+	return this;
+}
+
+string ContainerStyleRaw::shadow()
+{
+	return _shadow;
+}
+
+ContainerStyleRaw* ContainerStyleRaw::shadow(string shadow)
+{
+	_shadow = shadow;
 	return this;
 }

@@ -77,4 +77,7 @@ public:
 	ContainerStyleRaw* cursor(string cursor_id);
 	ContainerStyleRaw* hoverCursor(string cursor_id);
 
+
+	string shadow();
+	ContainerStyleRaw* shadow(string shadow);
 };

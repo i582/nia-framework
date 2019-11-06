@@ -6,27 +6,30 @@ using namespace Utils;
 
 void MainWindow::setup()
 {
-	__container->append(new Container("cont", { {"400px", "100px"}, {"100px", "100px"} }, "back-in-black highway-to-heaven"));
+	__container->append(new Container("cont", { {"400px", "100px"}, {"50%", "200px"} }, "back-in-black highway-to-heaven"));
+
+	__container->append(new Container("cont1", { {"200px", "100px"}, {"200px", "200px"} }, "back-in-black highway-to-heaven"));
 
 	ContainerStyleRaw* backStyle = new ContainerStyleRaw();
-	backStyle->backgroundColor("#00ff00ff");
+	backStyle->backgroundColor("#FFD152");
 	backStyle->hoverBackgroundColor("#00aa00ff");
+	backStyle->shadow("5px 40px #2B292A #343233");
 	Window::addStyle("back-in-black", backStyle);
 
-	ContainerStyleRaw* highwayStyle = new ContainerStyleRaw();
-	highwayStyle->borderColor("#123456ff");
-	Window::addStyle("highway-to-heaven", highwayStyle);
+	ContainerStyleRaw* mainStyle = new ContainerStyleRaw();
+	
+	mainStyle->backgroundColor("#343233");
+
+	Window::addStyle("main", mainStyle);
+
+	__container->addClass("main");
 
 
+	
 
 
-
-
-
-
-
-	__container->setupContainer();
 	Window::handleStyles();
+	__container->setupContainer();
 }
 
 void MainWindow::update()
@@ -64,13 +67,13 @@ void MainWindow::update()
 
 		//text.render();
 
-	const int R = 100;
+	//const int R = 100;
 
 
 
 
 
-	SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
+	//SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
 
 
 	//for (size_t i = 0; i < 10; i++)
@@ -87,15 +90,15 @@ void MainWindow::update()
 	//	Draw::circle(renderer, 200, 100, 50 - i, color1);
 	//}
 
-	Color cl("#EAEAEAff");
-	Color cl1("#ffffffff");
+	//Color cl("#EAEAEAff");
+	//Color cl1("#ffffffff");
 	/*Draw::arc(renderer, 200, 100, 100, cl1.color(), cl.color(), 3, 20);
 
 	Draw::hline(renderer, 50, 200, 200, cl1.color(), cl.color(), 20);
 	Draw::vline(renderer, 300, 50, 100, cl1.color(), cl.color(), 20);*/
 
 
-	Draw::roundedShadowRectangle(renderer, 50, 50, 300, 400, 10, cl.color(), cl1.color(), 5, 40);
+	//Draw::roundedShadowRectangle(renderer, 50, 50, 300, 400, 10, cl.color(), cl1.color(), 5, 40);
 
 	//Draw::roundedRectangle(renderer, 100, 100, 200, 100, 20, cl.color());
 

@@ -13,7 +13,7 @@ ContainerStyle::ContainerStyle()
 	this->_cursor = 
 	this->_hoverCursor = SDL_CreateSystemCursor(SDL_SYSTEM_CURSOR_ARROW);
 
-	
+
 }
 
 
@@ -47,4 +47,9 @@ color ContainerStyle::hoverBorderColor()
 color ContainerStyle::activeBorderColor()
 {
 	return _activeBorderColor.color();
+}
+
+Shadow ContainerStyle::shadow()
+{
+	return _shadow;
 }

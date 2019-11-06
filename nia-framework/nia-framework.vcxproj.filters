@@ -99,6 +99,9 @@
     <ClInclude Include="utils\draw.h">
       <Filter>Исходные файлы\utils</Filter>
     </ClInclude>
+    <ClInclude Include="utils\shadow.h">
+      <Filter>Исходные файлы\utils</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="nia-app.cpp">
@@ -160,6 +163,9 @@
     </ClCompile>
     <ClCompile Include="utils\draw.cpp">
       <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="utils\shadow.cpp">
+      <Filter>Исходные файлы\utils</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

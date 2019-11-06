@@ -3,6 +3,10 @@
 
 #include "font/fonts.h"
 #include "text/text.h"
+
+
+#include "utils/shadow.h"
+
 using namespace NIAApp;
 
 int main(int argc, char** argv)
@@ -44,6 +48,9 @@ int main(int argc, char** argv)
 
 
 	Fonts::close();*/
+
+
+
 
 	return 0;
 }

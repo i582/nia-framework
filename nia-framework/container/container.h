@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../utils/rect.h"
+#include "../utils/draw.h"
 #include "container-header.h"
 
 #include "container-style.h"
@@ -17,6 +18,8 @@ protected:
 	Rect _size;
 	string _id;
 	string _classes;
+
+	Rect _outerSize;
 
 
 	/*
@@ -69,7 +72,7 @@ protected:
 	 */ 
 	SDL_Renderer* _renderer;
 	SDL_Texture* _texture;
-
+	SDL_Texture* _outerTexture;
 
 
 	/*
@@ -180,7 +183,7 @@ public:
 	int top();
 	int left();
 	Rect size();
-
+	Rect outerSize();
 	
 public:
 	/*

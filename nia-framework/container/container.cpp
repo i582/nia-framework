@@ -8,6 +8,8 @@ Container::Container(string id, Rect size, string classNames)
 	this->_size = size;
 	this->_classes = classNames;
 
+	this->_outerSize = size;
+
 	// parent
 	this->_parent = nullptr;
 
@@ -32,7 +34,7 @@ Container::Container(string id, Rect size, string classNames)
 	// sdl
 	this->_renderer = nullptr;
 	this->_texture = nullptr;
-
+	this->_outerTexture = nullptr;
 
 	
 	// styles part
@@ -135,11 +137,24 @@ void Container::render()
 	SDL_RenderDrawRect(_renderer, NULL);
 
 
-
 	for (auto& child : _childs)
 	{
 		child->render();
 	}
+
+
+	SDL_SetRenderTarget(_renderer, _outerTexture);
+
+	size_t thickness = _style.shadow().thickness();
+	size_t blur = _style.shadow().blur();
+
+	Color cl = _style.shadow().startColor();
+	Color cl1 = _style.shadow().endColor();
+
+	Draw::roundedShadowRectangle(_renderer, thickness > blur ? thickness : blur, thickness > blur ? thickness : blur, _outerSize.w() - 2 * (thickness > blur ? thickness : blur), _outerSize.h() - 2 * (thickness > blur ? thickness : blur), 0, cl.color(), cl1.color(), thickness, blur);
+	
+
+	SDL_RenderCopy(_renderer, _texture, NULL, &_size.toSdlRect());
 
 
 
@@ -152,6 +167,7 @@ void Container::render()
 	SDL_SetRenderTarget(_renderer, parentTexture);
 
 
+
 	// TODO
 	// src part textures
 	Rect _sizeCopy = _size;
@@ -159,8 +175,7 @@ void Container::render()
 	Rect src = _sizeCopy;
 	//src.x = 0; src.y = 0;
 
-
-	SDL_RenderCopy(_renderer, _texture, NULL, &_sizeCopy.toSdlRect());
+	SDL_RenderCopy(_renderer, _outerTexture, NULL, &_outerSize.toSdlRect());
 }
 
 void Container::setupEventListeners()
@@ -257,7 +272,25 @@ void Container::computeSize()
 	{
 		Rect parentSize = _parent->size();
 		_size.calc(parentSize);
+		_outerSize.calc(parentSize);
 	}
+
+	// adjust size with shadow size
+	size_t shadowSize = _style.shadow().outerSize();
+
+	_outerSize.size.dw(2 * shadowSize);
+	_outerSize.size.dh(2 * shadowSize);
+
+	_outerSize.start.dx(-(int)shadowSize);
+	_outerSize.start.dy(-(int)shadowSize);
+
+	_size.start.x(shadowSize);
+	_size.start.y(shadowSize);
+
+
+
+	this->_outerTexture = SDL_CreateTexture(_renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, _outerSize.w(), _outerSize.h());
+	SDL_SetTextureBlendMode(_outerTexture, SDL_BLENDMODE_BLEND);
 
 	this->_texture = SDL_CreateTexture(_renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, _size.w(), _size.h());
 	SDL_SetTextureBlendMode(_texture, SDL_BLENDMODE_BLEND);
@@ -444,6 +477,11 @@ int Container::left()
 Rect Container::size()
 {
 	return _size;
+}
+
+Rect Container::outerSize()
+{
+	return _outerSize;
 }
 
 void Container::addEventListener(string action, eventCallback callback_function)
