@@ -1,0 +1,165 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Исходные файлы">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Файлы заголовков">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Файлы ресурсов">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Исходные файлы\utils">
+      <UniqueIdentifier>{c14f1ca7-2ef1-4cde-b649-7fc5e90dba44}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Исходные файлы\window">
+      <UniqueIdentifier>{333883a8-85df-4fdb-9304-c4f890da9fb5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Исходные файлы\window\base">
+      <UniqueIdentifier>{1b884021-78f5-49c4-bdd1-4c1f599e3cd8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Исходные файлы\container">
+      <UniqueIdentifier>{39f7b886-7421-4239-8537-2a26caffefaa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Исходные файлы\window\base\main">
+      <UniqueIdentifier>{af6808e5-ea52-4d6f-aef8-45b33ddebf85}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Исходные файлы\container\style">
+      <UniqueIdentifier>{9489e017-1d14-41ad-8779-531fc101357c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Исходные файлы\container\main">
+      <UniqueIdentifier>{cd6426da-3d65-4942-92ea-052a9097f673}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Исходные файлы\fonts">
+      <UniqueIdentifier>{16817a8e-b978-4aa6-8624-8805f9c9b136}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Исходные файлы\text">
+      <UniqueIdentifier>{d43c6bb9-89a3-4c05-a0b5-cf06b9bbe06e}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="nia-app.h">
+      <Filter>Исходные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="utils\mouse.h">
+      <Filter>Исходные файлы\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="utils\point.h">
+      <Filter>Исходные файлы\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="utils\rect.h">
+      <Filter>Исходные файлы\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="utils\size.h">
+      <Filter>Исходные файлы\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="utils\utils.h">
+      <Filter>Исходные файлы\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="nia-main-point.h">
+      <Filter>Исходные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="window\base\window.h">
+      <Filter>Исходные файлы\window\base</Filter>
+    </ClInclude>
+    <ClInclude Include="window\main\main-window.h">
+      <Filter>Исходные файлы\window\base\main</Filter>
+    </ClInclude>
+    <ClInclude Include="container\container.h">
+      <Filter>Исходные файлы\container</Filter>
+    </ClInclude>
+    <ClInclude Include="container\container-header.h">
+      <Filter>Исходные файлы\container</Filter>
+    </ClInclude>
+    <ClInclude Include="container\container-style-raw.h">
+      <Filter>Исходные файлы\container\style</Filter>
+    </ClInclude>
+    <ClInclude Include="container\container-style.h">
+      <Filter>Исходные файлы\container\style</Filter>
+    </ClInclude>
+    <ClInclude Include="utils\color.h">
+      <Filter>Исходные файлы\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="container\main\MainContainer.h">
+      <Filter>Исходные файлы\container\main</Filter>
+    </ClInclude>
+    <ClInclude Include="font\fonts.h">
+      <Filter>Исходные файлы\fonts</Filter>
+    </ClInclude>
+    <ClInclude Include="font\font.h">
+      <Filter>Исходные файлы\fonts</Filter>
+    </ClInclude>
+    <ClInclude Include="text\text.h">
+      <Filter>Исходные файлы\text</Filter>
+    </ClInclude>
+    <ClInclude Include="utils\draw.h">
+      <Filter>Исходные файлы\utils</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="nia-app.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="utils\mouse.cpp">
+      <Filter>Исходные файлы\utils</Filter>
+    </ClCompile>
+    <ClCompile Include="utils\point.cpp">
+      <Filter>Исходные файлы\utils</Filter>
+    </ClCompile>
+    <ClCompile Include="utils\rect.cpp">
+      <Filter>Исходные файлы\utils</Filter>
+    </ClCompile>
+    <ClCompile Include="utils\size.cpp">
+      <Filter>Исходные файлы\utils</Filter>
+    </ClCompile>
+    <ClCompile Include="utils\utils.cpp">
+      <Filter>Исходные файлы\utils</Filter>
+    </ClCompile>
+    <ClCompile Include="window\base\window.cpp">
+      <Filter>Исходные файлы\window\base</Filter>
+    </ClCompile>
+    <ClCompile Include="container\container.cpp">
+      <Filter>Исходные файлы\container</Filter>
+    </ClCompile>
+    <ClCompile Include="window\main\main-window.cpp">
+      <Filter>Исходные файлы\window\base\main</Filter>
+    </ClCompile>
+    <ClCompile Include="container\main\MainContainer.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="utils\color.cpp">
+      <Filter>Исходные файлы\utils</Filter>
+    </ClCompile>
+    <ClCompile Include="container\container-style-raw.cpp">
+      <Filter>Исходные файлы\container\style</Filter>
+    </ClCompile>
+    <ClCompile Include="container\container-style.cpp">
+      <Filter>Исходные файлы\container\style</Filter>
+    </ClCompile>
+    <ClCompile Include="font\fonts.cpp">
+      <Filter>Исходные файлы\fonts</Filter>
+    </ClCompile>
+    <ClCompile Include="text\text.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\SDL2\SDL2_gfx\SDL2_gfxPrimitives.c">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\SDL2\SDL2_gfx\SDL2_rotozoom.c">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="font\font.cpp">
+      <Filter>Исходные файлы\fonts</Filter>
+    </ClCompile>
+    <ClCompile Include="utils\draw.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
