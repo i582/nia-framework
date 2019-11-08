@@ -17,7 +17,7 @@ class Point;
 class Size
 {
 
-/*
+/**
  * @brief Part for numerical size
  */
 private:
@@ -40,11 +40,11 @@ public:
 	bool operator!=(const Size &obj) const;
 
 
-/*
+/**
  * @brief Part for where definition from a string, like 100px or 24%
  */
 public:
-	/*
+	/**
 	 * @brief Strings must contain px or %
 	 */
 	string width, height;
@@ -54,17 +54,22 @@ public:
 public:
 	Size(string width, string height);
 
-	/*
+	/**
 	* @brief Function calculating sizes from strings
 	* @param parent Size relative to which values ​​containing percentages are calculated
 	* @return Rectangle with calculated values
 	*/
 	Size calc(const Rect& parent);
 
+
+/**
+ * @brief Our friends
+ */
 public:
 	friend Rect;
 	friend Point;
-/*
+
+/**
  * @brief general interface
  */
 public:

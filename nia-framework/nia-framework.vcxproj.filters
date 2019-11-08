@@ -40,6 +40,9 @@
     <Filter Include="Исходные файлы\text">
       <UniqueIdentifier>{d43c6bb9-89a3-4c05-a0b5-cf06b9bbe06e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Исходные файлы\container\containers">
+      <UniqueIdentifier>{12996c08-78e7-47fe-8bc5-beeb3af2dd11}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="nia-app.h">
@@ -101,6 +104,12 @@
     </ClInclude>
     <ClInclude Include="utils\shadow.h">
       <Filter>Исходные файлы\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="container\containers\containers.h">
+      <Filter>Исходные файлы\container\containers</Filter>
+    </ClInclude>
+    <ClInclude Include="container\scroll\scroll.h">
+      <Filter>Исходные файлы\container</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -166,6 +175,12 @@
     </ClCompile>
     <ClCompile Include="utils\shadow.cpp">
       <Filter>Исходные файлы\utils</Filter>
+    </ClCompile>
+    <ClCompile Include="container\containers\containers.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="container\scroll\scroll.cpp">
+      <Filter>Исходные файлы</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

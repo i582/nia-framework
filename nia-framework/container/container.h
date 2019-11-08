@@ -2,6 +2,11 @@
 
 #include "../utils/rect.h"
 #include "../utils/draw.h"
+
+#include "../../container/scroll/scroll.h"
+
+#include "containers/containers.h"
+
 #include "container-header.h"
 
 #include "container-style.h"
@@ -10,64 +15,69 @@ class Window;
 
 class Container
 {
+public:
+	static Container* hoverContainer;
+
 protected:
 
-	/*
+	/**
 	 * Main part
 	 */
-	Rect _size;
+	Rect _innerSize;
 	string _id;
 	string _classes;
 
 	Rect _outerSize;
 
 
-	/*
+	/**
 	 * Parent part
 	 */
 	Container* _parent;
+	Window* _window;
 
-	/*
+
+	/**
 	 * Childs part
 	 */
 	vector<Container*> _childs;
 	Rect _sizeChilds;
 
 
-	/*
+	/**
 	 * Display part
 	 */
 	bool _display;
 
 
 
-	/*
+	/**
 	 * Events part
 	 * eventCallback is function< void(Container* sender, Event* e) >
 	 */
 	map <string, eventCallback> eventListeners;
-	/*
+	/**
 	 * @brief Ñallback function for unset event
 	 */
 	static void unusedCallback(Container* caller, Event* e) {};
 
 
-	/*
+	/**
 	 * User data part
 	 * On this array the user can put a pointer to any information that he may need
 	 */
 	map <string, void*> _userData;
 
 
-	/*
+	/**
 	 * State part
 	 */
 	bool _isHovered;
 	bool _isActive;
 
 
-
-	/*
+	
+	/**
 	 * SDL part
 	 */ 
 	SDL_Renderer* _renderer;
@@ -75,21 +85,26 @@ protected:
 	SDL_Texture* _outerTexture;
 
 
-	/*
+	/**
 	 * Styles part
 	 */
 	ContainerStyle _style;
 	ContainerStyleRaw _rawStyle;
 
 
+	/**
+	 * Scroll part
+	 */
+	Scroll* scroll;
 
-	/*
+	/**
 	 * Other for Events
 	 */
 	bool firstMouseMotion;
 
 public:
 	Container(string id, Rect size, string classNames);
+	~Container();
 
 	/**
 	 * Our friends
@@ -100,20 +115,22 @@ public:
 
 
 private:
-	/*
+	/**
 	 * Event listeners setup
 	 */
 	void setupEventListeners();
 
 
-	/*
+public:
+	/**
 	 * Helper relationship functions
 	 */
 	Container* getHoverElement(Point p);
 	//Container* getFirstScrollableParent();
 
 
-	/*
+public:
+	/**
 	 * Events
 	 */
 	void mouseButtonDown(Event* e);
@@ -128,14 +145,14 @@ private:
 	ContainerStyle* styles();
 
 public:
-	/*
+	/**
 	 * Setup functions
 	 */
 	void computeSize();
 	void computeChildrenSize();
 	void setupChildrenRenderer();
 
-	/*
+	/**
 	 * @brief Function to configure the container and all its childs
 	 */
 	void setupContainer();
@@ -144,18 +161,20 @@ public:
 
 
 public:
-	/*
+	/**
 	 * Render interface
 	 */
 	void render();
 
 
 public:
-	/*
+	/**
 	 * Relation interface
 	 */
 	Container* const parent();
 	vector <Container*>& childs();
+
+	Window* window();
 
 	Container* append(Container* obj);
 	Container* appends(vector<Container*> containers);
@@ -166,16 +185,16 @@ public:
 
 
 public:
-	/*
+	/**
 	 * Hover interface
 	 */
 	bool onHover(Point point);
 	Container* const onChildHover(Point point);
-
+	Container* const onContainerHover(Point point);
 
 
 public:
-	/*
+	/**
 	 * Size interface
 	 */
 	int width();
@@ -185,8 +204,14 @@ public:
 	Rect size();
 	Rect outerSize();
 	
+
+	/**
+	 * id interface
+	 */
+	string id();
+
 public:
-	/*
+	/**
 	 * Event listeners interface
 	 */
 	void addEventListener(string action, eventCallback callback_function);
@@ -195,7 +220,7 @@ public:
 
 
 public:
-	/*
+	/**
 	 * User data interface
 	 */
 	map <string, void*>& userData();
@@ -203,7 +228,7 @@ public:
 
 
 public:
-	/*
+	/**
 	 * Renderer data interface
 	 */
 	SDL_Renderer* const renderer();
@@ -211,7 +236,7 @@ public:
 
 
 public:
-	/*
+	/**
 	 * Display interface
 	 */
 	Container* show();
@@ -221,7 +246,7 @@ public:
 
 
 public:
-	/*
+	/**
 	 * State interface
 	 */
 	bool isHovered();
@@ -229,7 +254,7 @@ public:
 
 
 public:
-	/*
+	/**
 	 * Class interface
 	 */
 	bool hasClass(string className);

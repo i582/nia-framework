@@ -59,7 +59,7 @@ void NApp::onEvent()
 	int windowId = -1;
 	while (running && SDL_WaitEvent(&e))
 	{
-		windowId = e.window.windowID;
+		windowId = e.window.windowID - 1;
 
 		if (windowId < windows.size())
 			windows[windowId]->onEvent(&e);

@@ -10,12 +10,9 @@ class Window;
 
 class MainContainer : public Container
 {
-private:
-	Window* parent;
-
 public:
 	MainContainer(Window* parent);
-
+	
 public:
 	void update();
 

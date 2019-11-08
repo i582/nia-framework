@@ -1,16 +1,10 @@
 #include "window.h"
 
-
-map <string, Container*> Window::__containers = {};
-map <string, ContainerStyleRaw*> Window::__containersStyles = {};
-
-
 ContainerStyleRaw* Window::addStyle(string className, ContainerStyleRaw* style)
 {
 	__containersStyles.insert(make_pair(className, style));
 	return style;
 }
-
 
 void Window::handleStyles()
 {
@@ -65,20 +59,21 @@ Container* Window::getElementById(string id)
 	}
 }
 
-//Container* Window::getElementsByClassName(string className)
-//{
-//	vector<Object*>* objectVector = new vector<Object*>;
-//	for (auto& object : __objects)
-//	{
-//		if (object.second->hasClass(className))
-//		{
-//			objectVector->push_back(object.second);
-//		}
-//	}
-//
-//	return new Objects(objectVector);
-//}
-//
+
+Containers* Window::getElementsByClassName(string className)
+{
+	vector<Container*>* containerVector = new vector<Container*>;
+	for (auto& container : __containers)
+	{
+		if (container.second->hasClass(className))
+		{
+			containerVector->push_back(container.second);
+		}
+	}
+
+	return new Containers(containerVector);
+}
+
 
 
 Window::Window(string title, Rect size)
@@ -91,6 +86,7 @@ Window::Window(string title, Rect size)
 
 	this->display = true;
 
+	
 
 	this->init();
 	this->generalSetup();

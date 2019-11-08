@@ -65,6 +65,30 @@ int Rect::h(int v)
 	return size._h;
 }
 
+int Rect::dx(int d)
+{
+	start._x += d;
+	return start._x;
+}
+
+int Rect::dy(int d)
+{
+	start._y += d;
+	return start._y;
+}
+
+int Rect::dw(int d)
+{
+	size._w += d;
+	return size._w;
+}
+
+int Rect::dh(int d)
+{
+	size._h += d;
+	return size._h;
+}
+
 int Rect::y() const
 {
 	if (!isCalculated)

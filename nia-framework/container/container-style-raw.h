@@ -81,3 +81,5 @@ public:
 	string shadow();
 	ContainerStyleRaw* shadow(string shadow);
 };
+
+using Style = ContainerStyleRaw;

@@ -146,13 +146,13 @@ string ContainerStyleRaw::activeBackgroundColor()
 
 ContainerStyleRaw* ContainerStyleRaw::backgroundColor(string newColor)
 {
-	_backgroundColor = newColor;
+	_backgroundColor = _hoverBackgroundColor = _activeBackgroundColor= newColor;
 	return this;
 }
 
 ContainerStyleRaw* ContainerStyleRaw::hoverBackgroundColor(string newColor)
 {
-	_hoverBackgroundColor = newColor;
+	_hoverBackgroundColor = _activeBackgroundColor = newColor;
 	return this;
 }
 
@@ -183,13 +183,13 @@ string ContainerStyleRaw::activeBorderColor()
 
 ContainerStyleRaw* ContainerStyleRaw::borderColor(string newColor)
 {
-	_borderColor = newColor;
+	_borderColor = _hoverBorderColor = _activeBorderColor = newColor;
 	return this;
 }
 
 ContainerStyleRaw* ContainerStyleRaw::hoverBorderColor(string newColor)
 {
-	_hoverBorderColor = newColor;
+	_hoverBorderColor = _activeBorderColor = newColor;
 	return this;
 }
 

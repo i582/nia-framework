@@ -6,26 +6,65 @@ using namespace Utils;
 
 void MainWindow::setup()
 {
-	__container->append(new Container("cont", { {"400px", "100px"}, {"50%", "200px"} }, "back-in-black highway-to-heaven"));
+	__container->append(new Container("cont", { {"12%", "12%"}, {"75%", "75%"} }, "back-in-black highway-to-heaven"));
 
-	__container->append(new Container("cont1", { {"200px", "100px"}, {"200px", "200px"} }, "back-in-black highway-to-heaven"));
+	Window::getElementById("cont")->append(new Container("cont-child", { {"12%", "12%"}, {"75%", "150%"} }, "back-in-black"));
+	
+	
 
-	ContainerStyleRaw* backStyle = new ContainerStyleRaw();
-	backStyle->backgroundColor("#FFD152");
+
+	Style* backStyle = new Style();
+	backStyle->backgroundColor("#ddddddff");
 	backStyle->hoverBackgroundColor("#00aa00ff");
-	backStyle->shadow("5px 40px #2B292A #343233");
+
+	backStyle->borderColor("#ff00ff");
+	backStyle->hoverBorderColor("#0000ff");
+
+
+
+	//backStyle->shadow("0px 5px #dddddd #ffffff");
 	Window::addStyle("back-in-black", backStyle);
 
-	ContainerStyleRaw* mainStyle = new ContainerStyleRaw();
-	
-	mainStyle->backgroundColor("#343233");
+	Style* hStyle = new Style();
+	hStyle->backgroundColor("#cccccc");
+	Window::addStyle("highway-to-heaven", hStyle);
 
+
+	Style* mainStyle = new Style();
+	mainStyle->backgroundColor("#ffffff");
 	Window::addStyle("main", mainStyle);
 
 	__container->addClass("main");
 
 
 	
+/*
+	Window::getElementById("cont-child")->addEventListener("onmouseover", [=](Container* sender, Event* e)
+	{
+		cout << "Mouse over cont-chld" << endl;
+	});
+
+	Window::getElementById("cont-child")->addEventListener("onmouseout", [=](Container* sender, Event* e)
+	{
+		cout << "Mouse out cont-chld" << endl;
+	});
+
+	Window::getElementById("cont-child-1")->addEventListener("hover", [=](Container* sender, Event* e)
+	{
+		cout << "Click cont-chld-1" << endl;
+	});
+
+*/
+
+	Window::getElementsByClassName("back-in-black")->addEventListener("click", lambda(Container* sender, Event* e)
+	{
+		cout << "Click by " << sender->id() << endl;
+	});
+
+	Window::getElementsByClassName("back-in-black")->each(lambda(Container* sender)
+	{
+		cout << "Container with id " << sender->id() << endl;
+	});
 
 
 	Window::handleStyles();
@@ -34,10 +73,6 @@ void MainWindow::setup()
 
 void MainWindow::update()
 {
-
-
-
-
 	SDL_SetRenderTarget(renderer, NULL);
 
 	SDL_SetRenderColor(renderer, { 0xff, 0xff, 0xff, 0xff });
@@ -47,10 +82,13 @@ void MainWindow::update()
 	SDL_RenderDrawRect(renderer, NULL);
 
 
+	
 
 	__container->render();
 
-
+	SDL_SetRenderColor(renderer, { 0x3f, 0x3f, 0x46, 0xff });
+	SDL_Point p = { 5200, 250 };
+	SDL_RenderDrawPoint(renderer, 520, 250);
 /*
 
 	Font::root("../nia-framework/fonts/");
@@ -115,23 +153,94 @@ void MainWindow::update()
 
 void MainWindow::onEvent(SDL_Event* e)
 {
-	//cout << e->window.windowID << endl;
+	switch (e->type)
+	{
+
+	case SDL_MOUSEMOTION:
+	{
+		mouseMotion(e);
+		break;
+	}
+
+	case SDL_MOUSEBUTTONDOWN:
+	{
+		mouseButtonDown(e);
+		break;
+	}
+
+	case SDL_MOUSEBUTTONUP:
+	{
+		mouseButtonUp(e);
+		break;
+	}
+
+	case SDL_MOUSEWHEEL:
+	{
+		mouseWheel(e);
+		break;
+	}
+
+	case SDL_KEYDOWN:
+	{
+		keyDown(e);
+		break;
+	}
+
+	case SDL_KEYUP:
+	{
+		keyUp(e);
+		break;
+	}
+
+	case SDL_TEXTINPUT:
+	{
+		textInput(e);
+		break;
+	}
+
+	break;
+	}
 }
 
 void MainWindow::mouseButtonDown(SDL_Event* e)
 {
+	Container* hover = __container->onContainerHover({e->motion.x, e->motion.y});
+
+	if (hover != nullptr)
+	{
+		hover->mouseButtonDown(e);
+	}
+	
+	__container->update();
 }
 
 void MainWindow::mouseButtonUp(SDL_Event* e)
 {
+	Container* hover = __container->onContainerHover({ e->motion.x, e->motion.y });
+
+	if (hover != nullptr)
+	{
+		hover->mouseButtonUp(e);
+	}
+
+	__container->update();
 }
 
 void MainWindow::mouseMotion(SDL_Event* e)
 {
+	Container* hover = __container->onContainerHover({ e->motion.x, e->motion.y });
+
+	if (hover != nullptr)
+	{
+		hover->mouseMotion(e);
+	}
+
+	__container->update();
 }
 
 void MainWindow::mouseWheel(SDL_Event* e)
 {
+	//__container->mouseWheel(e);
 }
 
 void MainWindow::keyDown(SDL_Event* e)

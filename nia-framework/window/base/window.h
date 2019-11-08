@@ -18,14 +18,14 @@ using std::endl;
 class Window
 {
 protected:
-	static map < string, ContainerStyleRaw * > __containersStyles;
-	static ContainerStyleRaw* addStyle(string className, ContainerStyleRaw* style);
-	static void handleStyles();
+	map < string, ContainerStyleRaw * > __containersStyles;
+	ContainerStyleRaw* addStyle(string className, ContainerStyleRaw* style);
+	void handleStyles();
 
-	static map <string, Container*> __containers;
-	static Container* addObject(Container* obj);
-	static Container* getElementById(string id);
-	//static Containers* getElementsByClassName(string className);
+	map <string, Container*> __containers;
+	Container* addObject(Container* obj);
+	Container* getElementById(string id);
+	Containers* getElementsByClassName(string className);
 
 protected:
 	Rect size;
@@ -39,6 +39,7 @@ protected:
 	bool display;
 
 	MainContainer* __container;
+	
 
 public:
 	Window(string title, Rect size);
@@ -49,8 +50,8 @@ public:
 
 	void generalSetup();
 
-	virtual void setup() {};
-	virtual void update() {};
+	virtual void setup() = 0;
+	virtual void update() = 0;
 
 	void show();
 	void hide();
@@ -79,8 +80,5 @@ private:
 	 */
 public:
 	friend Container;
-
-	// object
-	//Object* addObject(Object* obj);
 
 };

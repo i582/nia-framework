@@ -4,14 +4,14 @@
 MainContainer::MainContainer(Window* parent)
 	: Container("main", {0, 0, parent->getSize().w(), parent->getSize().h() }, "")
 {
-	this->parent = parent;
+	this->_window = parent;
 	this->_renderer = parent->getRenderer();
 }
 
 void MainContainer::update()
 {
-	if (parent != nullptr)
+	if (_window != nullptr)
 	{
-		parent->update();
+		_window->update();
 	}
 }

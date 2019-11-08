@@ -1,17 +1,20 @@
 ﻿#include "container.h"
 #include "../window/base/window.h"
 
+Container* Container::hoverContainer = nullptr;
+
 Container::Container(string id, Rect size, string classNames)
 {
 	// main
 	this->_id = id;
-	this->_size = size;
+	this->_innerSize = size;
 	this->_classes = classNames;
 
 	this->_outerSize = size;
 
 	// parent
 	this->_parent = nullptr;
+	this->_window = nullptr;
 
 	// childs
 	this->_childs = {};
@@ -44,6 +47,17 @@ Container::Container(string id, Rect size, string classNames)
 
 	// Other for Events
 	this->firstMouseMotion = false;
+
+	// scroll
+	this->scroll = new Scroll(_renderer, { 0, 0, 20, 0 }, 0, 1);
+}
+
+Container::~Container()
+{
+	SDL_DestroyTexture(_texture);
+	SDL_DestroyTexture(_outerTexture);
+
+	delete scroll;
 }
 
 
@@ -100,6 +114,15 @@ void Container::render()
 	if (!_display)
 		return;
 
+	/*SDL_SetRenderTarget(_renderer, _outerTexture);
+	SDL_SetRenderDrawColor(_renderer, 0xff, 0xff, 0xff, 0x00);
+	SDL_RenderClear(_renderer);
+
+	SDL_SetRenderTarget(_renderer, _texture);
+	SDL_SetRenderDrawColor(_renderer, 0xff, 0xff, 0xff, 0x00);
+	SDL_RenderClear(_renderer);*/
+
+
 	color _background;
 	color _border;
 
@@ -153,9 +176,17 @@ void Container::render()
 
 	Draw::roundedShadowRectangle(_renderer, thickness > blur ? thickness : blur, thickness > blur ? thickness : blur, _outerSize.w() - 2 * (thickness > blur ? thickness : blur), _outerSize.h() - 2 * (thickness > blur ? thickness : blur), 0, cl.color(), cl1.color(), thickness, blur);
 	
+	SDL_SetRenderDrawColor(_renderer, 0xff, 0x00, 0xff, 0xff);
+	SDL_RenderDrawRect(_renderer, NULL);
 
-	SDL_RenderCopy(_renderer, _texture, NULL, &_size.toSdlRect());
 
+	Rect copy = _innerSize;
+	copy.x(0); copy.y(this->scroll->_nowValue);
+
+	SDL_RenderCopy(_renderer, _texture, &copy.toSdlRect(), &_innerSize.toSdlRect());
+
+
+	this->scroll->render();
 
 
 	SDL_Texture* parentTexture = nullptr;
@@ -167,13 +198,6 @@ void Container::render()
 	SDL_SetRenderTarget(_renderer, parentTexture);
 
 
-
-	// TODO
-	// src part textures
-	Rect _sizeCopy = _size;
-
-	Rect src = _sizeCopy;
-	//src.x = 0; src.y = 0;
 
 	SDL_RenderCopy(_renderer, _outerTexture, NULL, &_outerSize.toSdlRect());
 }
@@ -191,8 +215,8 @@ void Container::setupEventListeners()
 
 Container* Container::getHoverElement(Point p)
 {
-	p.dx(-_size.x());
-	p.dy(-_size.y());
+	p.dx(-_innerSize.x());
+	p.dy(-_innerSize.y());
 	
 
 	Container* hoverContainer = onChildHover(p);
@@ -239,15 +263,17 @@ void Container::mouseMotion(Event* e)
 		firstMouseMotion = true;
 	}
 
-	/*if (Object::hoverObject != this)
+	if (hoverContainer != this)
 	{
-		if (Object::hoverObject != nullptr && !Object::hoverObject->isChildrenObject(this))
-		{
-			Object::hoverObject->mouseOut(e);
-		}
+		bool aaa = false;
 
-		Object::hoverObject = this;
-	}*/
+		if (hoverContainer != nullptr && !hoverContainer->isChildrenObject(this))
+		{
+			hoverContainer->mouseOut(e);
+		}
+		
+		hoverContainer = this;
+	}
 
 
 	_isHovered = true;
@@ -259,6 +285,13 @@ void Container::mouseMotion(Event* e)
 
 void Container::mouseOut(Event* e)
 {
+	if (!_display)
+		return;
+
+	eventListeners["onmouseout"](this, e);
+	_isHovered = false;
+	firstMouseMotion = false;
+	//SDL_SetCursor(style->cursor());
 }
 
 ContainerStyle* Container::styles()
@@ -271,7 +304,7 @@ void Container::computeSize()
 	if (_parent != nullptr)
 	{
 		Rect parentSize = _parent->size();
-		_size.calc(parentSize);
+		_innerSize.calc(parentSize);
 		_outerSize.calc(parentSize);
 	}
 
@@ -284,15 +317,15 @@ void Container::computeSize()
 	_outerSize.start.dx(-(int)shadowSize);
 	_outerSize.start.dy(-(int)shadowSize);
 
-	_size.start.x(shadowSize);
-	_size.start.y(shadowSize);
+	_innerSize.start.x(shadowSize);
+	_innerSize.start.y(shadowSize);
 
 
 
 	this->_outerTexture = SDL_CreateTexture(_renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, _outerSize.w(), _outerSize.h());
 	SDL_SetTextureBlendMode(_outerTexture, SDL_BLENDMODE_BLEND);
 
-	this->_texture = SDL_CreateTexture(_renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, _size.w(), _size.h());
+	this->_texture = SDL_CreateTexture(_renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, _innerSize.w(), _innerSize.h());
 	SDL_SetTextureBlendMode(_texture, SDL_BLENDMODE_BLEND);
 
 	for (auto& child : _childs)
@@ -328,20 +361,46 @@ void Container::computeChildrenSize()
 	_sizeChilds = { 0, 0, maxWidth, maxHeight };
 
 
-	Size newTextureSize = _size.size;
+	Size newTextureSize = _innerSize.size;
 
-	if (maxWidth > _size.w())
+	if (maxWidth > _innerSize.w())
 	{
 		newTextureSize.w(maxWidth);
 	}
 
-	if (maxHeight > _size.h())
+	if (maxHeight > _innerSize.h())
 	{
-		newTextureSize.w(maxHeight);
+		newTextureSize.h(maxHeight);
+
+
+
+		/*
+		 * Setup scroll
+		 */
+		this->scroll->_bodySize.x(_innerSize.x() + _innerSize.w());
+		this->scroll->_bodySize.y(_innerSize.y());
+
+		this->scroll->_bodySize.h(_innerSize.h());
+
+		this->scroll->_maxValue = newTextureSize.h() - _innerSize.h();
+
+		this->scroll->_relSizes = _innerSize.h() / (double)newTextureSize.h();
+		this->scroll->_renderer = _renderer;
+		this->scroll->init();
+
+		_outerSize.dw(this->scroll->_bodySize.w());
+
+		SDL_DestroyTexture(this->_outerTexture);
+		this->_outerTexture = SDL_CreateTexture(_renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, _outerSize.w(), _outerSize.h());
+		SDL_SetTextureBlendMode(_outerTexture, SDL_BLENDMODE_BLEND);
+
+		this->scroll->_parentTexture = this->_outerTexture;
+
+		this->scroll->shift(50);
 	}
 	
 
-	if (newTextureSize != _size.size || this->_texture == nullptr)
+	if (newTextureSize != _innerSize.size || this->_texture == nullptr)
 	{
 		SDL_DestroyTexture(this->_texture);
 		this->_texture = SDL_CreateTexture(_renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, newTextureSize.w(), newTextureSize.h());
@@ -371,6 +430,7 @@ void Container::setupChildrenRenderer()
 void Container::setupContainer()
 {
 	setupChildrenRenderer();
+
 	computeSize();
 	computeChildrenSize();
 }
@@ -385,14 +445,20 @@ vector<Container*>& Container::childs()
 	return _childs;
 }
 
+Window* Container::window()
+{
+	return _window;
+}
+
 Container* Container::append(Container* obj)
 {
 	if (obj != nullptr)
 	{
 		this->_childs.push_back(obj);
 		obj->_parent = this;
+		obj->_window = this->_window;
 
-		Window::addObject(obj);
+		_window->addObject(obj);
 	}
 
 	return obj;
@@ -412,11 +478,10 @@ bool Container::isChildrenObject(Container* obj)
 {
 	bool is_child = false;
 
-	if (_childs.size() == 0)
-	{
-		is_child = this == obj;
-	}
-	else
+	is_child = this == obj;
+	
+
+	if (_childs.size() != 0 && is_child == false)
 	{
 		for (auto& child : _childs)
 		{
@@ -445,7 +510,7 @@ bool Container::isParentObject(Container* obj)
 
 bool Container::onHover(Point point)
 {
-	return point.in(_size) && _display;
+	return point.in(_outerSize) && _display;
 }
 
 // TODO
@@ -454,34 +519,57 @@ Container* const Container::onChildHover(Point point)
 	return nullptr;
 }
 
+Container* const Container::onContainerHover(Point point)
+{
+	for (int i = _childs.size() - 1; i >= 0; i--)
+	{
+		auto& child = _childs[i];
+
+		if (child->onHover(point))
+		{
+			// adjust coord
+			point = point - child->outerSize().start;
+
+			return child->onContainerHover(point);
+		}
+	}
+
+	return this;
+}
+
 int Container::width()
 {
-	return _size.w();
+	return _innerSize.w();
 }
 
 int Container::height()
 {
-	return _size.h();
+	return _innerSize.h();
 }
 
 int Container::top()
 {
-	return _size.y();
+	return _outerSize.y();
 }
 
 int Container::left()
 {
-	return _size.x();
+	return _outerSize.x();
 }
 
 Rect Container::size()
 {
-	return _size;
+	return _innerSize;
 }
 
 Rect Container::outerSize()
 {
 	return _outerSize;
+}
+
+string Container::id()
+{
+	return _id;
 }
 
 void Container::addEventListener(string action, eventCallback callback_function)

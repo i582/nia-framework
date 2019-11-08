@@ -13,3 +13,6 @@ using Event = SDL_Event;
 
 class Container;
 using eventCallback = function< void(Container* sender, Event* e) >;
+using eachCallback = function< void(Container* sender) >;
+
+#define lambda [=]
