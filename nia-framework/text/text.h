@@ -1,5 +1,6 @@
 #pragma once
 
+#include "../utils/simple-rect.h"
 #include "../utils/rect.h"
 #include "../utils/color.h"
 #include "../font/fonts.h"
@@ -15,11 +16,26 @@ using std::endl;
 
 class Container;
 
+enum class TextAlign
+{
+	LEFT,
+	CENTER,
+	RIGHT
+};
+
+enum class TextBlockVerticalAlign
+{
+	TOP,
+	CENTER,
+	BOTTOM
+};
+
 class Text
 {
 private:
 	string text;
 	vector<string>* words;
+	vector<string> lines;
 
 	Rect size;
 	Container* parent;
@@ -35,6 +51,18 @@ private:
 
 	double lineHeight;
 
+
+	TextAlign textAlign;
+	TextBlockVerticalAlign blockVerticalAlign;
+
+	int tw;
+	int th;
+	SimpleRect textRect;
+
+	int textBlockHeight;
+
+	bool splitted;
+
 	int x;
 	int y;
 
@@ -46,9 +74,12 @@ private:
 	void init();
 
 	/**
-	 * @brief Rendering a single word with a hyphenation if a word does not fit into the line
+	 * @brief Split text by lines
 	 */
-	void renderWord(string word);
+	void splitByLines();
+
+
+	void renderLines();
 
 public:
 	void render();
@@ -59,6 +90,8 @@ public:
 	void setFontSize(size_t fontSize);
 	void setColor(Color color);
 	void setLineHeight(double lineHeight);
+	void setTextAlign(string align);
+	void setTextBlockVerticalAlign(string align);
 
 	void setRenderer(SDL_Renderer* renderer);
 };

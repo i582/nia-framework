@@ -16,8 +16,14 @@ using std::string;
 using std::cout;
 using std::endl;
 
+
+
 class Window
 {
+public:
+	static Container* create(Container* ptr);
+
+
 protected:
 	map < string, Styles* > __containersStyles;
 	Styles* addStyle(string className, Styles* style);

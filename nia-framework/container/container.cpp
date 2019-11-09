@@ -177,8 +177,8 @@ void Container::render()
 	_text->setColor(styleState->getColor("text"));
 	_text->setFontSize(styleState->getInt("font-size"));
 	_text->setLineHeight(styleState->getDouble("line-height"));
-
-
+	_text->setTextAlign(styleState->getString("text-align"));
+	_text->setTextBlockVerticalAlign(styleState->getString("vertical-align"));
 
 	_text->render();
 

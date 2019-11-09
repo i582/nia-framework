@@ -4,7 +4,10 @@
 Text::Text(Container* parent, string text, Rect size, Font* font, size_t fontSize, Color color)
 {
 	this->parent = parent;
-	this->renderer = parent->renderer();
+
+	if (parent != nullptr)
+		this->renderer = parent->renderer();
+
 	this->texture = nullptr;
 	this->text = text;
 	this->size = size;
@@ -18,6 +21,12 @@ Text::Text(Container* parent, string text, Rect size, Font* font, size_t fontSiz
 
 	this->lineHeight = 1.3;
 
+
+	this->textAlign = TextAlign::LEFT;
+	this->blockVerticalAlign = TextBlockVerticalAlign::TOP;
+
+	this->splitted = false;
+
 	this->x = 0;
 	this->y = 0;
 
@@ -29,6 +38,8 @@ Text::Text(Container* parent, string text, Rect size, Font* font, size_t fontSiz
 Text::~Text()
 {
 	SDL_DestroyTexture(texture);
+
+	delete words;
 }
 
 void Text::init()
@@ -39,35 +50,86 @@ void Text::init()
 	words = Utils::split(text, ' ');
 }
 
-void Text::renderWord(string word)
+void Text::splitByLines()
 {
-	Point p;
-	TTF_SizeUTF8(ttf_font, word.c_str(), p.px(), p.py());
-	
-	if (x + p.x() > size.w())
+	string tempLine;
+	lines.clear();
+	textBlockHeight = 0;
+
+
+	for (auto& word : *words)
 	{
-		x = 0;
-		y += p.y() + (lineHeight * fontSize - fontSize);
+		TTF_SizeUTF8(ttf_font, (word + ' ').c_str(), &tw, &th);
+
+		if (x + tw > size.w())
+		{
+			x = 0;
+
+			lines.push_back(tempLine);
+			tempLine.clear();
+
+			textBlockHeight += th + (lineHeight * fontSize) - fontSize;
+		}
+
+
+		x += tw;
+		tempLine += word + ' ';
+
+
+
+		
 	}
 
-	Rect textRect;
-	SDL_Surface* textSurface = TTF_RenderUTF8_Blended(ttf_font, word.c_str(), color.colorSDL());
 
-	textRect.x(x);
-	textRect.y(y);
-	textRect.w(textSurface->w);
-	textRect.h(textSurface->h);
 
-	SDL_Texture* textTexture = SDL_CreateTextureFromSurface(renderer, textSurface);
-	SDL_SetTextureBlendMode(textTexture, SDL_BLENDMODE_BLEND);
-	SDL_FreeSurface(textSurface);
+	splitted = true;
+}
 
-	SDL_SetRenderTarget(renderer, texture);
-	SDL_RenderCopy(renderer, textTexture, NULL, &textRect.toSdlRect());
-	SDL_DestroyTexture(textTexture);
+void Text::renderLines()
+{
+	int lineShift = 0;
 
-	
-	x += p.x();
+	if (this->blockVerticalAlign == TextBlockVerticalAlign::CENTER)
+	{
+		lineShift = (parent->size().h() - textBlockHeight) / 2;
+	}
+	else if (this->blockVerticalAlign == TextBlockVerticalAlign::BOTTOM)
+	{
+		lineShift = parent->size().h() - textBlockHeight;
+	}
+
+	for (auto& line : lines)
+	{
+		SDL_Surface* textSurface = TTF_RenderUTF8_Blended(ttf_font, line.c_str(), color.colorSDL());
+
+		if (textAlign == TextAlign::LEFT)
+		{
+			textRect.x = 0;
+		}
+		else if (textAlign == TextAlign::CENTER)
+		{
+			textRect.x = (size.w() - textSurface->w) / 2;
+		}
+		else if (textAlign == TextAlign::RIGHT)
+		{
+			textRect.x = size.w() - textSurface->w;
+		}
+
+		textRect.y = lineShift;
+		textRect.w = textSurface->w;
+		textRect.h = textSurface->h;
+
+		lineShift += (textSurface->h + lineHeight * fontSize - fontSize);
+
+		SDL_Texture* textTexture = SDL_CreateTextureFromSurface(renderer, textSurface);
+		SDL_SetTextureBlendMode(textTexture, SDL_BLENDMODE_BLEND);
+		SDL_FreeSurface(textSurface);
+
+		SDL_SetRenderTarget(renderer, texture);
+		SDL_RenderCopy(renderer, textTexture, NULL, &textRect.toSdlRect());
+		SDL_DestroyTexture(textTexture);
+	}
+
 }
 
 void Text::render()
@@ -83,11 +145,11 @@ void Text::render()
 		SDL_SetRenderDrawColor(renderer, 0xff, 0xff, 0xff, 0x00);
 		SDL_RenderClear(renderer);
 
-		for (auto& word : *words)
-		{
-			renderWord(word + ' ');
-		}
-
+		if (!splitted)
+			splitByLines();
+	
+		renderLines();
+ 
 		this->needReRender = false;
 	}
 
@@ -102,7 +164,12 @@ void Text::setText(string text)
 		return;
 
 	this->text = text;
+
+	delete this->words;
 	this->words = Utils::split(text, ' ');
+
+	this->splitted = false;
+
 
 	this->needReRender = true;
 }
@@ -163,6 +230,58 @@ void Text::setLineHeight(double lineHeight)
 		return;
 
 	this->lineHeight = lineHeight;
+
+	this->needReRender = true;
+}
+
+void Text::setTextAlign(string align)
+{
+	TextAlign temp;
+	if (align == "left")
+	{
+		temp = TextAlign::LEFT;
+	}
+	else if (align == "center")
+	{
+		temp = TextAlign::CENTER;
+	}
+	else if (align == "right")
+	{
+		temp = TextAlign::RIGHT;
+	}
+
+	if (this->textAlign == temp)
+		return;
+
+	this->textAlign = temp;
+
+	this->needReRender = true;
+}
+
+void Text::setTextBlockVerticalAlign(string align)
+{
+	TextBlockVerticalAlign temp;
+	if (align == "top")
+	{
+		temp = TextBlockVerticalAlign::TOP;
+	}
+	else if (align == "center")
+	{
+		temp = TextBlockVerticalAlign::CENTER;
+	}
+	else if (align == "bottom")
+	{
+		temp = TextBlockVerticalAlign::BOTTOM;
+	}
+	else
+	{
+		return;
+	}
+
+	if (this->blockVerticalAlign == temp)
+		return;
+
+	this->blockVerticalAlign = temp;
 
 	this->needReRender = true;
 }

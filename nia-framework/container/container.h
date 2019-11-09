@@ -12,6 +12,7 @@
 
 #include "style/styles.h"
 
+
 class Window;
 
 class Container
@@ -280,3 +281,4 @@ public:
 public:
 	Text* text();
 };
+

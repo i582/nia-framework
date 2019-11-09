@@ -120,6 +120,9 @@
     <ClInclude Include="container\style\style-state.h">
       <Filter>Исходные файлы\container\style</Filter>
     </ClInclude>
+    <ClInclude Include="utils\simple-rect.h">
+      <Filter>Исходные файлы\utils</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="nia-app.cpp">
@@ -196,6 +199,9 @@
     </ClCompile>
     <ClCompile Include="container\style\style-state.cpp">
       <Filter>Исходные файлы\container\style</Filter>
+    </ClCompile>
+    <ClCompile Include="utils\simple-rect.cpp">
+      <Filter>Исходные файлы</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

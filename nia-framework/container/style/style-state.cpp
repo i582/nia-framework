@@ -28,7 +28,7 @@ StyleState::StyleState(bool generalSetup)
 	text["line-height"] = "1.2";
 	text["text-align"] = "left";
 
-	text["vertical-align"] = "left";
+	text["vertical-align"] = "top";
 	text["horizontal-align"] = "left";
 }
 

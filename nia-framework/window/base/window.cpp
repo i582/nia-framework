@@ -1,5 +1,10 @@
 #include "window.h"
 
+Container* Window::create(Container* ptr)
+{
+	return ptr;
+}
+
 Styles* Window::addStyle(string className, Styles* style)
 {
 	__containersStyles.insert(make_pair(className, style));

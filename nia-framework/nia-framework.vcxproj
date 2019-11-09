@@ -79,6 +79,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -149,6 +150,7 @@
     <ClInclude Include="utils\point.h" />
     <ClInclude Include="utils\rect.h" />
     <ClInclude Include="utils\shadow.h" />
+    <ClInclude Include="utils\simple-rect.h" />
     <ClInclude Include="utils\size.h" />
     <ClInclude Include="utils\utils.h" />
     <ClInclude Include="window\base\window.h" />
@@ -176,6 +178,7 @@
     <ClCompile Include="utils\point.cpp" />
     <ClCompile Include="utils\rect.cpp" />
     <ClCompile Include="utils\shadow.cpp" />
+    <ClCompile Include="utils\simple-rect.cpp" />
     <ClCompile Include="utils\size.cpp" />
     <ClCompile Include="utils\utils.cpp" />
     <ClCompile Include="window\base\window.cpp" />
