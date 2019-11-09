@@ -26,6 +26,9 @@ NApp::NApp()
 	this->running = true;
 	
 	this->init();
+
+	setlocale(LC_ALL, "Rus");
+	setlocale(LC_NUMERIC, "eng");
 }
 
 

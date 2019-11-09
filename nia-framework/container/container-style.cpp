@@ -13,7 +13,12 @@ ContainerStyle::ContainerStyle()
 	this->_cursor = 
 	this->_hoverCursor = SDL_CreateSystemCursor(SDL_SYSTEM_CURSOR_ARROW);
 
-
+	this->_textSize = 14;
+	this->_textLineHeight = 1.3;
+	this->_textFont = *new Font();
+	this->_textColor =
+	this->_hoverTextColor =
+	this->_activeTextColor = 0x00000000;
 }
 
 
@@ -52,4 +57,34 @@ color ContainerStyle::activeBorderColor()
 Shadow ContainerStyle::shadow()
 {
 	return _shadow;
+}
+
+size_t ContainerStyle::textSize()
+{
+	return _textSize;
+}
+
+double ContainerStyle::textLineHeight()
+{
+	return _textLineHeight;
+}
+
+Font ContainerStyle::textFont()
+{
+	return _textFont;
+}
+
+Color ContainerStyle::textColor()
+{
+	return _textColor;
+}
+
+Color ContainerStyle::hoverTextColor()
+{
+	return _hoverTextColor;
+}
+
+Color ContainerStyle::activeTextColor()
+{
+	return _activeTextColor;
 }

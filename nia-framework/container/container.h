@@ -2,6 +2,7 @@
 
 #include "../utils/rect.h"
 #include "../utils/draw.h"
+#include "../text/text.h"
 
 #include "../../container/scroll/scroll.h"
 
@@ -9,7 +10,7 @@
 
 #include "container-header.h"
 
-#include "container-style.h"
+#include "style/styles.h"
 
 class Window;
 
@@ -88,19 +89,26 @@ protected:
 	/**
 	 * Styles part
 	 */
-	ContainerStyle _style;
-	ContainerStyleRaw _rawStyle;
-
+	Styles _style;
 
 	/**
 	 * Scroll part
 	 */
 	Scroll* scroll;
+	bool scrollable;
 
 	/**
 	 * Other for Events
 	 */
 	bool firstMouseMotion;
+
+
+	/**
+	 * Text part
+	 */
+	Font* _font;
+	Text* _text;
+
 
 public:
 	Container(string id, Rect size, string classNames);
@@ -126,7 +134,7 @@ public:
 	 * Helper relationship functions
 	 */
 	Container* getHoverElement(Point p);
-	//Container* getFirstScrollableParent();
+	Container* getFirstScrollableParent();
 
 
 public:
@@ -137,12 +145,12 @@ public:
 	void mouseButtonUp(Event* e);
 	void mouseMotion(Event* e);
 	void mouseOut(Event* e);
-
+	void mouseScroll(Event* e, int scrollDirection);
 
 	/**
 	 * @brief Return pointer to container style, for updating in Window::handleStyles;
 	 */
-	ContainerStyle* styles();
+	Styles* styles();
 
 public:
 	/**
@@ -151,6 +159,7 @@ public:
 	void computeSize();
 	void computeChildrenSize();
 	void setupChildrenRenderer();
+	
 
 	/**
 	 * @brief Function to configure the container and all its childs
@@ -189,7 +198,6 @@ public:
 	 * Hover interface
 	 */
 	bool onHover(Point point);
-	Container* const onChildHover(Point point);
 	Container* const onContainerHover(Point point);
 
 
@@ -224,8 +232,8 @@ public:
 	 * User data interface
 	 */
 	map <string, void*>& userData();
-	void userData(string key, void* data);
-
+	void addUserData(string key, void* data);
+	void* userData(string key);
 
 public:
 	/**
@@ -234,6 +242,12 @@ public:
 	SDL_Renderer* const renderer();
 	SDL_Texture* const texture();
 
+
+public:
+	/**
+	 * Scroll interface
+	 */
+	bool isScrollable();
 
 public:
 	/**
@@ -262,4 +276,7 @@ public:
 	Container* addClass(string className);
 	Container* toggleClass(string className);
 
+
+public:
+	Text* text();
 };

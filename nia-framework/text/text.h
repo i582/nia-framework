@@ -13,6 +13,8 @@ using std::to_string;
 using std::cout;
 using std::endl;
 
+class Container;
+
 class Text
 {
 private:
@@ -20,14 +22,16 @@ private:
 	vector<string>* words;
 
 	Rect size;
+	Container* parent;
 	SDL_Renderer* renderer;
 	SDL_Texture* texture;
 
-	Font font;
+	Font* font;
 	size_t fontSize;
 	TTF_Font* ttf_font;
 	Color color;
 
+	bool needReRender;
 
 	double lineHeight;
 
@@ -35,7 +39,7 @@ private:
 	int y;
 
 public:
-	Text(SDL_Renderer* renderer, string text, Rect size, Font& font, size_t fontSize, Color& color);
+	Text(Container* parent, string text, Rect size, Font* font, size_t fontSize, Color color);
 	~Text();
 
 private:
@@ -49,4 +53,12 @@ private:
 public:
 	void render();
 
+	void setText(string text);
+	void setSize(Rect size);
+	void setFont(Font* font);
+	void setFontSize(size_t fontSize);
+	void setColor(Color color);
+	void setLineHeight(double lineHeight);
+
+	void setRenderer(SDL_Renderer* renderer);
 };

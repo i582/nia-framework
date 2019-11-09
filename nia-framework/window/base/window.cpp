@@ -1,6 +1,6 @@
 #include "window.h"
 
-ContainerStyleRaw* Window::addStyle(string className, ContainerStyleRaw* style)
+Styles* Window::addStyle(string className, Styles* style)
 {
 	__containersStyles.insert(make_pair(className, style));
 	return style;
@@ -17,7 +17,7 @@ void Window::handleStyles()
 		{
 			if (container.second->hasClass(className))
 			{
-				style.second->updateStyle(container.second->styles());
+				style.second->merge(container.second->styles());
 			}
 		}
 

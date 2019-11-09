@@ -25,6 +25,9 @@ private:
 	Uint32 parseColorHexString(string color);
 
 public:
+	bool operator==(const Color& obj);
+
+public:
 	Uint32 color();
 
 	/*

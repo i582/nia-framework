@@ -63,6 +63,11 @@ Uint32 Color::parseColorHexString(string color)
 	return result;
 }
 
+bool Color::operator==(const Color& obj)
+{
+	return _color == obj._color && s_color == obj.s_color;
+}
+
 Uint32 Color::color()
 {
 	return _color;

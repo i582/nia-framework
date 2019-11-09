@@ -19,8 +19,8 @@ private:
 	bool _display;
 
 
-	size_t _maxValue;
-	size_t _nowValue;
+	int _maxValue;
+	int _nowValue;
 
 	double _relSizes;
 
@@ -28,7 +28,7 @@ private:
 	double _position;
 
 public:
-	Scroll(SDL_Renderer* renderer, Rect size, size_t maxValue, double relSizes);
+	Scroll(SDL_Renderer* renderer, Rect size, int maxValue, double relSizes);
 	~Scroll();
 
 public:
@@ -40,6 +40,8 @@ private:
 
 public:
 	void shift(int d);
+
+	bool onHover(Point p);
 
 public:
 	void render();

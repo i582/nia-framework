@@ -11,7 +11,7 @@ using std::vector;
 namespace Utils
 {
 	int to_integer(const string& str);
-
+	double to_double(const string& str);
 
 	/**
 	 * @brief Parse the string and calculates the value in pixels

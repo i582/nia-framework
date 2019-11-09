@@ -2,42 +2,86 @@
 
 #include "SDL2_gfxPrimitives.h"
 #include "../..//utils/draw.h"
+
+
+
 using namespace Utils;
 
 void MainWindow::setup()
 {
-	__container->append(new Container("cont", { {"12%", "12%"}, {"75%", "75%"} }, "back-in-black highway-to-heaven"));
+	__container->append(new Container("cont", { "0px", "0px", "90%", "100%" }, "back-in-black highway-to-heaven"));
 
-	Window::getElementById("cont")->append(new Container("cont-child", { {"12%", "12%"}, {"75%", "150%"} }, "back-in-black"));
+	Window::getElementById("cont")->append(new Container("cont-child", { {"12%", "12%"}, {"75%", "150%"} }, "back-in-black hoverss"));
 	
+	Window::getElementById("cont-child")->append(new Container("cont-child-1", { {"12%", "12%"}, {"75%", "150%"} }, "yellow hoverss"));
 	
 
+	Color textColor("#ff00ff");
 
-	Style* backStyle = new Style();
-	backStyle->backgroundColor("#ddddddff");
-	backStyle->hoverBackgroundColor("#00aa00ff");
-
-	backStyle->borderColor("#ff00ff");
-	backStyle->hoverBorderColor("#0000ff");
+	Window::getElementById("cont-child-1")->text()->setText("Hello World! It's new Text! Целью данной работы является создание класса «строка» и производных классов от него, а также разработка интерфейса для ввода начальных значений, отображения результатов и тестирования методов классов.");
+	//Window::getElementById("cont-child-1")->text()->setColor(textColor);
 
 
+	//Style* backStyle = new Style();
+	//backStyle->backgroundColor("#ddddddff");
+	//backStyle->hoverBackgroundColor("#00aa00ff");
 
-	//backStyle->shadow("0px 5px #dddddd #ffffff");
-	Window::addStyle("back-in-black", backStyle);
+	//backStyle->borderColor("#ff00ff");
+	//backStyle->hoverBorderColor("#0000ff");
+	//backStyle->activeBorderColor("#00ffff");
+	//backStyle->textSize("25px");
+	//backStyle->textColor("#ff00ff");
+	//backStyle->hoverTextColor("#0000ff");
 
-	Style* hStyle = new Style();
-	hStyle->backgroundColor("#cccccc");
-	Window::addStyle("highway-to-heaven", hStyle);
+	////backStyle->shadow("0px 5px #dddddd #ffffff");
+	//Window::addStyle("back-in-black", backStyle);
+
+	//Style* hStyle = new Style();
+	//hStyle->backgroundColor("#cccccc");
+	//Window::addStyle("highway-to-heaven", hStyle);
+
+	//Style* shStyle = new Style();
+	////shStyle->shadow("0px 5px #dddddd #ffffff");
+	//Window::addStyle("shadow", shStyle);
+
+	//Style* yellowStyle = new Style();
+	//yellowStyle->backgroundColor("#ffff00");
+	//yellowStyle->hoverBackgroundColor("#aaee00");
+	//yellowStyle->textLineHeight("1.6");
+	//Window::addStyle("yellow", yellowStyle);
 
 
-	Style* mainStyle = new Style();
-	mainStyle->backgroundColor("#ffffff");
-	Window::addStyle("main", mainStyle);
+	//Style* mainStyle = new Style();
+	//mainStyle->backgroundColor("#ffffff");
+	//Window::addStyle("main", mainStyle);
 
-	__container->addClass("main");
+	//__container->addClass("main");
 
 
-	
+
+
+	Styles* raw = new Styles(true);
+
+	raw->normal()->setColor("background", "#123456");
+	raw->hover()->setColor("background", "#123456");
+
+	raw->normal()->setColor("text", "#ffffff");
+	raw->hover()->setColor("text", "#ffffff");
+
+	raw->normal()->setTextStyle("line-height", "1.5");
+	raw->hover()->setTextStyle("line-height", "1.7");
+
+	//raw->hover()->setTextStyle("font-size", "18px");
+
+	Window::addStyle("hoverss", raw);
+
+/*
+	Styles* raw1 = new Styles();
+
+	raw->normal().setColor("border", "#654321");
+
+	raw->merge(raw1);*/
+
 /*
 	Window::getElementById("cont-child")->addEventListener("onmouseover", [=](Container* sender, Event* e)
 	{
@@ -240,7 +284,21 @@ void MainWindow::mouseMotion(SDL_Event* e)
 
 void MainWindow::mouseWheel(SDL_Event* e)
 {
-	//__container->mouseWheel(e);
+	int scroolDirection = e->wheel.y;
+
+	if (e->motion.x == -1 || e->motion.y == -1 || e->motion.x == 1 || e->motion.y == 1)
+	{
+		SDL_GetMouseState(&e->motion.x, &e->motion.y);
+	}
+
+	Container* hover = __container->onContainerHover({ e->motion.x, e->motion.y });
+
+	if (hover != nullptr)
+	{
+		hover->mouseScroll(e, scroolDirection);
+	}
+
+	__container->update();
 }
 
 void MainWindow::keyDown(SDL_Event* e)

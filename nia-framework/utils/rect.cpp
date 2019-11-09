@@ -19,6 +19,19 @@ Rect::Rect(int x, int y, int w, int h)
 	this->isCalculated = size.isCalculated || start.isCalculated;
 }
 
+Rect::Rect(string left, string top, string width, string height)
+{
+	this->size = Size(width, height);
+	this->start = Point(top, left);
+
+	this->isCalculated = false;
+}
+
+bool Rect::operator==(const Rect& obj)
+{
+	return size == obj.size && start == obj.start;
+}
+
 int Rect::w() const
 {
 	if (!isCalculated)

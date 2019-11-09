@@ -39,10 +39,9 @@ Container::Container(string id, Rect size, string classNames)
 	this->_texture = nullptr;
 	this->_outerTexture = nullptr;
 
-	
-	// styles part
-	this->_style;
-	this->_rawStyle;
+
+	// styles
+	this->_style = Styles(true);
 
 
 	// Other for Events
@@ -50,6 +49,12 @@ Container::Container(string id, Rect size, string classNames)
 
 	// scroll
 	this->scroll = new Scroll(_renderer, { 0, 0, 20, 0 }, 0, 1);
+	this->scrollable = false;
+
+	// text
+	Font::root("../nia-framework/fonts/");
+	this->_font = new Font("consolas");
+	this->_text = new Text(this, "Text", { 0,0,0,0 }, _font, 14, Color("#000000"));
 }
 
 Container::~Container()
@@ -58,6 +63,7 @@ Container::~Container()
 	SDL_DestroyTexture(_outerTexture);
 
 	delete scroll;
+	delete _text;
 }
 
 
@@ -109,6 +115,11 @@ Container* Container::toggleClass(string className)
 	return this;
 }
 
+Text* Container::text()
+{
+	return _text;
+}
+
 void Container::render()
 {
 	if (!_display)
@@ -123,31 +134,32 @@ void Container::render()
 	SDL_RenderClear(_renderer);*/
 
 
-	color _background;
-	color _border;
+	StyleState* styleState;
 
 	
 	if (_isHovered)
 	{
 		if (_isActive)
 		{
-			_background = _style.activeBackgroundColor();
-			_border = _style.activeBorderColor();
+			styleState = _style.active();
 		}
 		else
 		{
-			_background = _style.hoverBackgroundColor();
-			_border = _style.hoverBorderColor();
+			styleState = _style.hover();
 		}
 	}
 	else
 	{
-		_background = _style.backgroundColor();
-		_border = _style.borderColor();
+		styleState = _style.normal();
 	}
 
-	Uint8* background = (Uint8*)&_background;
-	Uint8* border = (Uint8*)& _border;
+
+
+	Color _bk = styleState->getColor("background").color();
+	Color _br = styleState->getColor("border").color();
+
+	Uint8* background = (Uint8*)&_bk;
+	Uint8* border = (Uint8*)& _br;
 
 	SDL_SetRenderTarget(_renderer, _texture);
 
@@ -160,6 +172,16 @@ void Container::render()
 	SDL_RenderDrawRect(_renderer, NULL);
 
 
+
+
+	_text->setColor(styleState->getColor("text"));
+	_text->setFontSize(styleState->getInt("font-size"));
+	_text->setLineHeight(styleState->getDouble("line-height"));
+
+
+
+	_text->render();
+
 	for (auto& child : _childs)
 	{
 		child->render();
@@ -168,7 +190,7 @@ void Container::render()
 
 	SDL_SetRenderTarget(_renderer, _outerTexture);
 
-	size_t thickness = _style.shadow().thickness();
+	/*size_t thickness = _style.shadow().thickness();
 	size_t blur = _style.shadow().blur();
 
 	Color cl = _style.shadow().startColor();
@@ -177,7 +199,7 @@ void Container::render()
 	Draw::roundedShadowRectangle(_renderer, thickness > blur ? thickness : blur, thickness > blur ? thickness : blur, _outerSize.w() - 2 * (thickness > blur ? thickness : blur), _outerSize.h() - 2 * (thickness > blur ? thickness : blur), 0, cl.color(), cl1.color(), thickness, blur);
 	
 	SDL_SetRenderDrawColor(_renderer, 0xff, 0x00, 0xff, 0xff);
-	SDL_RenderDrawRect(_renderer, NULL);
+	SDL_RenderDrawRect(_renderer, NULL);*/
 
 
 	Rect copy = _innerSize;
@@ -218,8 +240,9 @@ Container* Container::getHoverElement(Point p)
 	p.dx(-_innerSize.x());
 	p.dy(-_innerSize.y());
 	
+	
 
-	Container* hoverContainer = onChildHover(p);
+	Container* hoverContainer = onContainerHover(p);
 
 	if (hoverContainer != nullptr)
 	{
@@ -231,10 +254,32 @@ Container* Container::getHoverElement(Point p)
 	}
 }
 
+Container* Container::getFirstScrollableParent()
+{
+	if (this->_parent != nullptr)
+	{
+		if (this->_parent->isScrollable())
+		{
+			return this->_parent;
+		}
+		else
+		{
+			return this->_parent->getFirstScrollableParent();
+		}
+	}
+
+	return nullptr;
+}
+
 void Container::mouseButtonDown(Event* e)
 {
 	if (!_display)
 		return;
+
+	if (scroll->onHover({ e->motion.x, e->motion.y }))
+	{
+		cout << "gssgsg" << endl;
+	}
 
 	eventListeners["click"](this, e);
 	eventListeners["onmousedown"](this, e);
@@ -294,7 +339,30 @@ void Container::mouseOut(Event* e)
 	//SDL_SetCursor(style->cursor());
 }
 
-ContainerStyle* Container::styles()
+void Container::mouseScroll(Event* e, int scrollDirection)
+{
+	if (!_display)
+		return;
+
+	if (!scrollable)
+	{
+		Container* firstScrollableParent = getFirstScrollableParent();
+
+		if (firstScrollableParent != nullptr)
+		{
+			firstScrollableParent->mouseScroll(e, scrollDirection);
+		}
+
+		return;
+	}
+
+	if (scrollDirection < 0)
+		scroll->shift(20);
+	else
+		scroll->shift(-20);
+}
+
+Styles* Container::styles()
 {
 	return &_style;
 }
@@ -309,7 +377,7 @@ void Container::computeSize()
 	}
 
 	// adjust size with shadow size
-	size_t shadowSize = _style.shadow().outerSize();
+	size_t shadowSize = 0; //_style.shadow().outerSize();
 
 	_outerSize.size.dw(2 * shadowSize);
 	_outerSize.size.dh(2 * shadowSize);
@@ -319,6 +387,9 @@ void Container::computeSize()
 
 	_innerSize.start.x(shadowSize);
 	_innerSize.start.y(shadowSize);
+
+
+	this->_text->setSize({ 0,0,_innerSize.w(), _innerSize.h() });
 
 
 
@@ -395,8 +466,7 @@ void Container::computeChildrenSize()
 		SDL_SetTextureBlendMode(_outerTexture, SDL_BLENDMODE_BLEND);
 
 		this->scroll->_parentTexture = this->_outerTexture;
-
-		this->scroll->shift(50);
+		this->scrollable = true;
 	}
 	
 
@@ -419,6 +489,9 @@ void Container::setupChildrenRenderer()
 	if (this->_renderer == nullptr && this->_parent != nullptr)
 	{
 		this->_renderer = _parent->renderer();
+
+		// set-up text
+		this->_text->setRenderer(this->_renderer);
 	}
 
 	for (auto& child : _childs)
@@ -513,14 +586,10 @@ bool Container::onHover(Point point)
 	return point.in(_outerSize) && _display;
 }
 
-// TODO
-Container* const Container::onChildHover(Point point)
-{
-	return nullptr;
-}
-
 Container* const Container::onContainerHover(Point point)
 {
+	point.dy(scroll->_nowValue);
+
 	for (int i = _childs.size() - 1; i >= 0; i--)
 	{
 		auto& child = _childs[i];
@@ -595,9 +664,14 @@ map<string, void*>& Container::userData()
 	return _userData;
 }
 
-void Container::userData(string key, void* data)
+void Container::addUserData(string key, void* data)
 {
 	_userData.insert(make_pair(key, data));
+}
+
+void* Container::userData(string key)
+{
+	return _userData[key];
 }
 
 SDL_Renderer* const Container::renderer()
@@ -608,6 +682,11 @@ SDL_Renderer* const Container::renderer()
 SDL_Texture* const Container::texture()
 {
 	return _texture;
+}
+
+bool Container::isScrollable()
+{
+	return scrollable;
 }
 
 Container* Container::show()

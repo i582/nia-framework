@@ -5,6 +5,11 @@ int Utils::to_integer(const string& str)
 	return stoi(str);
 }
 
+double Utils::to_double(const string& str)
+{
+	return stod(str);
+}
+
 int Utils::parseString(const string &str, int parentValue)
 {
 	int index = 0;

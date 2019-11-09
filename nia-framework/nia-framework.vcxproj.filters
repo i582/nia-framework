@@ -43,6 +43,9 @@
     <Filter Include="Исходные файлы\container\containers">
       <UniqueIdentifier>{12996c08-78e7-47fe-8bc5-beeb3af2dd11}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Исходные файлы\container\scroll">
+      <UniqueIdentifier>{2bf2309c-7589-4251-8355-9b812e57a6f6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="nia-app.h">
@@ -109,7 +112,13 @@
       <Filter>Исходные файлы\container\containers</Filter>
     </ClInclude>
     <ClInclude Include="container\scroll\scroll.h">
-      <Filter>Исходные файлы\container</Filter>
+      <Filter>Исходные файлы\container\scroll</Filter>
+    </ClInclude>
+    <ClInclude Include="container\style\styles.h">
+      <Filter>Исходные файлы\container\style</Filter>
+    </ClInclude>
+    <ClInclude Include="container\style\style-state.h">
+      <Filter>Исходные файлы\container\style</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -143,9 +152,6 @@
     <ClCompile Include="window\main\main-window.cpp">
       <Filter>Исходные файлы\window\base\main</Filter>
     </ClCompile>
-    <ClCompile Include="container\main\MainContainer.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
     <ClCompile Include="utils\color.cpp">
       <Filter>Исходные файлы\utils</Filter>
     </ClCompile>
@@ -158,9 +164,6 @@
     <ClCompile Include="font\fonts.cpp">
       <Filter>Исходные файлы\fonts</Filter>
     </ClCompile>
-    <ClCompile Include="text\text.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
     <ClCompile Include="C:\SDL2\SDL2_gfx\SDL2_gfxPrimitives.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
@@ -170,17 +173,29 @@
     <ClCompile Include="font\font.cpp">
       <Filter>Исходные файлы\fonts</Filter>
     </ClCompile>
-    <ClCompile Include="utils\draw.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
     <ClCompile Include="utils\shadow.cpp">
       <Filter>Исходные файлы\utils</Filter>
     </ClCompile>
     <ClCompile Include="container\containers\containers.cpp">
-      <Filter>Исходные файлы</Filter>
+      <Filter>Исходные файлы\container</Filter>
     </ClCompile>
     <ClCompile Include="container\scroll\scroll.cpp">
-      <Filter>Исходные файлы</Filter>
+      <Filter>Исходные файлы\container\scroll</Filter>
+    </ClCompile>
+    <ClCompile Include="utils\draw.cpp">
+      <Filter>Исходные файлы\utils</Filter>
+    </ClCompile>
+    <ClCompile Include="container\main\MainContainer.cpp">
+      <Filter>Исходные файлы\container\main</Filter>
+    </ClCompile>
+    <ClCompile Include="text\text.cpp">
+      <Filter>Исходные файлы\text</Filter>
+    </ClCompile>
+    <ClCompile Include="container\style\styles.cpp">
+      <Filter>Исходные файлы\container\style</Filter>
+    </ClCompile>
+    <ClCompile Include="container\style\style-state.cpp">
+      <Filter>Исходные файлы\container\style</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

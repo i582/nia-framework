@@ -28,7 +28,9 @@ public:
 	Rect();
 	Rect(Point start, Size size);
 	Rect(int x, int y, int w, int h);
+	Rect(string left, string top, string width, string height);
 	
+	bool operator==(const Rect& obj);
 /**
  * @brief Part for where definition from a string, like 100px or 24%
  */

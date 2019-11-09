@@ -37,14 +37,27 @@ private:
 	 */
 	string _shadow;
 
-public:
 
 	/*
+	 * Text
+	 */
+	string _textSize;
+	string _textLineHeight;
+	string _textFont;
+	string _textColor;
+	string _hoverTextColor;
+	string _activeTextColor;
+
+
+
+public:
+
+	/**
 	 * @brief Setup all style is none
 	 */
 	ContainerStyleRaw();
 
-	/*
+	/**
 	 * @brief Setup standart style
 	 */
 	ContainerStyleRaw(bool standart);
@@ -80,6 +93,27 @@ public:
 
 	string shadow();
 	ContainerStyleRaw* shadow(string shadow);
+
+
+
+	/**
+	 * Text
+	 */
+	ContainerStyleRaw* textSize(string value);
+	ContainerStyleRaw* textFont(string value);
+	ContainerStyleRaw* textLineHeight(string value);
+	ContainerStyleRaw* textColor(string value);
+	ContainerStyleRaw* hoverTextColor(string value);
+	ContainerStyleRaw* activeTextColor(string value);
+
+
+	string textSize();
+	string textLineHeight();
+	string textFont();
+	string textColor();
+	string hoverTextColor();
+	string activeTextColor();
 };
+
 
 using Style = ContainerStyleRaw;

@@ -1,6 +1,6 @@
 #include "scroll.h"
 
-Scroll::Scroll(SDL_Renderer* renderer, Rect size, size_t maxValue, double relSizes)
+Scroll::Scroll(SDL_Renderer* renderer, Rect size, int maxValue, double relSizes)
 {
 	this->_renderer = renderer;
 	this->_texture = nullptr;
@@ -41,6 +41,11 @@ void Scroll::shift(int delta)
 	_position = _nowValue / (double)_maxValue;
 
 	_sliderSize.y((_bodySize.h() - _sliderSize.h()) * _position);
+}
+
+bool Scroll::onHover(Point p)
+{
+	return p.in(_bodySize);
 }
 
 void Scroll::render()

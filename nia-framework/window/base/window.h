@@ -8,6 +8,7 @@
 #include "../../container/main/MainContainer.h"
 #include "../../container/container.h"
 
+#include "../..//container/style/styles.h"
 
 #include "..//..//text/text.h"
 
@@ -18,8 +19,8 @@ using std::endl;
 class Window
 {
 protected:
-	map < string, ContainerStyleRaw * > __containersStyles;
-	ContainerStyleRaw* addStyle(string className, ContainerStyleRaw* style);
+	map < string, Styles* > __containersStyles;
+	Styles* addStyle(string className, Styles* style);
 	void handleStyles();
 
 	map <string, Container*> __containers;

@@ -27,34 +27,54 @@ ContainerStyleRaw::ContainerStyleRaw()
 	 * Shadow
 	 */
 	this->_shadow = "none";
+
+	/**
+	 * Text
+	 */
+	this->_textSize = "none";
+	this->_textLineHeight = "none";
+	this->_textFont = "none";
+	this->_textColor =
+	this->_hoverTextColor =
+	this->_activeTextColor = "none";
 }
 
 ContainerStyleRaw::ContainerStyleRaw(bool standart)
 {
-	/*
+	/**
 	 * Background standart color
 	 */
 	this->_backgroundColor = 
 	this->_hoverBackgroundColor = 
 	this->_activeBackgroundColor = "#FFFFFF";
 	
-	/*
+	/**
 	 * Border standart color
 	 */
 	this->_borderColor = 
 	this->_hoverBorderColor = 
 	this->_activeBorderColor = "#FFFFFF00";
 
-	/*
+	/**
 	 * Cursor standart
 	 */
 	this->_cursor =
 	this->_hoverCursor = "arrow";
 
-	/*
+	/**
 	 * Shadow
 	 */
 	this->_shadow = "none";
+
+	/**
+	 * Text
+	 */
+	this->_textSize = "14px";
+	this->_textLineHeight = "1.3";
+	this->_textFont = "consolas";
+	this->_textColor =
+	this->_hoverTextColor =
+	this->_activeTextColor = "#000000";
 }
 
 void ContainerStyleRaw::updateStyle(ContainerStyle* style)
@@ -110,7 +130,7 @@ void ContainerStyleRaw::updateStyle(ContainerStyle* style)
 		}
 	}
 
-	if (_hoverBorderColor != "none")
+	if (_hoverCursor != "none")
 	{
 		if (_hoverCursor == "arrow")
 		{
@@ -121,6 +141,23 @@ void ContainerStyleRaw::updateStyle(ContainerStyle* style)
 			style->_hoverCursor = SDL_CreateSystemCursor(SDL_SYSTEM_CURSOR_HAND);
 		}
 	}
+
+
+
+	if (_textSize != "none")
+		style->_textSize = Utils::to_integer(_textSize);
+	
+	if (_textLineHeight != "none")
+		style->_textLineHeight = Utils::to_double(_textLineHeight);
+	
+	if (_textColor != "none")
+		style->_textColor = Color(_textColor);
+	
+	if (_hoverTextColor != "none")
+		style->_hoverTextColor = Color(_hoverTextColor);
+
+	if (_activeTextColor != "none")
+		style->_activeTextColor = Color(_activeTextColor);
 }
 
 
@@ -232,4 +269,70 @@ ContainerStyleRaw* ContainerStyleRaw::shadow(string shadow)
 {
 	_shadow = shadow;
 	return this;
+}
+
+ContainerStyleRaw* ContainerStyleRaw::textSize(string value)
+{
+	_textSize = value;
+	return this;
+}
+
+ContainerStyleRaw* ContainerStyleRaw::textFont(string value)
+{
+	_textFont = value;
+	return this;
+}
+
+ContainerStyleRaw* ContainerStyleRaw::textLineHeight(string value)
+{
+	_textLineHeight = value;
+	return this;
+}
+
+ContainerStyleRaw* ContainerStyleRaw::textColor(string value)
+{
+	_textColor = _hoverTextColor = _activeTextColor = value;
+	return this;
+}
+
+ContainerStyleRaw* ContainerStyleRaw::hoverTextColor(string value)
+{
+	_hoverTextColor = _activeTextColor = value;
+	return this;
+}
+
+ContainerStyleRaw* ContainerStyleRaw::activeTextColor(string value)
+{
+	_activeTextColor = value;
+	return this;
+}
+
+string ContainerStyleRaw::textSize()
+{
+	return _textSize;
+}
+
+string ContainerStyleRaw::textLineHeight()
+{
+	return _textLineHeight;
+}
+
+string ContainerStyleRaw::textFont()
+{
+	return _textFont;
+}
+
+string ContainerStyleRaw::textColor()
+{
+	return _textColor;
+}
+
+string ContainerStyleRaw::hoverTextColor()
+{
+	return _hoverTextColor;
+}
+
+string ContainerStyleRaw::activeTextColor()
+{
+	return _activeTextColor;
 }

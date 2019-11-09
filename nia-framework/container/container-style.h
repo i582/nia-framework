@@ -4,6 +4,7 @@
 
 #include "../utils/color.h"
 #include "../utils/shadow.h"
+#include "../font/font.h"
 
 #include "container-style-raw.h"
 
@@ -38,6 +39,17 @@ private:
 	Shadow _shadow;
 
 
+	/**
+	 * Text
+	 */
+	size_t _textSize;
+	double _textLineHeight;
+	Font _textFont;
+	Color _textColor;
+	Color _hoverTextColor;
+	Color _activeTextColor;
+
+
 public:
 	ContainerStyle();
 
@@ -57,4 +69,14 @@ public:
 	Shadow shadow();
 	/*SDL_Cursor* cursor();
 	SDL_Cursor* hoverCursor();*/
+
+	/**
+	 * Text
+	 */
+	size_t textSize();
+	double textLineHeight();
+	Font textFont();
+	Color textColor();
+	Color hoverTextColor();
+	Color activeTextColor();
 };
