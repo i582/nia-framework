@@ -6,7 +6,9 @@ CssParse::CssParse(string filePath)
 
 	openFile();
 	splitByToken();
+	splitByBlock();
 	syntaxParse();
+	mergeStyleComponent();
 }
 
 void CssParse::openFile()
@@ -100,6 +102,27 @@ TokenType CssParse::whatIsToken(string token)
 	}
 }
 
+void CssParse::splitByBlock()
+{
+	vector<string> tempBlock;
+
+	for (auto& token : tokens)
+	{
+		if (token != "}")
+		{
+			tempBlock.push_back(token);
+		}
+		else
+		{
+			tempBlock.push_back(token);
+			blocks.push_back(tempBlock);
+			tempBlock.clear();
+		}
+		
+	}
+
+}
+
 void CssParse::splitByToken()
 {
 	string tempToken;
@@ -146,24 +169,26 @@ void CssParse::splitByToken()
 
 }
 
-void CssParse::syntaxParse()
+void CssParse::syntaxParseOneBlock(vector<string>& block)
 {
 	State nowState = State::START_PARSE;
 
 	int countAttributesWithoutValue = 0;
 
 	Styles* style = new Styles();
-	StyleState* normal = style->normal();
+	StyleState styleState;
 
 	string idOrClassName;
 
 	string attribute;
 	string value;
+	string pseudo;
 
-	for (auto& token : tokens)
+
+	for (auto& token : block)
 	{
 		TokenType nowTokenType = whatIsToken(token);
-		
+
 
 		switch (nowTokenType)
 		{
@@ -177,11 +202,10 @@ void CssParse::syntaxParse()
 			{
 				nowState = State::NEXT_TOKEN_IS_ID;
 
-				idOrClassName.clear();
 				idOrClassName += "#";
 			}
-			
-			
+
+
 
 			break;
 		}
@@ -196,7 +220,6 @@ void CssParse::syntaxParse()
 			{
 				nowState = State::NEXT_TOKEN_IS_CLASSNAME;
 
-				idOrClassName.clear();
 				idOrClassName += ".";
 
 			}
@@ -205,7 +228,16 @@ void CssParse::syntaxParse()
 
 		case TokenType::COLON:
 		{
-			nowState = State::NEXT_TOKEN_IS_VALUE;
+			if (nowState == State::NEXT_TOKEN_IS_ID || nowState == State::NEXT_TOKEN_IS_CLASSNAME)
+			{
+				nowState = State::NEXT_TOKEN_IS_PSEUDO;
+			}
+			else
+			{
+				nowState = State::NEXT_TOKEN_IS_VALUE;
+			}
+
+			
 			break;
 		}
 
@@ -217,7 +249,12 @@ void CssParse::syntaxParse()
 				return;
 			}
 
-			normal->set(attribute, value);
+			if (attribute.find("color") != -1)
+			{
+				value = '#' + value;
+			}
+
+			styleState.set(attribute, value);
 
 			nowState = State::NEXT_TOKEN_IS_ATTRIBUTE;
 			break;
@@ -236,6 +273,33 @@ void CssParse::syntaxParse()
 			nowState = State::END_BLOCK;
 
 			cout << "End block" << endl;
+
+
+			// create style set
+
+			if (pseudo == "hover")
+			{
+				style->_hover = styleState;
+			}
+			else if (pseudo == "active")
+			{
+				style->_active = styleState;
+			}
+			else
+			{
+				style->_normal = styleState;
+			}
+
+			if (resultStyles.find(idOrClassName) != resultStyles.end())
+			{
+				style->mergeTo(resultStyles[idOrClassName]);
+
+			}
+			else
+			{
+				resultStyles.insert(std::make_pair(idOrClassName, style));
+			}
+
 			break;
 		}
 
@@ -289,7 +353,24 @@ void CssParse::syntaxParse()
 				break;
 			}
 
-			default: 
+			case NEXT_TOKEN_IS_PSEUDO:
+			{
+				cout << "This token is PSEUDO: " << token << endl;
+
+				if (token != "hover" && token != "active" && token != "focus")
+				{
+					cout << "ERROR: Undefined pseudo class " << token << "!" << endl;
+
+					return;
+				}
+
+				pseudo = token;
+
+				break;
+			}
+
+
+			default:
 			{
 				cout << "ERROR: Undefined token: " << token << endl;
 				break;
@@ -307,4 +388,26 @@ void CssParse::syntaxParse()
 	}
 
 
+}
+
+void CssParse::syntaxParse()
+{
+	for (auto& block : blocks)
+	{
+		syntaxParseOneBlock(block);
+	}
+}
+
+void CssParse::mergeStyleComponent()
+{
+	for (auto& style : resultStyles)
+	{
+		style.second->_hover.mergeWith(style.second->_normal);
+		style.second->_active.mergeWith(style.second->_hover);
+	}
+}
+
+map<string, Styles*> CssParse::getReadyStyles()
+{
+	return resultStyles;
 }

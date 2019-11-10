@@ -22,7 +22,7 @@ void Window::handleStyles()
 		{
 			if (container.second->hasClass(className))
 			{
-				style.second->merge(container.second->styles());
+				style.second->mergeTo(container.second->styles());
 			}
 		}
 

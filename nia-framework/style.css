@@ -2,7 +2,7 @@
 {
     background-color: #ffffff;     
     font-size: 20px;   
-    vertical-align: center;
+    vertical-align: top;
 
     border-color: #111111;
     line-height: 1.1;
@@ -12,9 +12,38 @@
 }    
 
 
-#acd
+.container:hover
 {
-    background-color: #ffffff;     
-    font-size: 20px;   
-    vertical-align: center; 
-}    
+    background-color: #cccccc;
+    color: #ffffff;
+
+    font-size: 25px;
+}
+
+.container:active
+{
+    margin-left: 23px;
+
+    color: #000000;
+}
+
+
+.search-block
+{
+    background-color: #333337;
+    color: #999999;
+
+    border-color: #3F3F46;
+
+    text-align: left;
+    margin-left: 6px;
+    font-size: 13px;
+    line-height: 1;
+    vertical-align: center;
+}
+
+.search-block:hover
+{
+    color: #ffffff;
+    border-color: #007ACC;
+}

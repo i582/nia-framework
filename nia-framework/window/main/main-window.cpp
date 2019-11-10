@@ -4,11 +4,16 @@
 #include "../..//utils/draw.h"
 
 
+#include "../../css/css_parse.h"
+
 using namespace Utils;
 
 void MainWindow::setup()
 {
-	__container->append(new Container("cont", { "0px", "0px", "50%", "100%" }, "hoverss"));
+	CssParse parse("././style.css");
+	Window::__containersStyles = parse.getReadyStyles();
+
+	__container->append(new Container("cont", { "0px", "0px", "50%", "100%" }, ".container"));
 
 	__container->append(new Container("cont-1", { "0px", "60%", "40%", "100%" }, "con1"));
 
@@ -28,7 +33,7 @@ void MainWindow::setup()
 	//Window::getElementById("cont-1")->text()->setText("Hello World! It's new Text! Целью данной работы является создание класса «строка» и производных классов от него, а также разработка интерфейса для ввода начальных значений, отображения результатов и тестирования методов классов.");
 
 
-	Window::getElementById("cont-1")->append(new Container("cont-3", { "50px", "50px", "220px", "25px" }, "button"));
+	Window::getElementById("cont-1")->append(new Container("cont-3", { "50px", "50px", "220px", "25px" }, ".search-block"));
 
 	Window::getElementById("cont-1")->append(new Container("cont-name", { "49px", "290px", "100px", "27px" }, "project-name"));
 
@@ -48,8 +53,8 @@ void MainWindow::setup()
 	projName->normal()->set("background-color", "#252526");
 	projName->hover()->set("background-color", "#252526");
 
-	projName->normal()->set("text", "#ffffff");
-	projName->hover()->set("text", "#ffffff");
+	projName->normal()->set("color", "#ffffff");
+	projName->hover()->set("color", "#ffffff");
 
 	projName->normal()->set("text-align", "center");
 	projName->hover()->set("text-align", "center");
@@ -80,8 +85,8 @@ void MainWindow::setup()
 	con3->normal()->set("background-color", "#333337");
 	con3->hover()->set("background-color", "#333337");
 
-	con3->normal()->set("text-color", "#999999");
-	con3->hover()->set("text-color", "#ffffff");
+	con3->normal()->set("color", "#999999");
+	con3->hover()->set("color", "#ffffff");
 
 	con3->normal()->set("border-color", "#3F3F46");
 	con3->hover()->set("border-color", "#007ACC");
@@ -140,8 +145,8 @@ void MainWindow::setup()
 	raw->normal()->set("background-color", "#cccccc");
 	raw->hover()->set("background-color", "#dddddd");
 
-	raw->normal()->set("text-color", "#000000");
-	raw->hover()->set("text-color", "#000000");
+	raw->normal()->set("color", "#000000");
+	raw->hover()->set("color", "#000000");
 
 
 	raw->normal()->set("text-align", "center");
@@ -162,8 +167,8 @@ void MainWindow::setup()
 	con1->normal()->set("background-color", "#2D2D30");
 	con1->hover()->set("background-color", "#2D2D30");
 
-	con1->normal()->set("text-color", "#ffffff");
-	con1->hover()->set("text-color", "#ffffff");
+	con1->normal()->set("color", "#ffffff");
+	con1->hover()->set("color", "#ffffff");
 	
 	//con1->normal()->set("margin-top", "50px");
 	con1->normal()->set("margin-left", "50px");
@@ -193,7 +198,7 @@ void MainWindow::setup()
 
 	raw->normal().set("border", "#654321");
 
-	raw->merge(raw1);*/
+	raw->mergeTo(raw1);*/
 
 /*
 	Window::getElementById("cont-child")->addEventListener("onmouseover", [=](Container* sender, Event* e)

@@ -55,7 +55,7 @@ StyleState* StyleState::set(string key, string value)
 	return this;
 }
 
-StyleState* StyleState::merge(StyleState* styleState)
+StyleState* StyleState::mergeTo(StyleState* styleState)
 {
 	for (auto& style : styles)
 	{
@@ -64,6 +64,21 @@ StyleState* StyleState::merge(StyleState* styleState)
 			styleState->styles[style.first] = style.second;
 		}
 	}
+
+	return this;
+}
+
+StyleState* StyleState::mergeWith(StyleState styleState)
+{
+	for (auto& style : styles)
+	{
+		if (style.second != "none")
+		{
+			styleState.styles[style.first] = style.second;
+		}
+	}
+
+	styles = styleState.styles;
 
 	return this;
 }
@@ -98,8 +113,13 @@ string StyleState::getString(string key)
 
 Color StyleState::getColor(string key)
 {
-	if (key == "background" || key == "border" || key == "text")
+	if (key == "background-color" || key == "border-color" || key == "color")
 	{
 		return Color(styles[key]);
+	}
+	else
+	{
+		cout << "ERROR: " << key << " is not set as Color field" << endl;
+		return Color("#ff00ff");
 	}
 }

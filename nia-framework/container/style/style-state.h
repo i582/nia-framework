@@ -22,7 +22,13 @@ public:
 	StyleState* set(string type, string value);
 
 public:
-	StyleState* merge(StyleState* style);
+	StyleState* mergeTo(StyleState* style);
+
+
+	/*
+	 * @brief Merge the styles
+	 */
+	StyleState* mergeWith(StyleState style);
 
 public:
 	int getInt(string key);

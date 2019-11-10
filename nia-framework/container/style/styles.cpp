@@ -11,11 +11,11 @@ Styles::Styles(bool generalSetup)
 	this->_active = StyleState(true);
 }
 
-Styles* Styles::merge(Styles* style)
+Styles* Styles::mergeTo(Styles* style)
 {
-	this->_normal.merge(&style->_normal);
-	this->_hover.merge(&style->_hover);
-	this->_active.merge(&style->_active);
+	this->_normal.mergeTo(&style->_normal);
+	this->_hover.mergeTo(&style->_hover);
+	this->_active.mergeTo(&style->_active);
 
 	return this;
 }

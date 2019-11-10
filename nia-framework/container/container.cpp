@@ -174,8 +174,8 @@ void Container::render()
 	roundedBoxColor(_renderer, 0, 0, _innerSize.w() - 1, _innerSize.h() - 1, borderRadius, _bk.color());
 	roundedRectangleColor(_renderer, 0, 0, _innerSize.w() - 1, _innerSize.h() - 1, borderRadius, _br.color());
 
-	if (this->_image != nullptr)
-		this->_image->render();
+	/*if (this->_image != nullptr)
+		this->_image->render();*/
 
 
 	/*SDL_SetRenderDrawColor(_renderer, background[3], background[2], background[1], background[0]);
@@ -188,7 +188,7 @@ void Container::render()
 
 
 
-	_text->setColor(styleState->getColor("text-color"));
+	_text->setColor(styleState->getColor("color"));
 	_text->setFontSize(styleState->getInt("font-size"));
 	_text->setLineHeight(styleState->getDouble("line-height"));
 	_text->setTextAlign(styleState->getString("text-align"));

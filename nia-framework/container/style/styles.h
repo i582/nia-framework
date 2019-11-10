@@ -2,6 +2,8 @@
 
 #include "style-state.h"
 
+class CssParse;
+
 class Styles
 {
 private:
@@ -15,9 +17,10 @@ public:
 
 public:
 	friend Styles;
+	friend CssParse;
 
 public:
-	Styles* merge(Styles* style);
+	Styles* mergeTo(Styles* style);
 
 public:
 	StyleState* normal();

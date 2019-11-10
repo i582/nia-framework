@@ -221,6 +221,7 @@ void Text::setSize(Rect size)
 	texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, size.w(), size.h());
 	SDL_SetTextureBlendMode(texture, SDL_BLENDMODE_BLEND);
 
+	this->splitted = false;
 	this->needReRender = true;
 }
 
@@ -234,6 +235,7 @@ void Text::setFont(Font* font)
 	if (this->font != nullptr)
 		this->ttf_font = font->at(fontSize);
 
+	this->splitted = false;
 	this->needReRender = true;
 }
 
@@ -247,6 +249,8 @@ void Text::setFontSize(size_t fontSize)
 	if (this->font != nullptr)
 		this->ttf_font = font->at(fontSize);
 
+
+	this->splitted = false;
 	this->needReRender = true;
 }
 

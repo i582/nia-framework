@@ -38,6 +38,8 @@ enum State
 	NEXT_TOKEN_IS_ATTRIBUTE,
 	NEXT_TOKEN_IS_VALUE,
 
+	NEXT_TOKEN_IS_PSEUDO,
+
 	END_BLOCK,
 
 	START_PARSE
@@ -54,7 +56,11 @@ private:
 
 	vector<string> tokens;
 
+	vector< vector<string> > blocks;
+
 	vector<Styles*> styles;
+
+	map < string, Styles* > resultStyles;
 
 public:
 	CssParse(string filePath);
@@ -70,9 +76,17 @@ private:
 	TokenType whatIsToken(string token);
 
 private:
+	void splitByBlock();
 	void splitByToken();
 
-public:
+	void syntaxParseOneBlock(vector<string>& block);
+
+
 	void syntaxParse();
+
+	void mergeStyleComponent();
+
+public:
+	map < string, Styles* > getReadyStyles();
 
 };
