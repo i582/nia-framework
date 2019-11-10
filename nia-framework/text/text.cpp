@@ -25,6 +25,12 @@ Text::Text(Container* parent, string text, Rect size, Font* font, size_t fontSiz
 	this->textAlign = TextAlign::LEFT;
 	this->blockVerticalAlign = TextBlockVerticalAlign::TOP;
 
+	this->blockMarginTop = 0;
+	this->blockMarginBottom = 0;
+	this->blockMarginLeft = 0;
+	this->blockMarginRight = 0;
+
+
 	this->splitted = false;
 
 	this->x = 0;
@@ -56,12 +62,13 @@ void Text::splitByLines()
 	lines.clear();
 	textBlockHeight = 0;
 
+	textBlockHeight += blockMarginTop;
 
 	for (auto& word : *words)
 	{
 		TTF_SizeUTF8(ttf_font, (word + ' ').c_str(), &tw, &th);
 
-		if (x + tw > size.w())
+		if (x + tw > size.w() - (blockMarginLeft + blockMarginRight))
 		{
 			x = 0;
 
@@ -89,14 +96,29 @@ void Text::renderLines()
 {
 	int lineShift = 0;
 
-	if (this->blockVerticalAlign == TextBlockVerticalAlign::CENTER)
+	if (this->blockVerticalAlign == TextBlockVerticalAlign::TOP)
+	{
+		lineShift = 0;
+
+		lineShift += blockMarginTop;
+	}
+	else if (this->blockVerticalAlign == TextBlockVerticalAlign::CENTER)
 	{
 		lineShift = (parent->size().h() - textBlockHeight) / 2;
+
+		lineShift += blockMarginTop;
 	}
 	else if (this->blockVerticalAlign == TextBlockVerticalAlign::BOTTOM)
 	{
 		lineShift = parent->size().h() - textBlockHeight;
+
+		lineShift -= blockMarginBottom;
 	}
+
+
+	
+
+
 
 	for (auto& line : lines)
 	{
@@ -105,15 +127,23 @@ void Text::renderLines()
 		if (textAlign == TextAlign::LEFT)
 		{
 			textRect.x = 0;
+
+			textRect.x += blockMarginLeft;
 		}
 		else if (textAlign == TextAlign::CENTER)
 		{
 			textRect.x = (size.w() - textSurface->w) / 2;
+
+			textRect.x += blockMarginLeft;
 		}
 		else if (textAlign == TextAlign::RIGHT)
 		{
 			textRect.x = size.w() - textSurface->w;
+
+			textRect.x -= blockMarginRight;
 		}
+
+		
 
 		textRect.y = lineShift;
 		textRect.w = textSurface->w;
@@ -283,6 +313,45 @@ void Text::setTextBlockVerticalAlign(string align)
 
 	this->blockVerticalAlign = temp;
 
+	this->needReRender = true;
+}
+
+void Text::setTextBlockMargin(string side, int value)
+{
+	if (side == "top")
+	{
+		if (blockMarginTop == value)
+			return;
+
+		blockMarginTop = value;
+	}
+	else if (side == "bottom")
+	{
+		if (blockMarginBottom == value)
+			return;
+
+		blockMarginBottom = value;
+	}
+	else if (side == "left")
+	{
+		if (blockMarginLeft == value)
+			return;
+
+		blockMarginLeft = value;
+	}
+	else if (side == "right")
+	{
+		if (blockMarginRight == value)
+			return;
+
+		blockMarginRight = value;
+	}
+	else
+	{
+		return;
+	}
+
+	this->splitted = false;
 	this->needReRender = true;
 }
 

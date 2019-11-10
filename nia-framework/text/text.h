@@ -54,6 +54,11 @@ private:
 
 	TextAlign textAlign;
 	TextBlockVerticalAlign blockVerticalAlign;
+	
+	int blockMarginTop;
+	int blockMarginBottom;
+	int blockMarginLeft;
+	int blockMarginRight;
 
 	int tw;
 	int th;
@@ -92,6 +97,7 @@ public:
 	void setLineHeight(double lineHeight);
 	void setTextAlign(string align);
 	void setTextBlockVerticalAlign(string align);
+	void setTextBlockMargin(string side, int value);
 
 	void setRenderer(SDL_Renderer* renderer);
 };

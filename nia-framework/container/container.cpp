@@ -180,6 +180,11 @@ void Container::render()
 	_text->setTextAlign(styleState->getString("text-align"));
 	_text->setTextBlockVerticalAlign(styleState->getString("vertical-align"));
 
+	_text->setTextBlockMargin("top", styleState->getInt("margin-top"));
+	_text->setTextBlockMargin("bottom", styleState->getInt("margin-bottom"));
+	_text->setTextBlockMargin("left", styleState->getInt("margin-left"));
+	_text->setTextBlockMargin("right", styleState->getInt("margin-right"));
+
 	_text->render();
 
 	for (auto& child : _childs)

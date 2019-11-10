@@ -14,6 +14,12 @@ StyleState::StyleState()
 
 	text["vertical-align"] = "none";
 	text["horizontal-align"] = "none";
+
+	text["margin-top"] = "none";
+	text["margin-bottom"] = "none";
+
+	text["margin-left"] = "none";
+	text["margin-right"] = "none";
 }
 
 StyleState::StyleState(bool generalSetup)
@@ -30,6 +36,12 @@ StyleState::StyleState(bool generalSetup)
 
 	text["vertical-align"] = "top";
 	text["horizontal-align"] = "left";
+
+	text["margin-top"] = "0px";
+	text["margin-bottom"] = "0px";
+
+	text["margin-left"] = "0px";
+	text["margin-right"] = "0px";
 }
 
 StyleState* StyleState::setColor(string key, string value)
@@ -67,7 +79,7 @@ StyleState* StyleState::merge(StyleState* style)
 
 int StyleState::getInt(string key)
 {
-	if (key == "font-size")
+	if (key == "font-size" || key == "margin-top" || key == "margin-bottom" || key == "margin-left" || key == "margin-right")
 	{
 		return std::stoi(text[key]);
 	}

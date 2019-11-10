@@ -9,7 +9,9 @@ using namespace Utils;
 
 void MainWindow::setup()
 {
-	__container->append(new Container("cont", { "0px", "0px", "50%", "90%" }, "hoverss"));
+	__container->append(new Container("cont", { "0px", "0px", "50%", "100%" }, "hoverss"));
+
+	__container->append(new Container("cont-1", { "0px", "60%", "40%", "100%" }, "con1"));
 
 	//Window::getElementById("cont")->append(new Container("cont-child", { {"12%", "12%"}, {"75%", "150%"} }, "back-in-black hoverss"));
 	
@@ -24,6 +26,9 @@ void MainWindow::setup()
 	Window::getElementById("cont")->text()->setText("Hello World! It's new Text! Целью данной работы является создание класса «строка» и производных классов от него, а также разработка интерфейса для ввода начальных значений, отображения результатов и тестирования методов классов.");
 
 
+	Window::getElementById("cont-1")->text()->setText("Hello World! It's new Text! Целью данной работы является создание класса «строка» и производных классов от него, а также разработка интерфейса для ввода начальных значений, отображения результатов и тестирования методов классов.");
+
+
 	Styles* raw = new Styles(true);
 
 	/*raw->normal()->setColor("background", "#123456");
@@ -35,15 +40,54 @@ void MainWindow::setup()
 	/*raw->normal()->setTextStyle("line-height", "1.5");
 	raw->hover()->setTextStyle("line-height", "1.7");*/
 
+	raw->normal()->setColor("background", "#cccccc");
+	raw->hover()->setColor("background", "#dddddd");
+
+	raw->normal()->setColor("text", "#000000");
+	raw->hover()->setColor("text", "#000000");
+
 
 	raw->normal()->setTextStyle("text-align", "center");
 	raw->hover()->setTextStyle("text-align", "right");
 
 	raw->normal()->setTextStyle("vertical-align", "center");
 	raw->hover()->setTextStyle("vertical-align", "bottom");
+
+	raw->normal()->setTextStyle("margin-top", "50px");
+
 	//raw->hover()->setTextStyle("font-size", "18px");
 
 	Window::addStyle("hoverss", raw);
+
+
+	Styles* con1 = new Styles(true);
+
+	con1->normal()->setColor("background", "#cccccc");
+	con1->hover()->setColor("background", "#dddddd");
+
+	con1->normal()->setColor("text", "#000000");
+	con1->hover()->setColor("text", "#aaaaaa");
+	
+	//con1->normal()->setTextStyle("margin-top", "50px");
+	con1->normal()->setTextStyle("margin-left", "50px");
+	con1->normal()->setTextStyle("vertical-align", "center");
+	/*raw->hover()->setColor("background", "#123456");*/
+
+	/*raw->normal()->setColor("text", "#ffffff");
+	raw->hover()->setColor("text", "#ffffff");*/
+
+	/*raw->normal()->setTextStyle("line-height", "1.5");
+	raw->hover()->setTextStyle("line-height", "1.7");*/
+
+
+	con1->normal()->setTextStyle("text-align", "left");
+	con1->hover()->setTextStyle("text-align", "left");
+
+	/*con1->normal()->setTextStyle("vertical-align", "center");
+	con1->hover()->setTextStyle("vertical-align", "bottom");*/
+	//raw->hover()->setTextStyle("font-size", "18px");
+
+	Window::addStyle("con1", con1);
 
 /*
 	Styles* raw1 = new Styles();
