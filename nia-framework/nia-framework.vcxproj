@@ -80,6 +80,7 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -131,16 +132,17 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="container\container-header.h" />
-    <ClInclude Include="container\container-style-raw.h" />
-    <ClInclude Include="container\container-style.h" />
     <ClInclude Include="container\container.h" />
     <ClInclude Include="container\containers\containers.h" />
     <ClInclude Include="container\main\MainContainer.h" />
     <ClInclude Include="container\scroll\scroll.h" />
     <ClInclude Include="container\style\style-state.h" />
     <ClInclude Include="container\style\styles.h" />
+    <ClInclude Include="css\css.h" />
+    <ClInclude Include="css\css_parse.h" />
     <ClInclude Include="font\font.h" />
     <ClInclude Include="font\fonts.h" />
+    <ClInclude Include="image\image.h" />
     <ClInclude Include="nia-app.h" />
     <ClInclude Include="nia-main-point.h" />
     <ClInclude Include="text\text.h" />
@@ -159,16 +161,16 @@
   <ItemGroup>
     <ClCompile Include="C:\SDL2\SDL2_gfx\SDL2_gfxPrimitives.c" />
     <ClCompile Include="C:\SDL2\SDL2_gfx\SDL2_rotozoom.c" />
-    <ClCompile Include="container\container-style-raw.cpp" />
-    <ClCompile Include="container\container-style.cpp" />
     <ClCompile Include="container\container.cpp" />
     <ClCompile Include="container\containers\containers.cpp" />
     <ClCompile Include="container\main\MainContainer.cpp" />
     <ClCompile Include="container\scroll\scroll.cpp" />
     <ClCompile Include="container\style\style-state.cpp" />
     <ClCompile Include="container\style\styles.cpp" />
+    <ClCompile Include="css\css_parse.cpp" />
     <ClCompile Include="font\font.cpp" />
     <ClCompile Include="font\fonts.cpp" />
+    <ClCompile Include="image\image.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="nia-app.cpp" />
     <ClCompile Include="text\text.cpp" />

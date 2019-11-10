@@ -101,6 +101,19 @@ vector<string>* Utils::split(string str, string pattern, char separator)
 
 
 
+bool Utils::is_integer(string str)
+{
+	for (size_t i = 0; i < str.length(); i++)
+	{
+		if (str.at(i) < '0' || str.at(i) > '9')
+		{
+			return false;
+		}
+	}
+
+	return true;
+}
+
 int Utils::SDL_SetRenderColor(SDL_Renderer* renderer, SDL_Color color)
 {
 	return SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a);

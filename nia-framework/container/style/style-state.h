@@ -12,16 +12,14 @@ using std::map;
 class StyleState
 {
 private:
-	map <string, string> colors;
-	map <string, string> text;
+	map <string, string> styles;
 
 public:
 	StyleState();
 	StyleState(bool generalSetup);
 
 public:
-	StyleState* setColor(string type, string value);
-	StyleState* setTextStyle(string type, string value);
+	StyleState* set(string type, string value);
 
 public:
 	StyleState* merge(StyleState* style);

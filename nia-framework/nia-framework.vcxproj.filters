@@ -46,6 +46,12 @@
     <Filter Include="Исходные файлы\container\scroll">
       <UniqueIdentifier>{2bf2309c-7589-4251-8355-9b812e57a6f6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Исходные файлы\image">
+      <UniqueIdentifier>{fddce2f1-1c4b-4a06-868b-1443a0dd816b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Исходные файлы\css">
+      <UniqueIdentifier>{6cc52e81-6dd9-45f4-ba10-04deebe0017e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="nia-app.h">
@@ -80,12 +86,6 @@
     </ClInclude>
     <ClInclude Include="container\container-header.h">
       <Filter>Исходные файлы\container</Filter>
-    </ClInclude>
-    <ClInclude Include="container\container-style-raw.h">
-      <Filter>Исходные файлы\container\style</Filter>
-    </ClInclude>
-    <ClInclude Include="container\container-style.h">
-      <Filter>Исходные файлы\container\style</Filter>
     </ClInclude>
     <ClInclude Include="utils\color.h">
       <Filter>Исходные файлы\utils</Filter>
@@ -123,6 +123,15 @@
     <ClInclude Include="utils\simple-rect.h">
       <Filter>Исходные файлы\utils</Filter>
     </ClInclude>
+    <ClInclude Include="image\image.h">
+      <Filter>Исходные файлы\image</Filter>
+    </ClInclude>
+    <ClInclude Include="css\css.h">
+      <Filter>Исходные файлы\css</Filter>
+    </ClInclude>
+    <ClInclude Include="css\css_parse.h">
+      <Filter>Исходные файлы\css</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="nia-app.cpp">
@@ -157,12 +166,6 @@
     </ClCompile>
     <ClCompile Include="utils\color.cpp">
       <Filter>Исходные файлы\utils</Filter>
-    </ClCompile>
-    <ClCompile Include="container\container-style-raw.cpp">
-      <Filter>Исходные файлы\container\style</Filter>
-    </ClCompile>
-    <ClCompile Include="container\container-style.cpp">
-      <Filter>Исходные файлы\container\style</Filter>
     </ClCompile>
     <ClCompile Include="font\fonts.cpp">
       <Filter>Исходные файлы\fonts</Filter>
@@ -202,6 +205,12 @@
     </ClCompile>
     <ClCompile Include="utils\simple-rect.cpp">
       <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="image\image.cpp">
+      <Filter>Исходные файлы\image</Filter>
+    </ClCompile>
+    <ClCompile Include="css\css_parse.cpp">
+      <Filter>Исходные файлы\css</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

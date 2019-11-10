@@ -4,7 +4,6 @@
 #include "../..//utils/draw.h"
 
 
-
 using namespace Utils;
 
 void MainWindow::setup()
@@ -21,78 +20,178 @@ void MainWindow::setup()
 	//Color textColor("#ff00ff");
 
 	//Window::getElementById("cont-child-1")->text()->setText("Hello World! It's new Text! Целью данной работы является создание класса «строка» и производных классов от него, а также разработка интерфейса для ввода начальных значений, отображения результатов и тестирования методов классов.");
-	//Window::getElementById("cont-child-1")->text()->setColor(textColor);
+	//Window::getElementById("cont-child-1")->text()->set(textColor);
 
 	Window::getElementById("cont")->text()->setText("Hello World! It's new Text! Целью данной работы является создание класса «строка» и производных классов от него, а также разработка интерфейса для ввода начальных значений, отображения результатов и тестирования методов классов.");
 
 
-	Window::getElementById("cont-1")->text()->setText("Hello World! It's new Text! Целью данной работы является создание класса «строка» и производных классов от него, а также разработка интерфейса для ввода начальных значений, отображения результатов и тестирования методов классов.");
+	//Window::getElementById("cont-1")->text()->setText("Hello World! It's new Text! Целью данной работы является создание класса «строка» и производных классов от него, а также разработка интерфейса для ввода начальных значений, отображения результатов и тестирования методов классов.");
+
+
+	Window::getElementById("cont-1")->append(new Container("cont-3", { "50px", "50px", "220px", "25px" }, "button"));
+
+	Window::getElementById("cont-1")->append(new Container("cont-name", { "49px", "290px", "100px", "27px" }, "project-name"));
+
+
+
+	Window::getElementById("cont-3")->text()->setText("Поиск в Visual Studio");
+	Window::getElementById("cont-name")->text()->setText("nia-framework");
+
+	Window::getElementById("cont-3")->addEventListener("click", lambda(Container* sender, Event* e)
+	{
+		sender->toggleClass("color-blue");
+	});
+
+
+	Styles* projName = new Styles(true);
+
+	projName->normal()->set("background-color", "#252526");
+	projName->hover()->set("background-color", "#252526");
+
+	projName->normal()->set("text", "#ffffff");
+	projName->hover()->set("text", "#ffffff");
+
+	projName->normal()->set("text-align", "center");
+	projName->hover()->set("text-align", "center");
+
+	projName->normal()->set("vertical-align", "center");
+	projName->hover()->set("vertical-align", "center");
+
+	projName->normal()->set("font-size", "12px");
+	projName->hover()->set("font-size", "12px");
+
+	projName->normal()->set("line-height", "1");
+	projName->hover()->set("line-height", "1");
+
+	Window::addStyle("project-name", projName);
+
+
+	Styles* colorBlue = new Styles();
+
+	colorBlue->normal()->set("text", "#007ACC");
+	colorBlue->hover()->set("text", "#007ACC");
+
+	Window::addStyle("color-blue", colorBlue);
+	
+
+
+	Styles* con3 = new Styles(true);
+
+	con3->normal()->set("background-color", "#333337");
+	con3->hover()->set("background-color", "#333337");
+
+	con3->normal()->set("text-color", "#999999");
+	con3->hover()->set("text-color", "#ffffff");
+
+	con3->normal()->set("border-color", "#3F3F46");
+	con3->hover()->set("border-color", "#007ACC");
+
+	//con1->normal()->set("margin-top", "50px");
+	//con3->normal()->set("margin-left", "50px");
+	//con3->normal()->set("vertical-align", "center");
+	/*raw->hover()->set("background-color", "#123456");*/
+
+	/*raw->normal()->set("text", "#ffffff");
+	raw->hover()->set("text", "#ffffff");*/
+
+	/*raw->normal()->set("line-height", "1.5");
+	raw->hover()->set("line-height", "1.7");*/
+
+
+	con3->normal()->set("text-align", "left");
+	con3->hover()->set("text-align", "left");
+
+	con3->normal()->set("margin-left", "6px");
+	con3->hover()->set("margin-left", "6px");
+	
+	con3->normal()->set("font-size", "13px");
+	con3->hover()->set("font-size", "13px");
+
+	con3->normal()->set("line-height", "1");
+	con3->hover()->set("line-height", "1");
+
+	con3->normal()->set("vertical-align", "center");
+	con3->hover()->set("vertical-align", "center");
+
+	/*con1->normal()->set("vertical-align", "center");
+	con1->hover()->set("vertical-align", "bottom");*/
+	//raw->hover()->set("font-size", "18px");
+
+
+	/*con3->normal()->set("radius", "7px");
+	con3->hover()->set("radius", "7px");*/
+
+	Window::addStyle("button", con3);
+
+
 
 
 	Styles* raw = new Styles(true);
 
-	/*raw->normal()->setColor("background", "#123456");
-	raw->hover()->setColor("background", "#123456");*/
+	/*raw->normal()->set("background-color", "#123456");
+	raw->hover()->set("background-color", "#123456");*/
 
-	/*raw->normal()->setColor("text", "#ffffff");
-	raw->hover()->setColor("text", "#ffffff");*/
+	/*raw->normal()->set("text", "#ffffff");
+	raw->hover()->set("text", "#ffffff");*/
 
-	/*raw->normal()->setTextStyle("line-height", "1.5");
-	raw->hover()->setTextStyle("line-height", "1.7");*/
+	/*raw->normal()->set("line-height", "1.5");
+	raw->hover()->set("line-height", "1.7");*/
 
-	raw->normal()->setColor("background", "#cccccc");
-	raw->hover()->setColor("background", "#dddddd");
+	raw->normal()->set("background-color", "#cccccc");
+	raw->hover()->set("background-color", "#dddddd");
 
-	raw->normal()->setColor("text", "#000000");
-	raw->hover()->setColor("text", "#000000");
+	raw->normal()->set("text-color", "#000000");
+	raw->hover()->set("text-color", "#000000");
 
 
-	raw->normal()->setTextStyle("text-align", "center");
-	raw->hover()->setTextStyle("text-align", "right");
+	raw->normal()->set("text-align", "center");
+	raw->hover()->set("text-align", "right");
 
-	raw->normal()->setTextStyle("vertical-align", "center");
-	raw->hover()->setTextStyle("vertical-align", "bottom");
+	raw->normal()->set("vertical-align", "center");
+	raw->hover()->set("vertical-align", "bottom");
 
-	raw->normal()->setTextStyle("margin-top", "50px");
+	raw->normal()->set("margin-top", "50px");
 
-	//raw->hover()->setTextStyle("font-size", "18px");
+	//raw->hover()->set("font-size", "18px");
 
 	Window::addStyle("hoverss", raw);
 
 
 	Styles* con1 = new Styles(true);
 
-	con1->normal()->setColor("background", "#cccccc");
-	con1->hover()->setColor("background", "#dddddd");
+	con1->normal()->set("background-color", "#2D2D30");
+	con1->hover()->set("background-color", "#2D2D30");
 
-	con1->normal()->setColor("text", "#000000");
-	con1->hover()->setColor("text", "#aaaaaa");
+	con1->normal()->set("text-color", "#ffffff");
+	con1->hover()->set("text-color", "#ffffff");
 	
-	//con1->normal()->setTextStyle("margin-top", "50px");
-	con1->normal()->setTextStyle("margin-left", "50px");
-	con1->normal()->setTextStyle("vertical-align", "center");
-	/*raw->hover()->setColor("background", "#123456");*/
+	//con1->normal()->set("margin-top", "50px");
+	con1->normal()->set("margin-left", "50px");
+	con1->normal()->set("vertical-align", "center");
+	/*raw->hover()->set("background-color", "#123456");*/
 
-	/*raw->normal()->setColor("text", "#ffffff");
-	raw->hover()->setColor("text", "#ffffff");*/
+	/*raw->normal()->set("text", "#ffffff");
+	raw->hover()->set("text", "#ffffff");*/
 
-	/*raw->normal()->setTextStyle("line-height", "1.5");
-	raw->hover()->setTextStyle("line-height", "1.7");*/
+	/*raw->normal()->set("line-height", "1.5");
+	raw->hover()->set("line-height", "1.7");*/
 
 
-	con1->normal()->setTextStyle("text-align", "left");
-	con1->hover()->setTextStyle("text-align", "left");
+	con1->normal()->set("text-align", "left");
+	con1->hover()->set("text-align", "left");
 
-	/*con1->normal()->setTextStyle("vertical-align", "center");
-	con1->hover()->setTextStyle("vertical-align", "bottom");*/
-	//raw->hover()->setTextStyle("font-size", "18px");
+	con1->normal()->set("radius", "20px");
+	con1->hover()->set("radius", "20px");
+	/*con1->normal()->set("vertical-align", "center");
+	con1->hover()->set("vertical-align", "bottom");*/
+	//raw->hover()->set("font-size", "18px");
 
 	Window::addStyle("con1", con1);
 
 /*
 	Styles* raw1 = new Styles();
 
-	raw->normal().setColor("border", "#654321");
+	raw->normal().set("border", "#654321");
 
 	raw->merge(raw1);*/
 

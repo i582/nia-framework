@@ -53,8 +53,12 @@ Container::Container(string id, Rect size, string classNames)
 
 	// text
 	Font::root("../nia-framework/fonts/");
-	this->_font = new Font("consolas");
+	this->_font = new Font("Lato-Regular");
 	this->_text = new Text(this, "Text", { 0,0,0,0 }, _font, 14, Color("#000000"));
+
+
+	// image
+	this->_image = nullptr;
 }
 
 Container::~Container()
@@ -92,12 +96,16 @@ Container* Container::removeClass(string className)
 
 	_classes.erase(_classes.begin() + indexStart, _classes.begin() + indexStart + className.length());
 
+
+	_window->handleStyles();
 	return this;
 }
 
 Container* Container::addClass(string className)
 {
 	_classes += " " + className;
+
+	_window->handleStyles();
 	return this;
 }
 
@@ -125,13 +133,13 @@ void Container::render()
 	if (!_display)
 		return;
 
-	/*SDL_SetRenderTarget(_renderer, _outerTexture);
+	SDL_SetRenderTarget(_renderer, _outerTexture);
 	SDL_SetRenderDrawColor(_renderer, 0xff, 0xff, 0xff, 0x00);
 	SDL_RenderClear(_renderer);
 
 	SDL_SetRenderTarget(_renderer, _texture);
 	SDL_SetRenderDrawColor(_renderer, 0xff, 0xff, 0xff, 0x00);
-	SDL_RenderClear(_renderer);*/
+	SDL_RenderClear(_renderer);
 
 
 	StyleState* styleState;
@@ -154,27 +162,33 @@ void Container::render()
 	}
 
 
-
-	Color _bk = styleState->getColor("background").color();
-	Color _br = styleState->getColor("border").color();
-
-	Uint8* background = (Uint8*)&_bk;
-	Uint8* border = (Uint8*)& _br;
-
 	SDL_SetRenderTarget(_renderer, _texture);
 
 
-	SDL_SetRenderDrawColor(_renderer, background[3], background[2], background[1], background[0]);
+	Color _bk = styleState->getColor("background-color");
+	Color _br = styleState->getColor("border-color");
+
+	int borderRadius = styleState->getInt("radius");
+
+
+	roundedBoxColor(_renderer, 0, 0, _innerSize.w() - 1, _innerSize.h() - 1, borderRadius, _bk.color());
+	roundedRectangleColor(_renderer, 0, 0, _innerSize.w() - 1, _innerSize.h() - 1, borderRadius, _br.color());
+
+	if (this->_image != nullptr)
+		this->_image->render();
+
+
+	/*SDL_SetRenderDrawColor(_renderer, background[3], background[2], background[1], background[0]);
 	SDL_RenderFillRect(_renderer, NULL);
 
 
 	SDL_SetRenderDrawColor(_renderer, border[3], border[2], border[1], border[0]);
-	SDL_RenderDrawRect(_renderer, NULL);
+	SDL_RenderDrawRect(_renderer, NULL);*/
 
 
 
 
-	_text->setColor(styleState->getColor("text"));
+	_text->setColor(styleState->getColor("text-color"));
 	_text->setFontSize(styleState->getInt("font-size"));
 	_text->setLineHeight(styleState->getDouble("line-height"));
 	_text->setTextAlign(styleState->getString("text-align"));
@@ -505,12 +519,27 @@ void Container::setupChildrenRenderer()
 	}
 }
 
+void Container::setupBackgroundImage()
+{
+	this->_image = new Image(this);
+	this->_image->setPath("../nia-framework/images/1.png");
+
+	this->_image->setImageSize({100, 100, 200, 200});
+
+	for (auto& child : _childs)
+	{
+		child->setupBackgroundImage();
+	}
+}
+
 void Container::setupContainer()
 {
 	setupChildrenRenderer();
 
 	computeSize();
 	computeChildrenSize();
+
+	setupBackgroundImage();
 }
 
 Container* const Container::parent()

@@ -3,6 +3,7 @@
 #include "../utils/rect.h"
 #include "../utils/draw.h"
 #include "../text/text.h"
+#include "../image/image.h"
 
 #include "../../container/scroll/scroll.h"
 
@@ -111,6 +112,12 @@ protected:
 	Text* _text;
 
 
+	/**
+	 * Background image part
+	 */
+	Image* _image;
+
+
 public:
 	Container(string id, Rect size, string classNames);
 	~Container();
@@ -160,7 +167,7 @@ public:
 	void computeSize();
 	void computeChildrenSize();
 	void setupChildrenRenderer();
-	
+	void setupBackgroundImage();
 
 	/**
 	 * @brief Function to configure the container and all its childs

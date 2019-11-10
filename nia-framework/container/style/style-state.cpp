@@ -2,75 +2,66 @@
 
 StyleState::StyleState()
 {
-	colors["background"] = "none";
-	colors["border"] = "none";
-	colors["text"] = "none";
+	styles["background-color"] = "none";
+	styles["border-color"] = "none";
+	styles["text-color"] = "none";
 
-	text["font-family"] = "none";
-	text["font-size"] = "none";
+	styles["font-family"] = "none";
+	styles["font-size"] = "none";
 	
-	text["line-height"] = "none";
-	text["text-align"] = "none";
+	styles["line-height"] = "none";
+	styles["text-align"] = "none";
 
-	text["vertical-align"] = "none";
-	text["horizontal-align"] = "none";
+	styles["vertical-align"] = "none";
+	styles["horizontal-align"] = "none";
 
-	text["margin-top"] = "none";
-	text["margin-bottom"] = "none";
+	styles["margin-top"] = "none";
+	styles["margin-bottom"] = "none";
 
-	text["margin-left"] = "none";
-	text["margin-right"] = "none";
+	styles["margin-left"] = "none";
+	styles["margin-right"] = "none";
+
+
+	styles["radius"] = "none";
 }
 
 StyleState::StyleState(bool generalSetup)
 {
-	colors["background"] = "#ffffff";
-	colors["border"] = "#ffffff00";
-	colors["text"] = "#000000";
+	styles["background-color"] = "#ffffff";
+	styles["border-color"] = "#ffffff00";
+	styles["text-color"] = "#000000";
 
-	text["font-family"] = "consolas";
-	text["font-size"] = "14px";
+	styles["font-family"] = "consolas";
+	styles["font-size"] = "14px";
 
-	text["line-height"] = "1.2";
-	text["text-align"] = "left";
+	styles["line-height"] = "1.2";
+	styles["text-align"] = "left";
 
-	text["vertical-align"] = "top";
-	text["horizontal-align"] = "left";
+	styles["vertical-align"] = "top";
+	styles["horizontal-align"] = "left";
 
-	text["margin-top"] = "0px";
-	text["margin-bottom"] = "0px";
+	styles["margin-top"] = "0px";
+	styles["margin-bottom"] = "0px";
 
-	text["margin-left"] = "0px";
-	text["margin-right"] = "0px";
+	styles["margin-left"] = "0px";
+	styles["margin-right"] = "0px";
+
+	styles["radius"] = "0px";
 }
 
-StyleState* StyleState::setColor(string key, string value)
+StyleState* StyleState::set(string key, string value)
 {
-	colors[key] = value;
+	styles[key] = value;
 	return this;
 }
 
-StyleState* StyleState::setTextStyle(string key, string value)
+StyleState* StyleState::merge(StyleState* styleState)
 {
-	text[key] = value;
-	return this;
-}
-
-StyleState* StyleState::merge(StyleState* style)
-{
-	for (auto& color : colors)
+	for (auto& style : styles)
 	{
-		if (color.second != "none")
+		if (style.second != "none")
 		{
-			style->colors[color.first] = color.second;
-		}
-	}
-
-	for (auto& textStyle : text)
-	{
-		if (textStyle.second != "none")
-		{
-			style->text[textStyle.first] = textStyle.second;
+			styleState->styles[style.first] = style.second;
 		}
 	}
 
@@ -81,15 +72,19 @@ int StyleState::getInt(string key)
 {
 	if (key == "font-size" || key == "margin-top" || key == "margin-bottom" || key == "margin-left" || key == "margin-right")
 	{
-		return std::stoi(text[key]);
+		return std::stoi(styles[key]);
+	}
+	else if (key == "radius")
+	{
+		return std::stoi(styles[key]);
 	}
 }
-
+	
 double StyleState::getDouble(string key)
 {
 	if (key == "line-height")
 	{
-		return std::stod(text[key]);
+		return std::stod(styles[key]);
 	}
 }
 
@@ -97,7 +92,7 @@ string StyleState::getString(string key)
 {
 	if (key == "font-family" || key == "text-align" || key == "vertical-align" || key == "horizontal-align")
 	{
-		return text[key];
+		return styles[key];
 	}
 }
 
@@ -105,6 +100,6 @@ Color StyleState::getColor(string key)
 {
 	if (key == "background" || key == "border" || key == "text")
 	{
-		return Color(colors[key]);
+		return Color(styles[key]);
 	}
 }

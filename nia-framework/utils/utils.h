@@ -42,6 +42,14 @@ namespace Utils
 	vector<string>* split(string str, string pattern, char separator = '\t');
 
 
+	/**
+	 * @brief Check string for number
+	 * @param str String for check
+	 * @return true|false
+	 */
+	bool is_integer(string str);
+
+
 
 	int SDL_SetRenderColor(SDL_Renderer* renderer, SDL_Color color);
 }

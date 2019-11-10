@@ -87,7 +87,13 @@ void Text::splitByLines()
 		
 	}
 
+	if (!tempLine.empty())
+	{
+		lines.push_back(tempLine);
+		tempLine.clear();
 
+		textBlockHeight += th + (lineHeight * fontSize) - fontSize;
+	}
 
 	splitted = true;
 }
