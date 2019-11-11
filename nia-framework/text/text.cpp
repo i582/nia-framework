@@ -130,6 +130,9 @@ void Text::renderLines()
 	{
 		SDL_Surface* textSurface = TTF_RenderUTF8_Blended(ttf_font, line.c_str(), color.colorSDL());
 
+		if (textSurface == nullptr)
+			continue;
+
 		if (textAlign == TextAlign::LEFT)
 		{
 			textRect.x = 0;

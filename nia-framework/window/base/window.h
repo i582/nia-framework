@@ -12,6 +12,8 @@
 
 #include "..//..//text/text.h"
 
+#include "../../css/css_parse.h"
+
 using std::string;
 using std::cout;
 using std::endl;
@@ -87,5 +89,17 @@ private:
 	 */
 public:
 	friend Container;
+
+
+protected:
+	bool wasSetupContainer;
+	bool wasSetupStyle;
+
+
+protected:
+	/**
+	 *  @brief Function for include css style file;
+	 */
+	void include(string path);
 
 };

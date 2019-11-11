@@ -29,7 +29,7 @@ public:
 	vector <Window*> windows;
 
 public:
-	Window* addWindow(string title, Rect size, string id);
+	Window* addWindow(Window* win);
 
 
 private:

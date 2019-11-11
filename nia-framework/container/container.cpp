@@ -54,7 +54,7 @@ Container::Container(string id, Rect size, string classNames)
 	// text
 	Font::root("../nia-framework/fonts/");
 	this->_font = new Font("Lato-Regular");
-	this->_text = new Text(this, "Text", { 0,0,0,0 }, _font, 14, Color("#000000"));
+	this->_text = new Text(this, "", { 0,0,0,0 }, _font, 14, Color("#000000"));
 
 
 	// image
@@ -172,7 +172,7 @@ void Container::render()
 
 
 	roundedBoxColor(_renderer, 0, 0, _innerSize.w() - 1, _innerSize.h() - 1, borderRadius, _bk.color());
-	roundedRectangleColor(_renderer, 0, 0, _innerSize.w() - 1, _innerSize.h() - 1, borderRadius, _br.color());
+	roundedRectangleColor(_renderer, 0, 0, _innerSize.w(), _innerSize.h(), borderRadius, _br.color());
 
 	/*if (this->_image != nullptr)
 		this->_image->render();*/

@@ -92,6 +92,9 @@ Window::Window(string title, Rect size)
 	this->display = true;
 
 	
+	this->wasSetupContainer = false;
+	this->wasSetupStyle = false;
+
 
 	this->init();
 	this->generalSetup();
@@ -171,24 +174,8 @@ SDL_Window* Window::getWindow()
 	return window;
 }
 
-//Object* Window::addObject(Object* obj)
-//{
-//	if (obj == nullptr)
-//		return nullptr;
-//
-//	string objectId = obj->_id;
-//
-//	if (containers.find(objectId) != containers.end())
-//	{
-//		cout << "Ёлемент с id = " << objectId << " уже существует!" << endl;
-//		return nullptr;
-//	}
-//	else
-//	{
-//		containers.insert(make_pair(objectId, obj));
-//	}
-//
-//	update();
-//
-//	return obj;
-//}
+void Window::include(string path)
+{
+	CssParse parse(path);
+	Window::__containersStyles = parse.getReadyStyles();
+}

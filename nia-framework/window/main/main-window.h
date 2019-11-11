@@ -6,17 +6,14 @@
 
 class MainWindow : public Window
 {
+public:
+	MainWindow(string title, Rect size) : Window(title, size) {};
+
+public:
+	virtual void setup() = 0;
+
 private:
-
-
-public:
-	MainWindow(string title, Rect size) : Window(title, size) { setup(); };
-
-public:
-	virtual void setup();
 	virtual void update();
-
-
 	virtual void onEvent(SDL_Event* e);
 
 private:

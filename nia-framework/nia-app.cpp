@@ -11,9 +11,9 @@ NApp* NApp::createApp()
 	return instance;
 }
 
-Window* NApp::addWindow(string title, Rect size, string id)
+Window* NApp::addWindow(Window* win)
 {
-	windows.push_back(new MainWindow(title, size));
+	windows.push_back(win);
 
 	update();
 

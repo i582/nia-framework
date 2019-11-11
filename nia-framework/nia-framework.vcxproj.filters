@@ -132,6 +132,9 @@
     <ClInclude Include="css\css_parse.h">
       <Filter>Исходные файлы\css</Filter>
     </ClInclude>
+    <ClInclude Include="window\main\mwindow.h">
+      <Filter>Исходные файлы\window\base\main</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="nia-app.cpp">
@@ -203,14 +206,17 @@
     <ClCompile Include="container\style\style-state.cpp">
       <Filter>Исходные файлы\container\style</Filter>
     </ClCompile>
-    <ClCompile Include="utils\simple-rect.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
     <ClCompile Include="image\image.cpp">
       <Filter>Исходные файлы\image</Filter>
     </ClCompile>
     <ClCompile Include="css\css_parse.cpp">
       <Filter>Исходные файлы\css</Filter>
+    </ClCompile>
+    <ClCompile Include="utils\simple-rect.cpp">
+      <Filter>Исходные файлы\utils</Filter>
+    </ClCompile>
+    <ClCompile Include="window\main\mwindow.cpp">
+      <Filter>Исходные файлы\window\base\main</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

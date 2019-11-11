@@ -157,6 +157,7 @@
     <ClInclude Include="utils\utils.h" />
     <ClInclude Include="window\base\window.h" />
     <ClInclude Include="window\main\main-window.h" />
+    <ClInclude Include="window\main\mwindow.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="C:\SDL2\SDL2_gfx\SDL2_gfxPrimitives.c" />
@@ -185,6 +186,7 @@
     <ClCompile Include="utils\utils.cpp" />
     <ClCompile Include="window\base\window.cpp" />
     <ClCompile Include="window\main\main-window.cpp" />
+    <ClCompile Include="window\main\mwindow.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

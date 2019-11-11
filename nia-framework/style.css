@@ -1,35 +1,28 @@
 .container
 {
-    background-color: #ffffff;     
-    font-size: 20px;   
-    vertical-align: top;
-
-    border-color: #111111;
-    line-height: 1.1;
-
-    margin-top: 20px;
-    margin-left: 23px;
+    background-color: #333337;
 }    
 
 
 .container:hover
 {
-    background-color: #cccccc;
-    color: #ffffff;
-
-    font-size: 25px;
+  
 }
 
 .container:active
 {
-    margin-left: 23px;
-
-    color: #000000;
+  
 }
 
 
 .search-block
 {
+    width: 220px;
+    height: 25px;
+
+    top: 50px;
+    left: 50px;
+
     background-color: #333337;
     color: #999999;
 
@@ -46,4 +39,15 @@
 {
     color: #ffffff;
     border-color: #007ACC;
+}
+
+
+.tooltip {
+    background-color: #F1F2F7;
+    border-color: #767676;
+    color: #111111;
+    font-size: 13px;
+    line-height: 1;
+    vertical-align: center;
+    text-align: center;
 }
