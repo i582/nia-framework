@@ -1,17 +1,45 @@
 #include "css_parse.h"
+#include "css.h"
 
-CssParse::CssParse(string filePath)
+
+CSS::css_parser::css_parser(string filePath, CSS::css* cssPlace)
 {
+	if (cssPlace == nullptr)
+	{
+		cout << "ERROR: cssPlace is nullptr" << endl;
+		return;
+	}
+
+	this->cssPlace = cssPlace;
 	this->filePath = filePath;
 
 	openFile();
+}
+
+CSS::css_parser::css_parser(string code, bool isCode, CSS::css* cssPlace)
+{
+	if (cssPlace == nullptr)
+	{
+		cout << "ERROR: cssPlace is nullptr" << endl;
+		return;
+	}
+
+	this->cssPlace = cssPlace;
+	this->code = code;
+
+	deleteSpaceInCode();
+}
+
+void CSS::css_parser::parse()
+{
 	splitByToken();
 	splitByBlock();
 	syntaxParse();
 	mergeStyleComponent();
+	updateCSS();
 }
 
-void CssParse::openFile()
+void CSS::css_parser::openFile()
 {
 	file = fopen(filePath.c_str(), "r");
 
@@ -30,7 +58,7 @@ void CssParse::openFile()
 	std::cout << code << std::endl;
 }
 
-void CssParse::deleteExcess()
+void CSS::css_parser::deleteExcess()
 {
 	char symbol = -1;
 
@@ -65,12 +93,27 @@ void CssParse::deleteExcess()
 	}
 }
 
-bool CssParse::isSplitSymbol(char symbol)
+void CSS::css_parser::deleteSpaceInCode()
+{
+	string newCode;
+
+	for (auto& symbol : code)
+	{
+		if (symbol != ' ')
+		{
+			newCode += symbol;
+		}
+	}
+
+	code = newCode;
+}
+
+bool CSS::css_parser::isSplitSymbol(char symbol)
 {
 	return symbol == ':' || symbol == '.' || symbol == '#' || symbol == ';' || symbol == '{' || symbol == '}';
 }
 
-TokenType CssParse::whatIsToken(string token)
+CSS::TokenType CSS::css_parser::whatIsToken(string token)
 {
 	if (token == ".")
 	{
@@ -102,7 +145,7 @@ TokenType CssParse::whatIsToken(string token)
 	}
 }
 
-void CssParse::splitByBlock()
+void CSS::css_parser::splitByBlock()
 {
 	vector<string> tempBlock;
 
@@ -123,7 +166,7 @@ void CssParse::splitByBlock()
 
 }
 
-void CssParse::splitByToken()
+void CSS::css_parser::splitByToken()
 {
 	string tempToken;
 
@@ -169,14 +212,13 @@ void CssParse::splitByToken()
 
 }
 
-void CssParse::syntaxParseOneBlock(vector<string>& block)
+void CSS::css_parser::syntaxParseOneBlock(vector<string>& block)
 {
 	State nowState = State::START_PARSE;
 
 	int countAttributesWithoutValue = 0;
 
-	Styles* style = new Styles();
-	StyleState styleState;
+	
 
 	string idOrClassName;
 
@@ -184,6 +226,12 @@ void CssParse::syntaxParseOneBlock(vector<string>& block)
 	string value;
 	string pseudo;
 
+
+	css_block block_css;
+	css_block_state block_css_state(true);
+
+
+	
 
 	for (auto& token : block)
 	{
@@ -254,8 +302,10 @@ void CssParse::syntaxParseOneBlock(vector<string>& block)
 				value = '#' + value;
 			}
 
-			styleState.set(attribute, value);
 
+			block_css_state.set(attribute, CSS::css_attribute::get(attribute, value));
+
+		
 			nowState = State::NEXT_TOKEN_IS_ATTRIBUTE;
 			break;
 		}
@@ -263,6 +313,8 @@ void CssParse::syntaxParseOneBlock(vector<string>& block)
 		case TokenType::LBRA:
 		{
 			nowState = State::NEXT_TOKEN_IS_ATTRIBUTE;
+
+			block_css.name(idOrClassName);
 
 			cout << "Start block" << endl;
 			break;
@@ -274,30 +326,32 @@ void CssParse::syntaxParseOneBlock(vector<string>& block)
 
 			cout << "End block" << endl;
 
-
+			
 			// create style set
+
+			//int cl22 = std::get<int>(datas["margin-left"]);
 
 			if (pseudo == "hover")
 			{
-				style->_hover = styleState;
+				block_css.hover(block_css_state);
 			}
 			else if (pseudo == "active")
 			{
-				style->_active = styleState;
+				block_css.active(block_css_state);
 			}
 			else
 			{
-				style->_normal = styleState;
+				block_css.normal(block_css_state);
 			}
 
-			if (resultStyles.find(idOrClassName) != resultStyles.end())
+			if (css_blocks.find(idOrClassName) != css_blocks.end())
 			{
-				style->mergeTo(resultStyles[idOrClassName]);
+				css_blocks[idOrClassName].mergeWith(block_css);
 
 			}
 			else
 			{
-				resultStyles.insert(std::make_pair(idOrClassName, style));
+				css_blocks.insert(std::make_pair(idOrClassName, block_css));
 			}
 
 			break;
@@ -387,10 +441,10 @@ void CssParse::syntaxParseOneBlock(vector<string>& block)
 
 	}
 
-
+	
 }
 
-void CssParse::syntaxParse()
+void CSS::css_parser::syntaxParse()
 {
 	for (auto& block : blocks)
 	{
@@ -398,16 +452,23 @@ void CssParse::syntaxParse()
 	}
 }
 
-void CssParse::mergeStyleComponent()
+void CSS::css_parser::mergeStyleComponent()
 {
-	for (auto& style : resultStyles)
+	for (auto& block : css_blocks)
 	{
-		style.second->_hover.mergeWith(style.second->_normal);
-		style.second->_active.mergeWith(style.second->_hover);
+		block.second.hover().mergeWithBaseIs(block.second.normal());
+		block.second.active().mergeWithBaseIs(block.second.hover());
 	}
 }
-
-map<string, Styles*> CssParse::getReadyStyles()
+void CSS::css_parser::updateCSS()
 {
-	return resultStyles;
+	for (auto& block : css_blocks)
+	{
+		cssPlace->add(block.second);
+	}
 }
+//
+//map<string, Styles*> CSS::css_parser::getReadyStyles()
+//{
+//	return resultStyles;
+//}

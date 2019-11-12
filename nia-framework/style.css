@@ -41,6 +41,11 @@
     border-color: #007ACC;
 }
 
+.search-block:active {
+    color: #ff00ff;
+    border-color: #007ACC;
+}
+
 
 .tooltip {
     background-color: #F1F2F7;

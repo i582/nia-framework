@@ -3,12 +3,17 @@
 #include "iostream"
 #include "string"
 #include "vector"
+#include "map"
 
-#include "../utils/utils.h"
-#include "../container/style/styles.h"
+
+#include "css-attributes.h"
+
+namespace CSS
+{
 
 using std::string;
 using std::vector;
+using std::map;
 
 using std::cout;
 using std::endl;
@@ -45,8 +50,11 @@ enum State
 	START_PARSE
 };
 
+class css;
 
-class CssParse
+class css_block;
+
+class css_parser
 {
 private:
 	string filePath;
@@ -58,18 +66,25 @@ private:
 
 	vector< vector<string> > blocks;
 
-	vector<Styles*> styles;
+	map <string, CSS::css_block> css_blocks;
 
-	map < string, Styles* > resultStyles;
+	CSS::css* cssPlace;
+
+	//vector<Styles*> styles;
+
+	//map < string, Styles* > resultStyles;
 
 public:
-	CssParse(string filePath);
+	css_parser(string filePath, CSS::css* cssPlace);
+	css_parser(string code, bool isCode, CSS::css* cssPlace);
 
+public:
+	void parse();
 
 private:
 	void openFile();
 	void deleteExcess();
-
+	void deleteSpaceInCode();
 
 private:
 	bool isSplitSymbol(char symbol);
@@ -86,7 +101,11 @@ private:
 
 	void mergeStyleComponent();
 
+	void updateCSS();
+
 public:
-	map < string, Styles* > getReadyStyles();
+	//map < string, Styles* > getReadyStyles();
 
 };
+
+}
