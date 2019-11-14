@@ -11,7 +11,7 @@
 
 #include "container-header.h"
 
-#include "style/styles.h"
+#include "..//css/css_block.h"
 
 
 class Window;
@@ -91,7 +91,7 @@ protected:
 	/**
 	 * Styles part
 	 */
-	Styles _style;
+	CSS::css_block _cssBlock;
 
 	/**
 	 * Scroll part
@@ -158,7 +158,7 @@ public:
 	/**
 	 * @brief Return pointer to container style, for updating in Window::handleStyles;
 	 */
-	Styles* styles();
+	CSS::css_block& styles();
 
 public:
 	/**
@@ -287,5 +287,7 @@ public:
 
 public:
 	Text* text();
+
+
 };
 

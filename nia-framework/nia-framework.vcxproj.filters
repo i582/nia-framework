@@ -28,9 +28,6 @@
     <Filter Include="Исходные файлы\window\base\main">
       <UniqueIdentifier>{af6808e5-ea52-4d6f-aef8-45b33ddebf85}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Исходные файлы\container\style">
-      <UniqueIdentifier>{9489e017-1d14-41ad-8779-531fc101357c}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Исходные файлы\container\main">
       <UniqueIdentifier>{cd6426da-3d65-4942-92ea-052a9097f673}</UniqueIdentifier>
     </Filter>
@@ -114,26 +111,29 @@
     <ClInclude Include="container\scroll\scroll.h">
       <Filter>Исходные файлы\container\scroll</Filter>
     </ClInclude>
-    <ClInclude Include="container\style\styles.h">
-      <Filter>Исходные файлы\container\style</Filter>
-    </ClInclude>
-    <ClInclude Include="container\style\style-state.h">
-      <Filter>Исходные файлы\container\style</Filter>
-    </ClInclude>
     <ClInclude Include="utils\simple-rect.h">
       <Filter>Исходные файлы\utils</Filter>
     </ClInclude>
     <ClInclude Include="image\image.h">
       <Filter>Исходные файлы\image</Filter>
     </ClInclude>
+    <ClInclude Include="window\main\mwindow.h">
+      <Filter>Исходные файлы\window\base\main</Filter>
+    </ClInclude>
     <ClInclude Include="css\css.h">
+      <Filter>Исходные файлы\css</Filter>
+    </ClInclude>
+    <ClInclude Include="css\css_block.h">
+      <Filter>Исходные файлы\css</Filter>
+    </ClInclude>
+    <ClInclude Include="css\css_block_state.h">
       <Filter>Исходные файлы\css</Filter>
     </ClInclude>
     <ClInclude Include="css\css_parse.h">
       <Filter>Исходные файлы\css</Filter>
     </ClInclude>
-    <ClInclude Include="window\main\mwindow.h">
-      <Filter>Исходные файлы\window\base\main</Filter>
+    <ClInclude Include="css\css-attributes.h">
+      <Filter>Исходные файлы\css</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -200,23 +200,29 @@
     <ClCompile Include="text\text.cpp">
       <Filter>Исходные файлы\text</Filter>
     </ClCompile>
-    <ClCompile Include="container\style\styles.cpp">
-      <Filter>Исходные файлы\container\style</Filter>
-    </ClCompile>
-    <ClCompile Include="container\style\style-state.cpp">
-      <Filter>Исходные файлы\container\style</Filter>
-    </ClCompile>
     <ClCompile Include="image\image.cpp">
       <Filter>Исходные файлы\image</Filter>
-    </ClCompile>
-    <ClCompile Include="css\css_parse.cpp">
-      <Filter>Исходные файлы\css</Filter>
     </ClCompile>
     <ClCompile Include="utils\simple-rect.cpp">
       <Filter>Исходные файлы\utils</Filter>
     </ClCompile>
     <ClCompile Include="window\main\mwindow.cpp">
       <Filter>Исходные файлы\window\base\main</Filter>
+    </ClCompile>
+    <ClCompile Include="css\css.cpp">
+      <Filter>Исходные файлы\css</Filter>
+    </ClCompile>
+    <ClCompile Include="css\css_block.cpp">
+      <Filter>Исходные файлы\css</Filter>
+    </ClCompile>
+    <ClCompile Include="css\css_block_state.cpp">
+      <Filter>Исходные файлы\css</Filter>
+    </ClCompile>
+    <ClCompile Include="css\css_parse.cpp">
+      <Filter>Исходные файлы\css</Filter>
+    </ClCompile>
+    <ClCompile Include="css\css-attributes.cpp">
+      <Filter>Исходные файлы\css</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

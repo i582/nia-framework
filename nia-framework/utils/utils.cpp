@@ -27,6 +27,57 @@ int Utils::parseString(const string &str, int parentValue)
 	return result;
 }
 
+int Utils::parseExpression(const string& str, int parentValue)
+{
+	int result = -1;
+
+	int findPlus = -1;
+	int findMinus = -1;
+
+	if ((findMinus = str.find("-")) != -1 || (findPlus = str.find("+")) != -1)
+	{
+		vector <string>* expression = nullptr;
+
+		if (findPlus != -1)
+		{
+			expression = Utils::split(str, '+');
+		}
+		else if (findMinus != -1)
+		{
+			expression = Utils::split(str, '-');
+		}
+
+		
+		if (expression->size() != 2)
+		{
+			std::cout << "ERROR: Wrong expression (" << str << ")" << std::endl;
+			return -1;
+		}
+
+		int first = parseString(expression->at(0), parentValue);
+		int second = parseString(expression->at(1), parentValue);
+
+		if (findPlus != -1)
+		{
+			result = first + second;
+		}
+		else if (findMinus != -1)
+		{
+			result = first - second;
+		}
+
+		delete expression;
+
+		return result;
+	}
+	else
+	{
+		result = parseString(str, parentValue);
+	}
+
+	return result;
+}
+
 
 
 vector<string>* Utils::split(string str, char symbol)

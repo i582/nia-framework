@@ -93,7 +93,7 @@ public:
 	void setSize(Rect size);
 	void setFont(Font* font);
 	void setFontSize(size_t fontSize);
-	void setColor(Color color);
+	void setColor(Color* color);
 	void setLineHeight(double lineHeight);
 	void setTextAlign(string align);
 	void setTextBlockVerticalAlign(string align);

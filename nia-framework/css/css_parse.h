@@ -1,10 +1,5 @@
 #pragma once
 
-#include "iostream"
-#include "string"
-#include "vector"
-#include "map"
-
 
 #include "css-attributes.h"
 
@@ -54,10 +49,12 @@ class css;
 
 class css_block;
 
+class css_block_state;
+
 class css_parser
 {
 private:
-	string filePath;
+	string file_path;
 
 	FILE* file;
 	string code;
@@ -68,15 +65,11 @@ private:
 
 	map <string, CSS::css_block> css_blocks;
 
-	CSS::css* cssPlace;
-
-	//vector<Styles*> styles;
-
-	//map < string, Styles* > resultStyles;
+	CSS::css* css_parent;
 
 public:
-	css_parser(string filePath, CSS::css* cssPlace);
-	css_parser(string code, bool isCode, CSS::css* cssPlace);
+	css_parser(string file_path, CSS::css* css_parent);
+	css_parser(string code, bool isCode, CSS::css* css_parent);
 
 public:
 	void parse();
@@ -93,19 +86,13 @@ private:
 private:
 	void splitByBlock();
 	void splitByToken();
-
 	void syntaxParseOneBlock(vector<string>& block);
-
-
 	void syntaxParse();
-
 	void mergeStyleComponent();
-
 	void updateCSS();
 
-public:
-	//map < string, Styles* > getReadyStyles();
 
+	void syntaxParseIfComplexValue(string attribute, string value, CSS::css_block_state* block_state);
 };
 
 }

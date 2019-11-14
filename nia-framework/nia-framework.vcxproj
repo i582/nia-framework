@@ -136,9 +136,10 @@
     <ClInclude Include="container\containers\containers.h" />
     <ClInclude Include="container\main\MainContainer.h" />
     <ClInclude Include="container\scroll\scroll.h" />
-    <ClInclude Include="container\style\style-state.h" />
-    <ClInclude Include="container\style\styles.h" />
+    <ClInclude Include="css\css-attributes.h" />
     <ClInclude Include="css\css.h" />
+    <ClInclude Include="css\css_block.h" />
+    <ClInclude Include="css\css_block_state.h" />
     <ClInclude Include="css\css_parse.h" />
     <ClInclude Include="font\font.h" />
     <ClInclude Include="font\fonts.h" />
@@ -166,8 +167,10 @@
     <ClCompile Include="container\containers\containers.cpp" />
     <ClCompile Include="container\main\MainContainer.cpp" />
     <ClCompile Include="container\scroll\scroll.cpp" />
-    <ClCompile Include="container\style\style-state.cpp" />
-    <ClCompile Include="container\style\styles.cpp" />
+    <ClCompile Include="css\css-attributes.cpp" />
+    <ClCompile Include="css\css.cpp" />
+    <ClCompile Include="css\css_block.cpp" />
+    <ClCompile Include="css\css_block_state.cpp" />
     <ClCompile Include="css\css_parse.cpp" />
     <ClCompile Include="font\font.cpp" />
     <ClCompile Include="font\fonts.cpp" />

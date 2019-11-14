@@ -2,29 +2,29 @@
 #include "css.h"
 
 
-CSS::css_parser::css_parser(string filePath, CSS::css* cssPlace)
+CSS::css_parser::css_parser(string file_path, CSS::css* css_parent)
 {
-	if (cssPlace == nullptr)
+	if (css_parent == nullptr)
 	{
-		cout << "ERROR: cssPlace is nullptr" << endl;
+		cout << "ERROR: css_parent is nullptr" << endl;
 		return;
 	}
 
-	this->cssPlace = cssPlace;
-	this->filePath = filePath;
+	this->css_parent = css_parent;
+	this->file_path = file_path;
 
 	openFile();
 }
 
-CSS::css_parser::css_parser(string code, bool isCode, CSS::css* cssPlace)
+CSS::css_parser::css_parser(string code, bool isCode, CSS::css* css_parent)
 {
-	if (cssPlace == nullptr)
+	if (css_parent == nullptr)
 	{
-		cout << "ERROR: cssPlace is nullptr" << endl;
+		cout << "ERROR: css_parent is nullptr" << endl;
 		return;
 	}
 
-	this->cssPlace = cssPlace;
+	this->css_parent = css_parent;
 	this->code = code;
 
 	deleteSpaceInCode();
@@ -41,7 +41,7 @@ void CSS::css_parser::parse()
 
 void CSS::css_parser::openFile()
 {
-	file = fopen(filePath.c_str(), "r");
+	file = fopen(file_path.c_str(), "r");
 
 	while (1)
 	{
@@ -228,7 +228,7 @@ void CSS::css_parser::syntaxParseOneBlock(vector<string>& block)
 
 
 	css_block block_css;
-	css_block_state block_css_state(true);
+	css_block_state block_css_state;
 
 
 	
@@ -283,9 +283,11 @@ void CSS::css_parser::syntaxParseOneBlock(vector<string>& block)
 			else
 			{
 				nowState = State::NEXT_TOKEN_IS_VALUE;
+				value.clear();
 			}
 
 			
+
 			break;
 		}
 
@@ -302,6 +304,8 @@ void CSS::css_parser::syntaxParseOneBlock(vector<string>& block)
 				value = '#' + value;
 			}
 
+
+			syntaxParseIfComplexValue(attribute, value, &block_css_state);
 
 			block_css_state.set(attribute, CSS::css_attribute::get(attribute, value));
 
@@ -397,12 +401,19 @@ void CSS::css_parser::syntaxParseOneBlock(vector<string>& block)
 
 			case NEXT_TOKEN_IS_VALUE:
 			{
-				countAttributesWithoutValue--;
-
 				cout << "This token is VALUE: " << token << endl;
 
-				value.clear();
-				value = token;
+				if (!value.empty())
+				{
+					value += ' ' + token;
+				}
+				else
+				{
+					countAttributesWithoutValue--;
+					value = token;
+				}
+
+				
 
 				break;
 			}
@@ -464,11 +475,52 @@ void CSS::css_parser::updateCSS()
 {
 	for (auto& block : css_blocks)
 	{
-		cssPlace->add(block.second);
+		CSS::css_block block_raw(block.second.name(), true);
+
+		block_raw.mergeWith(block.second);
+
+		css_parent->add(block_raw);
 	}
 }
-//
-//map<string, Styles*> CSS::css_parser::getReadyStyles()
-//{
-//	return resultStyles;
-//}
+
+void CSS::css_parser::syntaxParseIfComplexValue(string attribute, string value, CSS::css_block_state* block)
+{
+	if (block == nullptr)
+		return;
+
+	if (attribute == "border-top" || attribute == "border-bottom" ||
+		attribute == "border-left" || attribute == "border-right")
+	{
+
+		value.replace(value.find("px"), 2, " ");
+
+		vector <string>* tokens = Utils::split(value, ' ');
+		if (tokens->size() != 3)
+		{
+			cout << "ERROR: attribute " << attribute << " must have 3 values, but only " 
+				 << tokens->size() << " passed! Value: " << value << endl;
+			return;
+		}
+
+		int border_size = Utils::to_integer(tokens->at(0));
+		string border_type = tokens->at(1);
+
+		if (border_type != "solid")
+		{
+			cout << "ERROR: border type " << border_type << " not found! Set to solid" << endl;
+			border_type = "solid";
+		}
+
+		Color border_color("#" + tokens->at(2));
+
+
+		block->set(attribute + "-size", border_size);
+		block->set(attribute + "-type", border_type);
+		block->set(attribute + "-color", border_color);
+
+		return;
+	}
+
+
+
+}

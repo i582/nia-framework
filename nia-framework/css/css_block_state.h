@@ -1,11 +1,5 @@
 #pragma once
 
-#include "../utils/color.h"
-
-#include "string"
-#include "map"
-
-#include "variant"
 #include "css-attributes.h"
 
 namespace CSS

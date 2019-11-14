@@ -5,7 +5,13 @@ CSS::css::css()
 	this->parser = nullptr;
 }
 
-CSS::css::css(string code)
+CSS::css::css(string path)
+{
+	this->parser = new css_parser(path, this);
+	parse();
+}
+
+CSS::css::css(string code, bool isCode)
 {
 	this->parser = new css_parser(code, true, this);
 	parse();
@@ -18,6 +24,7 @@ CSS::css::~css()
 
 void CSS::css::open(string path)
 {
+	delete parser;
 	this->parser = new css_parser(path, this);
 	parse();
 }
@@ -60,8 +67,7 @@ void CSS::css::set_code(string code)
 	this->parser = new css_parser(code, true, this);
 }
 
-void CSS::css::set_path(string path)
+CSS::map<string, CSS::css_block>& CSS::css::getStyles()
 {
-	delete parser;
-	this->parser = new css_parser(path, this);
+	return blocks;
 }

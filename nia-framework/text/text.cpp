@@ -257,12 +257,12 @@ void Text::setFontSize(size_t fontSize)
 	this->needReRender = true;
 }
 
-void Text::setColor(Color color)
+void Text::setColor(Color* color)
 {
-	if (this->color == color)
+	if (this->color == *color)
 		return;
 
-	this->color = color;
+	this->color = *color;
 
 	this->needReRender = true;
 }

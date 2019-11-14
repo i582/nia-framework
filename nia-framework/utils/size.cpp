@@ -81,11 +81,11 @@ Size::Size(string width, string height) : width(width), height(height), isCalcul
 
 Size Size::calc(const Rect& parent)
 {
-	if (isCalculated)
-		return *this;
+	/*if (isCalculated)
+		return *this;*/
 
-	this->_w = Utils::parseString(width, parent.size._w);
-	this->_h = Utils::parseString(height, parent.size._h);
+	this->_w = Utils::parseExpression(width, parent.size._w);
+	this->_h = Utils::parseExpression(height, parent.size._h);
 
 	this->isCalculated = true;
 

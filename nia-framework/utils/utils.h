@@ -2,6 +2,8 @@
 
 #include "SDL.h"
 
+#include "iostream"
+
 #include "string"
 #include "vector"
 
@@ -20,6 +22,8 @@ namespace Utils
 	 * @return Calculated value or -1 if error
 	 */
 	int parseString(const string& str, int parentValue);
+
+	int parseExpression(const string& str, int parentValue);
 
 
 	/**

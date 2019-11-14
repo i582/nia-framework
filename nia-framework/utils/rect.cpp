@@ -22,7 +22,7 @@ Rect::Rect(int x, int y, int w, int h)
 Rect::Rect(string left, string top, string width, string height)
 {
 	this->size = Size(width, height);
-	this->start = Point(top, left);
+	this->start = Point(left, top);
 
 	this->isCalculated = false;
 }
@@ -126,10 +126,10 @@ int Rect::x() const
 
 Rect Rect::calc(const Rect& parent)
 {
-	if (!start.isCalculated)
+	//if (!start.isCalculated)
 		start.calc(parent);
 
-	if (!size.isCalculated)
+	//if (!size.isCalculated)
 		size.calc(parent);
 
 	this->isCalculated = true;

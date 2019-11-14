@@ -16,4 +16,6 @@ public:
 public:
 	void update();
 
+	void setupSize(Rect* size);
+
 };

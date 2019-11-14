@@ -8,11 +8,10 @@
 #include "../../container/main/MainContainer.h"
 #include "../../container/container.h"
 
-#include "../..//container/style/styles.h"
+#include "..//..//css/css.h"
 
 #include "..//..//text/text.h"
 
-#include "../../css/css_parse.h"
 
 using std::string;
 using std::cout;
@@ -27,8 +26,8 @@ public:
 
 
 protected:
-	map < string, Styles* > __containersStyles;
-	Styles* addStyle(string className, Styles* style);
+	map <string, CSS::css_block> __containersStyles;
+	CSS::css_block* addStyle(string className, CSS::css_block style);
 	void handleStyles();
 
 	map <string, Container*> __containers;
@@ -48,7 +47,7 @@ protected:
 	bool display;
 
 	MainContainer* __container;
-	
+	MainContainer* $$;
 
 public:
 	Window(string title, Rect size);
@@ -97,6 +96,10 @@ protected:
 
 
 protected:
+
+
+	CSS::css main_css;
+
 	/**
 	 *  @brief Function for include css style file;
 	 */

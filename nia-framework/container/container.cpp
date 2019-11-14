@@ -41,7 +41,7 @@ Container::Container(string id, Rect size, string classNames)
 
 
 	// styles
-	this->_style = Styles(true);
+	this->_cssBlock = CSS::css_block(id, true);
 
 
 	// Other for Events
@@ -55,6 +55,7 @@ Container::Container(string id, Rect size, string classNames)
 	Font::root("../nia-framework/fonts/");
 	this->_font = new Font("Lato-Regular");
 	this->_text = new Text(this, "", { 0,0,0,0 }, _font, 14, Color("#000000"));
+
 
 
 	// image
@@ -142,37 +143,31 @@ void Container::render()
 	SDL_RenderClear(_renderer);
 
 
-	StyleState* styleState;
+	CSS::css_block_state* blockState = &_cssBlock.normal();
 
 	
 	if (_isHovered)
 	{
 		if (_isActive)
 		{
-			styleState = _style.active();
+			blockState = &_cssBlock.active();
 		}
 		else
 		{
-			styleState = _style.hover();
+			blockState = &_cssBlock.hover();
 		}
-	}
-	else
-	{
-		styleState = _style.normal();
 	}
 
 
 	SDL_SetRenderTarget(_renderer, _texture);
 
 
-	Color _bk = styleState->getColor("background-color");
-	Color _br = styleState->getColor("border-color");
+	Color _bk = blockState->get<Color>("background-color");
+	Color _br = blockState->get<Color>("border-color");
 
-	int borderRadius = styleState->getInt("radius");
+	int borderRadius = blockState->get<int>("border-radius");
 
-
-	roundedBoxColor(_renderer, 0, 0, _innerSize.w() - 1, _innerSize.h() - 1, borderRadius, _bk.color());
-	roundedRectangleColor(_renderer, 0, 0, _innerSize.w(), _innerSize.h(), borderRadius, _br.color());
+	roundedBoxColor(_renderer, 0, 0, _innerSize.w(), _innerSize.h(), borderRadius, _bk.color());
 
 	/*if (this->_image != nullptr)
 		this->_image->render();*/
@@ -188,16 +183,16 @@ void Container::render()
 
 
 
-	_text->setColor(styleState->getColor("color"));
-	_text->setFontSize(styleState->getInt("font-size"));
-	_text->setLineHeight(styleState->getDouble("line-height"));
-	_text->setTextAlign(styleState->getString("text-align"));
-	_text->setTextBlockVerticalAlign(styleState->getString("vertical-align"));
+	_text->setColor(&blockState->get<Color>("color"));
+	_text->setFontSize(blockState->get<int>("font-size"));
+	_text->setLineHeight(blockState->get<double>("line-height"));
+	_text->setTextAlign(blockState->get<string>("text-align"));
+	_text->setTextBlockVerticalAlign(blockState->get<string>("vertical-align"));
 
-	_text->setTextBlockMargin("top", styleState->getInt("margin-top"));
-	_text->setTextBlockMargin("bottom", styleState->getInt("margin-bottom"));
-	_text->setTextBlockMargin("left", styleState->getInt("margin-left"));
-	_text->setTextBlockMargin("right", styleState->getInt("margin-right"));
+	_text->setTextBlockMargin("top", blockState->get<int>("margin-top"));
+	_text->setTextBlockMargin("bottom", blockState->get<int>("margin-bottom"));
+	_text->setTextBlockMargin("left", blockState->get<int>("margin-left"));
+	_text->setTextBlockMargin("right", blockState->get<int>("margin-right"));
 
 	_text->render();
 
@@ -219,6 +214,21 @@ void Container::render()
 	
 	SDL_SetRenderDrawColor(_renderer, 0xff, 0x00, 0xff, 0xff);
 	SDL_RenderDrawRect(_renderer, NULL);*/
+
+	
+	int topSize = blockState->get<int>("border-top-size");
+	int bottomSize = blockState->get<int>("border-bottom-size");
+	int leftSize = blockState->get<int>("border-left-size");
+	int rightSize = blockState->get<int>("border-right-size");
+	
+	 
+	roundedBoxColor(_renderer, _innerSize.x() - leftSize, _innerSize.y() - topSize,
+		_innerSize.x() + _innerSize.w() - 1 + rightSize, _innerSize.y() + _innerSize.h() - 1 + bottomSize, borderRadius, _br.color());
+
+
+
+
+
 
 
 	Rect copy = _innerSize;
@@ -381,9 +391,9 @@ void Container::mouseScroll(Event* e, int scrollDirection)
 		scroll->shift(-20);
 }
 
-Styles* Container::styles()
+CSS::css_block& Container::styles()
 {
-	return &_style;
+	return _cssBlock;
 }
 
 void Container::computeSize()
@@ -396,16 +406,34 @@ void Container::computeSize()
 	}
 
 	// adjust size with shadow size
-	size_t shadowSize = 0; //_style.shadow().outerSize();
 
-	_outerSize.size.dw(2 * shadowSize);
-	_outerSize.size.dh(2 * shadowSize);
+	
 
-	_outerSize.start.dx(-(int)shadowSize);
-	_outerSize.start.dy(-(int)shadowSize);
+	int topSize = std::_Max_value(std::_Max_value(_cssBlock.normal().get<int>("border-top-size"),
+		_cssBlock.hover().get<int>("border-top-size")), _cssBlock.active().get<int>("border-top-size"));
 
-	_innerSize.start.x(shadowSize);
-	_innerSize.start.y(shadowSize);
+
+	int bottomSize = std::_Max_value(std::_Max_value(_cssBlock.normal().get<int>("border-bottom-size"),
+		_cssBlock.hover().get<int>("border-bottom-size")), _cssBlock.active().get<int>("border-bottom-size"));
+
+
+	int leftSize = std::_Max_value(std::_Max_value(_cssBlock.normal().get<int>("border-left-size"),
+		_cssBlock.hover().get<int>("border-left-size")), _cssBlock.active().get<int>("border-left-size"));
+
+
+	int rightSize = std::_Max_value(std::_Max_value(_cssBlock.normal().get<int>("border-right-size"),
+		_cssBlock.hover().get<int>("border-right-size")), _cssBlock.active().get<int>("border-right-size"));
+
+
+
+	_outerSize.size.dw(leftSize + rightSize);
+	_outerSize.size.dh(topSize + bottomSize);
+
+	_outerSize.start.dx(-leftSize);
+	_outerSize.start.dy(-topSize);
+
+	_innerSize.start.x(leftSize);
+	_innerSize.start.y(topSize);
 
 
 	this->_text->setSize({ 0,0,_innerSize.w(), _innerSize.h() });

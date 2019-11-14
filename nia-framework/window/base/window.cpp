@@ -5,10 +5,10 @@ Container* Window::create(Container* ptr)
 	return ptr;
 }
 
-Styles* Window::addStyle(string className, Styles* style)
+CSS::css_block* Window::addStyle(string className, CSS::css_block style)
 {
 	__containersStyles.insert(make_pair(className, style));
-	return style;
+	return &__containersStyles[className];
 }
 
 void Window::handleStyles()
@@ -22,7 +22,7 @@ void Window::handleStyles()
 		{
 			if (container.second->hasClass(className))
 			{
-				style.second->mergeTo(container.second->styles());
+				container.second->styles().mergeWith(style.second);
 			}
 		}
 
@@ -111,7 +111,7 @@ bool Window::init()
 	this->window = SDL_CreateWindow(title.c_str(), 
 		size.x() == -1 ? SDL_WINDOWPOS_CENTERED : size.x(),
 		size.y() == -1 ? SDL_WINDOWPOS_CENTERED : size.y(),
-		size.w(), size.h(), NULL);
+		size.w(), size.h(), SDL_WINDOW_RESIZABLE);
 
 	if (window == nullptr)
 	{
@@ -133,6 +133,8 @@ void Window::generalSetup()
 {
 	__container = new MainContainer(this);
 	Window::addObject(__container);
+
+	$$ = __container;
 }
 
 void Window::show()
@@ -176,6 +178,6 @@ SDL_Window* Window::getWindow()
 
 void Window::include(string path)
 {
-	CssParse parse(path);
-	Window::__containersStyles = parse.getReadyStyles();
+	main_css.open(path);
+	Window::__containersStyles = main_css.getStyles();
 }

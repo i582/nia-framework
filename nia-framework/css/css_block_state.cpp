@@ -21,9 +21,28 @@ CSS::css_block_state::css_block_state()
 	styles["margin-left"] = 0;
 	styles["margin-right"] = 0;
 
-
-
 	styles["border-radius"] = 0;
+
+
+	styles["border-top"] = 0;
+	styles["border-top-size"] = 0;
+	styles["border-top-color"] = 0;
+	styles["border-top-type"] = 0;
+
+	styles["border-bottom"] = 0;
+	styles["border-bottom-size"] = 0;
+	styles["border-bottom-color"] = 0;
+	styles["border-bottom-type"] = 0;
+
+	styles["border-left"] = 0;
+	styles["border-left-size"] = 0;
+	styles["border-left-color"] = 0;
+	styles["border-left-type"] = 0;
+
+	styles["border-right"] = 0;
+	styles["border-right-size"] = 0;
+	styles["border-right-color"] = 0;
+	styles["border-right-type"] = 0;
 }
 
 CSS::css_block_state::css_block_state(bool general)
@@ -48,6 +67,27 @@ CSS::css_block_state::css_block_state(bool general)
 	styles["margin-right"] = 0;
 
 	styles["border-radius"] = 0;
+
+
+	styles["border-top"] = 0;
+	styles["border-top-size"] = 0;
+	styles["border-top-color"] = 0;
+	styles["border-top-type"] = "solid";
+
+	styles["border-bottom"] = 0;
+	styles["border-bottom-size"] = 0;
+	styles["border-bottom-color"] = 0;
+	styles["border-bottom-type"] = "solid";
+
+	styles["border-left"] = 0;
+	styles["border-left-size"] = 0;
+	styles["border-left-color"] = 0;
+	styles["border-left-type"] = "solid";
+
+	styles["border-right"] = 0;
+	styles["border-right-size"] = 0;
+	styles["border-right-color"] = 0;
+	styles["border-right-type"] = "solid";
 }
 
 void CSS::css_block_state::mergeWith(css_block_state& block)

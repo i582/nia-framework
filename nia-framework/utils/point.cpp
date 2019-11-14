@@ -70,11 +70,11 @@ Point::Point(string top, string left) : top(top), left(left), isCalculated(false
 
 Point Point::calc(const Rect &parent)
 {
-	if (isCalculated)
-		return *this;
+	/*if (isCalculated)
+		return *this;*/
 
-	this->_x = Utils::parseString(top, parent.size._w);
-	this->_y = Utils::parseString(left, parent.size._h);
+	this->_x = Utils::parseExpression(top, parent.size._w);
+	this->_y = Utils::parseExpression(left, parent.size._h);
 
 	this->isCalculated = true;
 

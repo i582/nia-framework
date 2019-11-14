@@ -84,6 +84,37 @@ void MainWindow::onEvent(SDL_Event* e)
 		break;
 	}
 
+	case SDL_WINDOWEVENT:
+	{
+		switch (e->window.event)
+		{
+
+		case SDL_WINDOWEVENT_RESIZED:
+		{
+			SDL_Log("Window %d resized to %dx%d",
+				e->window.windowID, e->window.data1,
+				e->window.data2);
+
+			int newW = e->window.data1;
+			int newH = e->window.data2;
+
+			Rect r = { 0, 0, newW, newH };
+
+			__container->setupSize(&r);
+
+			break;
+
+		}
+		case SDL_WINDOWEVENT_SIZE_CHANGED:
+			SDL_Log("Window %d size changed to %dx%d",
+				e->window.windowID, e->window.data1,
+				e->window.data2);
+			break;
+
+		}
+		break;
+	}
+
 	break;
 	}
 }
