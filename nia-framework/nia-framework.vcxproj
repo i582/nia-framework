@@ -153,6 +153,7 @@
     <ClInclude Include="utils\point.h" />
     <ClInclude Include="utils\rect.h" />
     <ClInclude Include="utils\shadow.h" />
+    <ClInclude Include="utils\simple-point.h" />
     <ClInclude Include="utils\simple-rect.h" />
     <ClInclude Include="utils\size.h" />
     <ClInclude Include="utils\utils.h" />
@@ -184,6 +185,7 @@
     <ClCompile Include="utils\point.cpp" />
     <ClCompile Include="utils\rect.cpp" />
     <ClCompile Include="utils\shadow.cpp" />
+    <ClCompile Include="utils\simple-point.cpp" />
     <ClCompile Include="utils\simple-rect.cpp" />
     <ClCompile Include="utils\size.cpp" />
     <ClCompile Include="utils\utils.cpp" />

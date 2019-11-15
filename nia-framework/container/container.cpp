@@ -53,7 +53,7 @@ Container::Container(string id, Rect size, string classNames)
 
 	// text
 	Font::root("../nia-framework/fonts/");
-	this->_font = new Font("Lato-Regular");
+	this->_font = new Font("consolas");
 	this->_text = new Text(this, "", { 0,0,0,0 }, _font, 14, Color("#000000"));
 
 
@@ -169,16 +169,23 @@ void Container::render()
 
 	roundedBoxColor(_renderer, 0, 0, _innerSize.w(), _innerSize.h(), borderRadius, _bk.color());
 
-	/*if (this->_image != nullptr)
-		this->_image->render();*/
 
 
-	/*SDL_SetRenderDrawColor(_renderer, background[3], background[2], background[1], background[0]);
-	SDL_RenderFillRect(_renderer, NULL);
+	if (this->_image != nullptr)
+	{
+		string path = blockState->get<string>("background-image");
+		this->_image->setPath(path);
+
+		int x_shift = blockState->get<int>("background-position-x");
+		int y_shift = blockState->get<int>("background-position-y");
+
+		this->_image->setImageShift({ x_shift, y_shift });
+
+		this->_image->render();
+	}
+		
 
 
-	SDL_SetRenderDrawColor(_renderer, border[3], border[2], border[1], border[0]);
-	SDL_RenderDrawRect(_renderer, NULL);*/
 
 
 
@@ -405,22 +412,14 @@ void Container::computeSize()
 		_outerSize.calc(parentSize);
 	}
 
-	// adjust size with shadow size
 
-	
 
 	int topSize = std::_Max_value(std::_Max_value(_cssBlock.normal().get<int>("border-top-size"),
 		_cssBlock.hover().get<int>("border-top-size")), _cssBlock.active().get<int>("border-top-size"));
-
-
 	int bottomSize = std::_Max_value(std::_Max_value(_cssBlock.normal().get<int>("border-bottom-size"),
 		_cssBlock.hover().get<int>("border-bottom-size")), _cssBlock.active().get<int>("border-bottom-size"));
-
-
 	int leftSize = std::_Max_value(std::_Max_value(_cssBlock.normal().get<int>("border-left-size"),
 		_cssBlock.hover().get<int>("border-left-size")), _cssBlock.active().get<int>("border-left-size"));
-
-
 	int rightSize = std::_Max_value(std::_Max_value(_cssBlock.normal().get<int>("border-right-size"),
 		_cssBlock.hover().get<int>("border-right-size")), _cssBlock.active().get<int>("border-right-size"));
 
@@ -550,9 +549,6 @@ void Container::setupChildrenRenderer()
 void Container::setupBackgroundImage()
 {
 	this->_image = new Image(this);
-	this->_image->setPath("../nia-framework/images/1.png");
-
-	this->_image->setImageSize({100, 100, 200, 200});
 
 	for (auto& child : _childs)
 	{

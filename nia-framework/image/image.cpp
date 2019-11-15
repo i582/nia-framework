@@ -29,8 +29,17 @@ void Image::setImageSize(SimpleRect generalSize)
 	this->generalSize = generalSize;
 }
 
+void Image::setImageShift(SimplePoint p)
+{
+	this->generalSize.x = p.x;
+	this->generalSize.y = p.y;
+}
+
 SDL_Texture* Image::createTexture()
 {
+	if (this->path.empty())
+		return nullptr;
+
 	this->texture = IMG_LoadTexture(renderer, this->path.c_str());
 
 	if (this->texture == nullptr)

@@ -17,18 +17,27 @@ void MWindow::setup()
 	Window::getElementById("#tooltip-1")->text()->setText("E:/Programming/nia-framework/nia-framework/window/main/");*/
 
 	
-
-	/*$$->append(new Container("left-side", { "0px", "0px", "50px", "100%" }, ".side-block"));
-
-	$$->append(new Container("main", { "50px", "0px", "100% - 50px", "100%" }, ".main"));*/
+	$$->append(new Container("main", { "45px", "30px", "100% - 65px", "100% - 50px" }, ".main"));
+	$$->append(new Container("left-side", { "0px", "0px", "45px", "100%" }, ".side-block"));
 
 
-	$$->append(new Container("block", { "50% - 50px", "50% - 50px", "100px", "100px" }, ".side-block"));
+	Window::getElementById("main")->append(new Container("editor-main", { "0px", "0px", "100%", "1500px" }, ".editor-main"))
+		->text()->setText("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean ultrices lorem id malesuada tempor. Praesent nunc mi, faucibus tempor elementum sit amet, finibus sit amet erat. Proin ut sapien eu turpis pharetra ornare a eu ipsum. Integer iaculis justo leo. Quisque ligula lorem, ullamcorper vestibulum commodo quis, congue at tellus. ");
 
 
-	Window::getElementById("block")->addEventListener("click", lambda(Container * caller, Event * e)
-	{
-		cout << "Hello World!" << endl;
-	});
+
+
+	$$->append(new Container("top-side", { "0px", "0px", "100%", "30px" }, ".top-block"));
+	$$->append(new Container("bottom-side", { "0px", "100% - 20px", "100%", "20px" }, ".bottom-block"));
+		
+		
+	//Window::getElementById("top-side")->append(new Container("item1", { "30px", "0px", "100px", "100%" }, ".menu-item"))
+	//	->text()->setText("Файл");
+
+	Window::getElementById("top-side")->append(new Container("logo", { "0px", "0px", "30px", "100%" }, ".logo"));
+
+	//$$->append(new Container("block", { "50% - 50px", "50% - 50px", "100px", "100px" }, ".side-block"));
+
+
 
 }

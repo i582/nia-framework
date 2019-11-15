@@ -6,6 +6,10 @@ CSS::css_block_state::css_block_state()
 	styles["border-color"] = 0;
 	styles["color"] = 0;
 
+	styles["background-image"] = 0;
+	styles["background-position-x"] = 0;
+	styles["background-position-y"] = 0;
+
 	styles["font-family"] = 0;
 	styles["font-size"] = 0;
 
@@ -47,9 +51,13 @@ CSS::css_block_state::css_block_state()
 
 CSS::css_block_state::css_block_state(bool general)
 {
-	styles["background-color"] = Color(0xffffffff);
+	styles["background-color"] = Color(0xffffff00);
 	styles["border-color"] = Color(0xffffff00);
 	styles["color"] = Color(0x00000000);
+
+	styles["background-image"] = "";
+	styles["background-position-x"] = 0;
+	styles["background-position-y"] = 0;
 
 	styles["font-family"] = "";
 	styles["font-size"] = 13;

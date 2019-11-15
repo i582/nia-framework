@@ -135,6 +135,9 @@
     <ClInclude Include="css\css-attributes.h">
       <Filter>Исходные файлы\css</Filter>
     </ClInclude>
+    <ClInclude Include="utils\simple-point.h">
+      <Filter>Исходные файлы\utils</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="nia-app.cpp">
@@ -223,6 +226,9 @@
     </ClCompile>
     <ClCompile Include="css\css-attributes.cpp">
       <Filter>Исходные файлы\css</Filter>
+    </ClCompile>
+    <ClCompile Include="utils\simple-point.cpp">
+      <Filter>Исходные файлы</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

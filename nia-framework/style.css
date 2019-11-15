@@ -1,13 +1,12 @@
-main
-{
+main {
     background-color: #cccccc;
 }
 
-.side-block
+/* .---side-block
 {
     background-color: #192227;
 
-    border-top: 2px solid #ffffff;
+    border-top: 2px solid #ffffff;  
 
     border-right: 10px solid #123456;
     border-left: 2px solid #123456;
@@ -17,17 +16,79 @@ main
     border-radius: 30px;
 }
 
-.side-block:hover
+.---side-block:hover
 {
     background-color: #243138;
 
     border-radius: 25px;
 
     border-right: 5px solid #123456;
+} */
+
+
+.side-block {
+    background-color: #192227;
+
+    border-right: 1px solid #0F1518;
+    border-color: #0F1518;
 }
 
-.main
+.main {
+    background-color: #263238;
+}
+
+.bottom-block
 {
     background-color: #263238;
+    border-top: 1px solid #181F23;
+    border-color: #181F23;
+}
+    
+.top-block
+{
+    background-color: #192227;
+    border-bottom: 1px solid #0F1518;
+    border-color: #0F1518;
+}
+
+.menu-item
+{
+    color: #EEFFFF;
+
+    font-size: 13px;
+    line-height: 0.9;
+    text-align: center;
+    vertical-align: center;
+  
+}
+
+.menu-item:hover
+{
+    background-color: #141C20;
+    color: #73B6B0;
+}
+
+.editor-main
+{
+    background-color: #263238;
+    border-left: 1px solid #181F23;
     border-color: #ffffff;
+
+
+    color: #B2CCD6;
+    line-height: 1.7;
+    margin-top: 10px;
+    margin-left: 10px;
+    font-size: 15px;
+
+  
+
+}
+
+
+.logo
+{
+    background-image: url(../nia-framework/images/big_app_icon.png);
+    background-position-x: 10px;
+    background-position-y: 5px;
 }

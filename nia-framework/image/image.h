@@ -6,6 +6,7 @@
 #include "string"
 
 #include "../utils/simple-rect.h"
+#include "../utils/simple-point.h"
 
 using std::string;
 using std::to_string;
@@ -37,6 +38,8 @@ public:
 	void setRenderer(SDL_Renderer* renderer);
 
 	void setImageSize(SimpleRect generalSize);
+
+	void setImageShift(SimplePoint p);
 
 private:
 	SDL_Texture* createTexture();

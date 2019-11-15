@@ -22,6 +22,9 @@ enum class TokenType
 	LBRA, // {
 	RBRA, // }
 
+	LPAR, // (
+	RPAR, // )
+
 	FIELD
 };
 
@@ -39,6 +42,8 @@ enum State
 	NEXT_TOKEN_IS_VALUE,
 
 	NEXT_TOKEN_IS_PSEUDO,
+
+	NEXT_TOKEN_IS_COMPLEX_VALUE,
 
 	END_BLOCK,
 

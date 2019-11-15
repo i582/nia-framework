@@ -110,7 +110,8 @@ void CSS::css_parser::deleteSpaceInCode()
 
 bool CSS::css_parser::isSplitSymbol(char symbol)
 {
-	return symbol == ':' || symbol == '.' || symbol == '#' || symbol == ';' || symbol == '{' || symbol == '}';
+	return symbol == ':' || symbol == '.' || symbol == '#' || symbol == ';' || symbol == '{' || symbol == '}'
+		|| symbol == '(' || symbol == ')';
 }
 
 CSS::TokenType CSS::css_parser::whatIsToken(string token)
@@ -138,6 +139,14 @@ CSS::TokenType CSS::css_parser::whatIsToken(string token)
 	else if (token == "}")
 	{
 		return TokenType::RBRA;
+	}
+	else if (token == "(")
+	{
+		return TokenType::LPAR;
+	}
+	else if (token == ")")
+	{
+		return TokenType::RPAR;
 	}
 	else
 	{
@@ -237,6 +246,23 @@ void CSS::css_parser::syntaxParseOneBlock(vector<string>& block)
 	{
 		TokenType nowTokenType = whatIsToken(token);
 
+		if (nowState == State::NEXT_TOKEN_IS_COMPLEX_VALUE)
+		{
+		
+			if (nowTokenType == TokenType::RPAR)
+			{
+				nowState = State::NEXT_TOKEN_IS_SEMICOLON;
+				cout << "End LPAR block" << endl;
+
+				cout << "Value = " << value << endl;
+			}
+			else
+			{
+				value += token;
+			}
+
+			continue;
+		}
 
 		switch (nowTokenType)
 		{
@@ -311,6 +337,17 @@ void CSS::css_parser::syntaxParseOneBlock(vector<string>& block)
 
 		
 			nowState = State::NEXT_TOKEN_IS_ATTRIBUTE;
+			break;
+		}
+
+		case TokenType::LPAR:
+		{
+			nowState = State::NEXT_TOKEN_IS_COMPLEX_VALUE;
+
+			value.clear();
+			//value += token;
+
+			cout << "Start LPAR block" << endl;
 			break;
 		}
 

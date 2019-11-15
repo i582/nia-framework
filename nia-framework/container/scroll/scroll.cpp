@@ -55,10 +55,10 @@ void Scroll::render()
 
 	SDL_SetRenderTarget(_renderer, _texture);
 
-	SDL_SetRenderDrawColor(_renderer, 0x3E, 0x3E, 0x42, 0xff);
+	SDL_SetRenderDrawColor(_renderer, 0x26, 0x32, 0x38, 0xff);
 	SDL_RenderFillRect(_renderer, NULL);
 
-	SDL_SetRenderDrawColor(_renderer, 0x68, 0x68, 0x68, 0xff);
+	SDL_SetRenderDrawColor(_renderer, 0x40, 0x4d, 0x52, 0xff);
 	SDL_RenderFillRect(_renderer, &_sliderSize.toSdlRect());
 
 	SDL_SetRenderTarget(_renderer, _parentTexture);
