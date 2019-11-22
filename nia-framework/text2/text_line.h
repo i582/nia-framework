@@ -1,13 +1,21 @@
 #pragma once
-#include <string>
-#include <SDL.h>
 
-#include "../utils/simple-size.h"
-#include "../font/font.h"
-#include "../utils/color.h"
+#include "word.h"
 
 namespace nia
 {
+
+enum class TokenType
+{
+	UNDEFINED, 
+	TEXT,
+
+	KEYWORD,
+	QUOTES,
+	NUMBER,
+	VALUE,
+	OPERATOR
+};
 
 struct CursorPosition
 {
@@ -15,9 +23,15 @@ struct CursorPosition
 
 	CursorPosition() : x(0), y(0) {}
 	CursorPosition(int x, int y) : x(x), y(y) {}
+
+	bool operator==(const CursorPosition& obj)
+	{
+		return this->x == obj.x && this->y == obj.y;
+	}
 };
 
 using std::string;
+using std::vector;
 
 class Text2;
 
@@ -36,6 +50,13 @@ private:
 	CursorPosition startCursorSelect;
 	CursorPosition endCursorSelect;
 
+	vector<string> tokens;
+	vector<Word> words;
+
+	string keyword;
+	string operators;
+	string quotes;
+
 public:
 	TextLine(Text2* parent, string text);
 	~TextLine();
@@ -49,6 +70,14 @@ private:
 private:
 	void setup();
 	void render();
+
+	void splitByToken();
+	bool isSplitSymbol(char symbol);
+	TokenType whatIsToken(string token);
+
+	void colorize();
+
+	void setup_token_types();
 
 public:
 	void setText(string text);

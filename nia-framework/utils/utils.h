@@ -53,7 +53,7 @@ namespace Utils
 	 */
 	bool is_integer(string str);
 
-
+	bool is_number(string str);
 
 	int SDL_SetRenderColor(SDL_Renderer* renderer, SDL_Color color);
 }

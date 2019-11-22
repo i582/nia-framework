@@ -54,6 +54,16 @@ void nia::Text2::setup()
 	texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, size.w, size.h);
 	SDL_SetTextureBlendMode(texture, SDL_BLENDMODE_BLEND);
 
+	splitLinesByToken();
+	deleteSelect();
+}
+
+void nia::Text2::splitLinesByToken()
+{
+	for (auto& line : lines)
+	{
+		line->splitByToken();
+	}
 }
 
 void nia::Text2::renderCursor()
@@ -66,7 +76,10 @@ void nia::Text2::renderCursor()
 
 	SDL_Rect cursorRect = { x, y, 1, fontSize*lineHeight };
 	SDL_SetRenderDrawColor(renderer, 0xdf, 0xdf, 0xbf, 0xff);
+
+	
 	SDL_RenderFillRect(renderer, &cursorRect);
+
 }
 
 void nia::Text2::handleSelect()
@@ -224,7 +237,7 @@ nia::string nia::Text2::copySelect()
 			start = 0;
 			end = lines[i]->text.size();
 
-			result += lines[tempEndCursorSelect.y]->text.substr(start, end) + '\n';
+			result += lines[i]->text.substr(start, end) + '\n';
 		}
 
 
@@ -315,6 +328,16 @@ void nia::Text2::keyDown(SDL_Event* e)
 	switch (e->key.keysym.sym)
 	{
 
+	case SDLK_TAB:
+	{
+		lines.at(cursorPos.y)->addText("   ", cursorPos.x);
+
+		cursorPos.x += 3;
+
+		setup();
+		break;
+	}
+
 	case SDLK_v:
 	{
 		if (SDL_GetModState() & KMOD_CTRL)
@@ -334,9 +357,38 @@ void nia::Text2::keyDown(SDL_Event* e)
 	{
 		if (SDL_GetModState() & KMOD_CTRL)
 		{
-			SDL_SetClipboardText(copySelect().c_str());
+			string text = copySelect();
+			SDL_SetClipboardText(text.c_str());
 		}
+		
+		break;
+	}
 
+	case SDLK_a:
+	{
+		if (SDL_GetModState() & KMOD_CTRL)
+		{
+			if (startCursorSelect == CursorPosition(0, 0) &&
+				endCursorSelect == CursorPosition((int)(lines[lines.size() - 1]->text.size()), (int)lines.size() - 1))
+			{
+				startCursorSelect = endCursorSelect = { 0, 0 };
+
+				isSelected = false;
+			}
+			else
+			{
+				
+				startCursorSelect = { 0, 0 };
+
+				endCursorSelect =
+				cursorPos = { (int)(lines[lines.size() - 1]->text.size()), (int)lines.size() - 1 };
+
+				isSelected = true;
+			}
+
+			handleSelect();
+		}
+		
 		break;
 	}
 
@@ -428,7 +480,7 @@ void nia::Text2::keyDown(SDL_Event* e)
 			lines.erase(lines.begin() + cursorPos.y + 1);
 		}
 
-		
+		setup();
 
 		break;
 	}

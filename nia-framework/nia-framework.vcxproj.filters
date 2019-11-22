@@ -153,6 +153,9 @@
     <ClInclude Include="utils\simple-size.h">
       <Filter>Исходные файлы\utils</Filter>
     </ClInclude>
+    <ClInclude Include="text2\word.h">
+      <Filter>Исходные файлы\text2</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="nia-app.cpp">
@@ -248,10 +251,10 @@
     <ClCompile Include="utils\simple-point.cpp">
       <Filter>Исходные файлы\utils</Filter>
     </ClCompile>
-    <ClCompile Include="text2\text_line.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
     <ClCompile Include="text2\text2.cpp">
+      <Filter>Исходные файлы\text2</Filter>
+    </ClCompile>
+    <ClCompile Include="text2\text_line.cpp">
       <Filter>Исходные файлы\text2</Filter>
     </ClCompile>
   </ItemGroup>

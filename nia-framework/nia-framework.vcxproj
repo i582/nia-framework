@@ -156,6 +156,7 @@
     <ClInclude Include="nia-main-point.h" />
     <ClInclude Include="text2\text.h" />
     <ClInclude Include="text2\text_line.h" />
+    <ClInclude Include="text2\word.h" />
     <ClInclude Include="text\text.h" />
     <ClInclude Include="utils\color.h" />
     <ClInclude Include="utils\draw.h" />

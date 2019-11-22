@@ -6,6 +6,8 @@
 #include "../utils/simple-point.h"
 #include "../utils/utils.h"
 
+#include "ctime"
+
 namespace nia
 {
 
@@ -46,6 +48,8 @@ public:
 private:
 	void splitByLines();
 	void setup();
+
+	void splitLinesByToken();
 
 	void renderCursor();
 
