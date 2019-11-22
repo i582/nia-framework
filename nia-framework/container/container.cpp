@@ -56,10 +56,15 @@ Container::Container(string id, Rect size, string classNames)
 	this->_font = new Font("consolas");
 	this->_text = new Text(this, "", { 0,0,0,0 }, _font, 14, Color("#000000"));
 
-
+	
 
 	// image
 	this->_image = nullptr;
+
+
+
+
+	this->scrollActive = false;
 }
 
 Container::~Container()
@@ -129,6 +134,16 @@ Text* Container::text()
 	return _text;
 }
 
+void Container::adjustMousePoint(Point& p)
+{
+	if (_parent == nullptr)
+		return;
+
+	p = p - _outerSize.start;
+
+	_parent->adjustMousePoint(p);
+}
+
 void Container::render()
 {
 	if (!_display)
@@ -180,6 +195,10 @@ void Container::render()
 		int y_shift = blockState->get<int>("background-position-y");
 
 		this->_image->setImageShift({ x_shift, y_shift });
+
+		string newwSize = blockState->get<string>("background-size");
+
+		this->_image->setImageSizeW(newwSize);
 
 		this->_image->render();
 	}
@@ -312,10 +331,21 @@ void Container::mouseButtonDown(Event* e)
 	if (!_display)
 		return;
 
-	if (scroll->onHover({ e->motion.x, e->motion.y }))
+	Point mouseP(e->motion.x, e->motion.y);
+
+	adjustMousePoint(mouseP);
+
+
+	if (scroll->onHoverSlider(mouseP))
 	{
-		cout << "gssgsg" << endl;
+		cout << "Scroll slider" << endl;
+
+		cout << "scroll active TRUE" << endl;
+		scrollActive = true;
+
+		return;
 	}
+
 
 	eventListeners["click"](this, e);
 	eventListeners["onmousedown"](this, e);
@@ -330,6 +360,8 @@ void Container::mouseButtonUp(Event* e)
 
 	eventListeners["onmouseup"](this, e);
 
+	cout << "scroll active FALSE" << endl;
+	scrollActive = false;
 	_isActive = false;
 }
 
@@ -337,6 +369,12 @@ void Container::mouseMotion(Event* e)
 {
 	if (!_display)
 		return;
+
+	if (scrollActive)
+	{
+		scroll->shift(e->motion.yrel* (_sizeChilds.h() / _innerSize.h()));
+		return;
+	}
 
 	if (firstMouseMotion == false)
 	{
@@ -520,6 +558,7 @@ void Container::computeChildrenSize()
 	{
 		SDL_DestroyTexture(this->_texture);
 		this->_texture = SDL_CreateTexture(_renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, newTextureSize.w(), newTextureSize.h());
+		SDL_SetTextureBlendMode(_outerTexture, SDL_BLENDMODE_BLEND);
 	}
 	
 

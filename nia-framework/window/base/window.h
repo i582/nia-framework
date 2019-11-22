@@ -11,7 +11,7 @@
 #include "..//..//css/css.h"
 
 #include "..//..//text/text.h"
-
+#include "..//..//text2/text.h"
 
 using std::string;
 using std::cout;
@@ -53,13 +53,16 @@ public:
 	Window(string title, Rect size);
 	~Window();
 	 
-public:
+private:
 	bool init();
 
 	void generalSetup();
 
 	virtual void setup() = 0;
+
+public:
 	virtual void update() = 0;
+	virtual void onEvent(SDL_Event* e) = 0;
 
 	void show();
 	void hide();
@@ -70,9 +73,6 @@ public:
 	Rect getSize();
 	SDL_Renderer* getRenderer();
 	SDL_Window* getWindow();
-
-
-	virtual void onEvent(SDL_Event* e) = 0;
 
 private:
 	virtual void mouseButtonDown(SDL_Event* e) = 0;
@@ -101,7 +101,7 @@ protected:
 	CSS::css main_css;
 
 	/**
-	 *  @brief Function for include css style file;
+	 *  @brief Function for include css style file
 	 */
 	void include(string path);
 

@@ -42,6 +42,7 @@ public:
 	void shift(int d);
 
 	bool onHover(Point p);
+	bool onHoverSlider(Point& p);
 
 public:
 	void render();

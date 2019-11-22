@@ -49,6 +49,9 @@
     <Filter Include="Исходные файлы\css">
       <UniqueIdentifier>{6cc52e81-6dd9-45f4-ba10-04deebe0017e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Исходные файлы\text2">
+      <UniqueIdentifier>{4bb43314-b1a5-4833-86da-8f5b5f8f2342}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="nia-app.h">
@@ -136,6 +139,18 @@
       <Filter>Исходные файлы\css</Filter>
     </ClInclude>
     <ClInclude Include="utils\simple-point.h">
+      <Filter>Исходные файлы\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="container\textBlock.h">
+      <Filter>Исходные файлы\container</Filter>
+    </ClInclude>
+    <ClInclude Include="text2\text.h">
+      <Filter>Исходные файлы\text2</Filter>
+    </ClInclude>
+    <ClInclude Include="text2\text_line.h">
+      <Filter>Исходные файлы\text2</Filter>
+    </ClInclude>
+    <ClInclude Include="utils\simple-size.h">
       <Filter>Исходные файлы\utils</Filter>
     </ClInclude>
   </ItemGroup>
@@ -227,8 +242,17 @@
     <ClCompile Include="css\css-attributes.cpp">
       <Filter>Исходные файлы\css</Filter>
     </ClCompile>
-    <ClCompile Include="utils\simple-point.cpp">
+    <ClCompile Include="container\textBlock.cpp">
       <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="utils\simple-point.cpp">
+      <Filter>Исходные файлы\utils</Filter>
+    </ClCompile>
+    <ClCompile Include="text2\text_line.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="text2\text2.cpp">
+      <Filter>Исходные файлы\text2</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

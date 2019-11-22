@@ -22,7 +22,7 @@ Color::Color(string color)
 
 void Color::calc(string color)
 {
-	int size = color.size();
+	const int size = color.size();
 
 	if (color[0] != '#' ||
 		(size != 7 && size != 9))
@@ -73,7 +73,7 @@ Uint32 Color::color()
 	return _color;
 }
 
-SDL_Color Color::colorSDL()
+SDL_Color Color::colorSDL() const
 {
 	Uint8* c = (Uint8*)&_color;
 	const SDL_Color sdl_color = { c[3], c[2], c[1], c[0] };

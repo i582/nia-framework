@@ -8,15 +8,19 @@ Image::Image(Container* parent)
 
 	IMG_Init(IMG_INIT_PNG);
 
+	this->parent = parent;
 	this->renderer = parent->renderer();
 	this->parentTexture = parent->texture();
 
 	this->containerSize = this->generalSize = { 0, 0 , parent->width(), parent->height() } ;
+
+	this->needReRender = true;
 }
 
 void Image::setPath(string path)
 {
 	this->path = path;
+	this->needReRender = true;
 }
 
 void Image::setRenderer(SDL_Renderer* renderer)
@@ -35,6 +39,21 @@ void Image::setImageShift(SimplePoint p)
 	this->generalSize.y = p.y;
 }
 
+void Image::setImageSizeW(string size)
+{
+	if (size == "")
+		return;
+
+
+	int newWidth = Utils::parseString(size, parent->width());
+
+	double imageRatio = this->generalSize.w / (double)this->generalSize.h;
+
+	this->generalSize.w = newWidth;
+	this->generalSize.h = newWidth / imageRatio;
+
+}
+
 SDL_Texture* Image::createTexture()
 {
 	if (this->path.empty())
@@ -50,12 +69,14 @@ SDL_Texture* Image::createTexture()
 
 	SDL_QueryTexture(this->texture, nullptr, nullptr, &textureSize.w, &textureSize.h);
 
+	needReRender = false;
+
 	return this->texture;
 }
 
 void Image::render()
 {
-	if (texture == nullptr)
+	if (needReRender)
 		texture = createTexture();
 
 	SDL_SetRenderTarget(renderer, this->parentTexture);

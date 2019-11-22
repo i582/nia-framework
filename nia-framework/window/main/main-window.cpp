@@ -1,10 +1,16 @@
 #include "main-window.h"
 
-#include "SDL2_gfxPrimitives.h"
-#include "../..//utils/draw.h"
-
 
 using namespace Utils;
+
+MainWindow::MainWindow(string title, Rect size) : Window(title, size)
+{
+
+	Font::root("../nia-framework/fonts/");
+	Font font1("consolas");
+	text = new nia::Text2(renderer, "Hello World!\nNext line!", { 100, 100, 0, 0 }, &font1, 18, Color(0xffffffff));
+
+}
 
 void MainWindow::update()
 {
@@ -23,7 +29,7 @@ void MainWindow::update()
 
 	SDL_SetRenderTarget(renderer, NULL);
 
-	SDL_SetRenderColor(renderer, { 0xff, 0xff, 0xff, 0x00 });
+	SDL_SetRenderColor(renderer, { 0x33, 0x33, 0x33, 0xff });
 	SDL_RenderFillRect(renderer, NULL);
 
 	SDL_SetRenderColor(renderer, { 0xff, 0xff, 0xff, 0x00 });
@@ -31,7 +37,10 @@ void MainWindow::update()
 
 
 
-	__container->render();
+	//__container->render();
+
+
+	text->render();
 
 	SDL_RenderPresent(renderer);
 }
@@ -129,6 +138,10 @@ void MainWindow::mouseButtonDown(SDL_Event* e)
 	}
 	
 	__container->update();
+
+	text->mouseButtonDown(e);
+
+	update();
 }
 
 void MainWindow::mouseButtonUp(SDL_Event* e)
@@ -141,6 +154,10 @@ void MainWindow::mouseButtonUp(SDL_Event* e)
 	}
 
 	__container->update();
+
+	text->mouseButtonUp(e);
+
+	update();
 }
 
 void MainWindow::mouseMotion(SDL_Event* e)
@@ -153,11 +170,15 @@ void MainWindow::mouseMotion(SDL_Event* e)
 	}
 
 	__container->update();
+
+	text->mouseMotion(e);
+
+	update();
 }
 
 void MainWindow::mouseWheel(SDL_Event* e)
 {
-	int scroolDirection = e->wheel.y;
+	const int scrollDirection = e->wheel.y;
 
 	if (e->motion.x == -1 || e->motion.y == -1 || e->motion.x == 1 || e->motion.y == 1)
 	{
@@ -168,7 +189,7 @@ void MainWindow::mouseWheel(SDL_Event* e)
 
 	if (hover != nullptr)
 	{
-		hover->mouseScroll(e, scroolDirection);
+		hover->mouseScroll(e, scrollDirection);
 	}
 
 	__container->update();
@@ -176,6 +197,9 @@ void MainWindow::mouseWheel(SDL_Event* e)
 
 void MainWindow::keyDown(SDL_Event* e)
 {
+	text->keyDown(e);
+
+	update();
 }
 
 void MainWindow::keyUp(SDL_Event* e)
@@ -184,4 +208,7 @@ void MainWindow::keyUp(SDL_Event* e)
 
 void MainWindow::textInput(SDL_Event* e)
 {
+	text->textInput(e);
+
+	update();
 }

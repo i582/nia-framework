@@ -73,6 +73,10 @@
     <IncludePath>C:\SDL2\SDL2_gfx;C:\SDL2\SDL2_ttf-2.0.15\include;C:\SDL2\SDL2_image-2.0.4\include;C:\SDL2\include;$(IncludePath)$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
     <LibraryPath>C:\SDL2\SDL2_ttf-2.0.15\lib\x86;C:\SDL2\SDL2_image-2.0.4\lib\x86;C:\SDL2\lib\x86;$(LibraryPath)$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86);$(NETFXKitsDir)Lib\um\x86</LibraryPath>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <IncludePath>C:\SDL2\SDL2_gfx;C:\SDL2\SDL2_ttf-2.0.15\include;C:\SDL2\SDL2_image-2.0.4\include;C:\SDL2\include;$(IncludePath)$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
+    <LibraryPath>C:\SDL2\SDL2_ttf-2.0.15\lib\x86;C:\SDL2\SDL2_image-2.0.4\lib\x86;C:\SDL2\lib\x86;$(LibraryPath)$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86);$(NETFXKitsDir)Lib\um\x86</LibraryPath>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -108,11 +112,14 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2test.lib;SDL2_ttf.lib;SDL2_image.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -136,6 +143,7 @@
     <ClInclude Include="container\containers\containers.h" />
     <ClInclude Include="container\main\MainContainer.h" />
     <ClInclude Include="container\scroll\scroll.h" />
+    <ClInclude Include="container\textBlock.h" />
     <ClInclude Include="css\css-attributes.h" />
     <ClInclude Include="css\css.h" />
     <ClInclude Include="css\css_block.h" />
@@ -146,6 +154,8 @@
     <ClInclude Include="image\image.h" />
     <ClInclude Include="nia-app.h" />
     <ClInclude Include="nia-main-point.h" />
+    <ClInclude Include="text2\text.h" />
+    <ClInclude Include="text2\text_line.h" />
     <ClInclude Include="text\text.h" />
     <ClInclude Include="utils\color.h" />
     <ClInclude Include="utils\draw.h" />
@@ -155,6 +165,7 @@
     <ClInclude Include="utils\shadow.h" />
     <ClInclude Include="utils\simple-point.h" />
     <ClInclude Include="utils\simple-rect.h" />
+    <ClInclude Include="utils\simple-size.h" />
     <ClInclude Include="utils\size.h" />
     <ClInclude Include="utils\utils.h" />
     <ClInclude Include="window\base\window.h" />
@@ -168,6 +179,7 @@
     <ClCompile Include="container\containers\containers.cpp" />
     <ClCompile Include="container\main\MainContainer.cpp" />
     <ClCompile Include="container\scroll\scroll.cpp" />
+    <ClCompile Include="container\textBlock.cpp" />
     <ClCompile Include="css\css-attributes.cpp" />
     <ClCompile Include="css\css.cpp" />
     <ClCompile Include="css\css_block.cpp" />
@@ -178,6 +190,8 @@
     <ClCompile Include="image\image.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="nia-app.cpp" />
+    <ClCompile Include="text2\text2.cpp" />
+    <ClCompile Include="text2\text_line.cpp" />
     <ClCompile Include="text\text.cpp" />
     <ClCompile Include="utils\color.cpp" />
     <ClCompile Include="utils\draw.cpp" />

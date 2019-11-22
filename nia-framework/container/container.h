@@ -60,7 +60,7 @@ protected:
 	 */
 	map <string, eventCallback> eventListeners;
 	/**
-	 * @brief Ñallback function for unset event
+	 * @brief Callback function for unset event
 	 */
 	static void unusedCallback(Container* caller, Event* e) {};
 
@@ -120,7 +120,7 @@ protected:
 
 public:
 	Container(string id, Rect size, string classNames);
-	~Container();
+	virtual ~Container();
 
 	/**
 	 * Our friends
@@ -130,7 +130,7 @@ public:
 
 
 
-private:
+protected:
 	/**
 	 * Event listeners setup
 	 */
@@ -173,9 +173,6 @@ public:
 	 * @brief Function to configure the container and all its childs
 	 */
 	void setupContainer();
-
-
-
 
 public:
 	/**
@@ -287,6 +284,14 @@ public:
 
 public:
 	Text* text();
+
+
+public:
+	bool scrollActive;
+	
+public:
+	void adjustMousePoint(Point& p);
+
 
 
 };

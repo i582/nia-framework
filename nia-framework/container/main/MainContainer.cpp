@@ -21,5 +21,5 @@ void MainContainer::setupSize(Rect* size)
 	this->_innerSize = _outerSize = *size;
 	this->computeSize();
 	this->computeChildrenSize();
-	this->update();
+	this->render();
 }

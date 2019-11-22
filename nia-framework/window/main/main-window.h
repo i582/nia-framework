@@ -7,7 +7,11 @@
 class MainWindow : public Window
 {
 public:
-	MainWindow(string title, Rect size) : Window(title, size) {};
+	nia::Text2* text;
+
+public:
+	MainWindow(string title, Rect size);
+
 
 public:
 	virtual void setup() = 0;

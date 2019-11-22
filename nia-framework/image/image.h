@@ -30,6 +30,8 @@ private:
 
 	Container* parent;
 
+	bool needReRender;
+
 public:
 	Image(Container* parent);
 	
@@ -40,6 +42,8 @@ public:
 	void setImageSize(SimpleRect generalSize);
 
 	void setImageShift(SimplePoint p);
+	
+	void setImageSizeW(string size);
 
 private:
 	SDL_Texture* createTexture();

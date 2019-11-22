@@ -9,7 +9,8 @@ CSS::css_parser::css_parser(string file_path, CSS::css* css_parent)
 		cout << "ERROR: css_parent is nullptr" << endl;
 		return;
 	}
-
+	
+	this->file = nullptr;
 	this->css_parent = css_parent;
 	this->file_path = file_path;
 
@@ -24,6 +25,7 @@ CSS::css_parser::css_parser(string code, bool isCode, CSS::css* css_parent)
 		return;
 	}
 
+	this->file = nullptr;
 	this->css_parent = css_parent;
 	this->code = code;
 
@@ -43,7 +45,7 @@ void CSS::css_parser::openFile()
 {
 	file = fopen(file_path.c_str(), "r");
 
-	while (1)
+	while (true)
 	{
 		if (getc(file) == EOF) break;
 		else fseek(file, -1, SEEK_CUR);
@@ -55,7 +57,10 @@ void CSS::css_parser::openFile()
 
 	fclose(file);
 
+#ifdef _DEBUG_VERSION_
 	std::cout << code << std::endl;
+#endif // _DEBUG_VERSION_
+
 }
 
 void CSS::css_parser::deleteExcess()
@@ -252,9 +257,11 @@ void CSS::css_parser::syntaxParseOneBlock(vector<string>& block)
 			if (nowTokenType == TokenType::RPAR)
 			{
 				nowState = State::NEXT_TOKEN_IS_SEMICOLON;
-				cout << "End LPAR block" << endl;
 
+#ifdef _DEBUG_VERSION_
+				cout << "End LPAR block" << endl;
 				cout << "Value = " << value << endl;
+#endif // _DEBUG_VERSION_
 			}
 			else
 			{
@@ -346,8 +353,9 @@ void CSS::css_parser::syntaxParseOneBlock(vector<string>& block)
 
 			value.clear();
 			//value += token;
-
+#ifdef _DEBUG_VERSION_
 			cout << "Start LPAR block" << endl;
+#endif // _DEBUG_VERSION_
 			break;
 		}
 
@@ -356,8 +364,9 @@ void CSS::css_parser::syntaxParseOneBlock(vector<string>& block)
 			nowState = State::NEXT_TOKEN_IS_ATTRIBUTE;
 
 			block_css.name(idOrClassName);
-
+#ifdef _DEBUG_VERSION_
 			cout << "Start block" << endl;
+#endif // _DEBUG_VERSION_
 			break;
 		}
 
@@ -365,7 +374,9 @@ void CSS::css_parser::syntaxParseOneBlock(vector<string>& block)
 		{
 			nowState = State::END_BLOCK;
 
+#ifdef _DEBUG_VERSION_
 			cout << "End block" << endl;
+#endif // _DEBUG_VERSION_
 
 			
 			// create style set
@@ -404,22 +415,24 @@ void CSS::css_parser::syntaxParseOneBlock(vector<string>& block)
 			{
 			case NEXT_TOKEN_IS_ID:
 			{
-				cout << "This token is ID: " << token << endl;
-
 				idOrClassName += token;
 
+#ifdef _DEBUG_VERSION_
+				cout << "This token is ID: " << token << endl;
 				cout << "Block: " << idOrClassName << endl;
+#endif // _DEBUG_VERSION_
 
 				break;
 			}
 
 			case NEXT_TOKEN_IS_CLASSNAME:
 			{
-				cout << "This token is CLASSNAME: " << token << endl;
-
 				idOrClassName += token;
 
+#ifdef _DEBUG_VERSION_
+				cout << "This token is CLASSNAME: " << token << endl;
 				cout << "Block: " << idOrClassName << endl;
+#endif // _DEBUG_VERSION_
 
 				break;
 			}
@@ -428,7 +441,9 @@ void CSS::css_parser::syntaxParseOneBlock(vector<string>& block)
 			{
 				countAttributesWithoutValue++;
 
+#ifdef _DEBUG_VERSION_
 				cout << "This token is ATTRIBUTE: " << token << endl;
+#endif // _DEBUG_VERSION_
 
 				attribute.clear();
 				attribute = token;
@@ -438,7 +453,9 @@ void CSS::css_parser::syntaxParseOneBlock(vector<string>& block)
 
 			case NEXT_TOKEN_IS_VALUE:
 			{
+#ifdef _DEBUG_VERSION_
 				cout << "This token is VALUE: " << token << endl;
+#endif // _DEBUG_VERSION_
 
 				if (!value.empty())
 				{
@@ -457,7 +474,9 @@ void CSS::css_parser::syntaxParseOneBlock(vector<string>& block)
 
 			case NEXT_TOKEN_IS_PSEUDO:
 			{
+#ifdef _DEBUG_VERSION_
 				cout << "This token is PSEUDO: " << token << endl;
+#endif // _DEBUG_VERSION_
 
 				if (token != "hover" && token != "active" && token != "focus")
 				{
@@ -474,7 +493,10 @@ void CSS::css_parser::syntaxParseOneBlock(vector<string>& block)
 
 			default:
 			{
+
 				cout << "ERROR: Undefined token: " << token << endl;
+
+
 				break;
 			}
 			}
@@ -557,7 +579,5 @@ void CSS::css_parser::syntaxParseIfComplexValue(string attribute, string value, 
 
 		return;
 	}
-
-
 
 }

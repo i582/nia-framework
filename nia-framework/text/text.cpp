@@ -1,5 +1,6 @@
 #include "text.h"
 #include "..//container/container.h"
+#include "..\text2\text.h"
 
 Text::Text(Container* parent, string text, Rect size, Font* font, size_t fontSize, Color color)
 {
@@ -66,7 +67,17 @@ void Text::splitByLines()
 
 	for (auto& word : *words)
 	{
-		TTF_SizeUTF8(ttf_font, (word + ' ').c_str(), &tw, &th);
+
+		if (words->size() > 1)
+		{
+			TTF_SizeUTF8(ttf_font, (word + ' ').c_str(), &tw, &th);
+		}
+		else
+		{
+			TTF_SizeUTF8(ttf_font, word.c_str(), &tw, &th);
+		}
+
+		
 
 		if (x + tw > size.w() - (blockMarginLeft + blockMarginRight))
 		{
@@ -80,9 +91,16 @@ void Text::splitByLines()
 
 
 		x += tw;
-		tempLine += word + ' ';
+		
 
-
+		if (words->size() > 1)
+		{
+			tempLine += word + ' ';
+		}
+		else
+		{
+			tempLine += word;
+		}
 
 		
 	}
@@ -110,13 +128,13 @@ void Text::renderLines()
 	}
 	else if (this->blockVerticalAlign == TextBlockVerticalAlign::CENTER)
 	{
-		lineShift = (parent->size().h() - textBlockHeight) / 2;
+		lineShift = (parent->height() - textBlockHeight) / 2;
 
 		lineShift += blockMarginTop;
 	}
 	else if (this->blockVerticalAlign == TextBlockVerticalAlign::BOTTOM)
 	{
-		lineShift = parent->size().h() - textBlockHeight;
+		lineShift = parent->height() - textBlockHeight;
 
 		lineShift -= blockMarginBottom;
 	}
@@ -128,7 +146,7 @@ void Text::renderLines()
 
 	for (auto& line : lines)
 	{
-		SDL_Surface* textSurface = TTF_RenderUTF8_Blended(ttf_font, line.c_str(), color.colorSDL());
+		SDL_Surface* textSurface = TTF_RenderUTF8_Shaded(ttf_font, line.c_str(), color.colorSDL(), { 0xff, 0x00, 0xff, 0xff });
 
 		if (textSurface == nullptr)
 			continue;
@@ -371,4 +389,36 @@ void Text::setTextBlockMargin(string side, int value)
 void Text::setRenderer(SDL_Renderer* renderer)
 {
 	this->renderer = renderer;
+}
+
+bool Text::onHover(Point& p)
+{
+
+
+	return false;
+}
+
+SDL_Renderer* Text::getRenderer()
+{
+	return renderer;
+}
+
+SDL_Texture* Text::getTexture()
+{
+	return texture;
+}
+
+int Text::getFontSize()
+{
+	return fontSize;
+}
+
+Font* Text::getFont()
+{
+	return font;
+}
+
+Color Text::getColor()
+{
+	return color;
 }

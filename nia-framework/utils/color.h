@@ -34,7 +34,7 @@ public:
 	 * @brief Function for sdl apis compatibility
 	 * @return SDL_Color struct
 	 */
-	SDL_Color colorSDL();
+	SDL_Color colorSDL() const;
 
 	/*
 	 * @brief 

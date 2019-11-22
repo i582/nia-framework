@@ -32,7 +32,6 @@ void Scroll::shift(int delta)
 {
 	_nowValue += delta;
 
-
 	if (_nowValue > _maxValue)
 		_nowValue = _maxValue;
 	if (_nowValue < 0)
@@ -46,6 +45,14 @@ void Scroll::shift(int delta)
 bool Scroll::onHover(Point p)
 {
 	return p.in(_bodySize);
+}
+
+bool Scroll::onHoverSlider(Point& p)
+{
+	Point pos = p;
+	pos = pos - _bodySize.start;
+
+	return pos.in(_sliderSize);
 }
 
 void Scroll::render()

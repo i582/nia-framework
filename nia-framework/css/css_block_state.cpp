@@ -10,6 +10,8 @@ CSS::css_block_state::css_block_state()
 	styles["background-position-x"] = 0;
 	styles["background-position-y"] = 0;
 
+	styles["background-size"] = 0;
+
 	styles["font-family"] = 0;
 	styles["font-size"] = 0;
 
@@ -58,6 +60,8 @@ CSS::css_block_state::css_block_state(bool general)
 	styles["background-image"] = "";
 	styles["background-position-x"] = 0;
 	styles["background-position-y"] = 0;
+
+	styles["background-size"] = "";
 
 	styles["font-family"] = "";
 	styles["font-size"] = 13;
@@ -111,14 +115,7 @@ void CSS::css_block_state::mergeWith(css_block_state& block)
 		{
 			value = std::get<int>(block.styles.at(style.first));
 
-			if (value == 0)
-			{
-				mergedStyles[style.first] = style.second;
-			}
-			else
-			{
-				mergedStyles[style.first] = block.styles.at(style.first);
-			}
+			mergedStyles[style.first] = value == 0 ? style.second : block.styles.at(style.first);
 		}
 		catch (const std::exception& e)
 		{
@@ -144,14 +141,7 @@ void CSS::css_block_state::mergeWithBaseIs(css_block_state& block)
 		{
 			value = std::get<int>(style.second);
 
-			if (value == 0)
-			{
-				mergedStyles[style.first] = block.styles.at(style.first);
-			}
-			else
-			{
-				mergedStyles[style.first] = style.second;
-			}
+			mergedStyles[style.first] = value == 0 ? block.styles.at(style.first) : style.second;
 		}
 		catch (const std::exception& e)
 		{

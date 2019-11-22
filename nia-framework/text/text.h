@@ -30,6 +30,11 @@ enum class TextBlockVerticalAlign
 	BOTTOM
 };
 
+struct CursorPosition
+{
+	int x = 0, y = 0;
+};
+
 class Text
 {
 private:
@@ -49,25 +54,39 @@ private:
 
 	bool needReRender;
 
+
+
+
+
+
+
+
+
+	CursorPosition cursorPosition;
+	CursorPosition cursorPositionStart;
+	CursorPosition cursorPositionEnd;
+
+
+
+
+
+
+
+
+
+
 	double lineHeight;
-
-
 	TextAlign textAlign;
 	TextBlockVerticalAlign blockVerticalAlign;
-	
 	int blockMarginTop;
 	int blockMarginBottom;
 	int blockMarginLeft;
 	int blockMarginRight;
-
 	int tw;
 	int th;
 	SimpleRect textRect;
-
 	int textBlockHeight;
-
 	bool splitted;
-
 	int x;
 	int y;
 
@@ -100,4 +119,17 @@ public:
 	void setTextBlockMargin(string side, int value);
 
 	void setRenderer(SDL_Renderer* renderer);
+
+
+	bool onHover(Point& p);
+
+
+
+public:
+	SDL_Renderer* getRenderer();
+	SDL_Texture* getTexture();
+
+	int getFontSize();
+	Font* getFont();
+	Color getColor();
 };

@@ -1,0 +1,32 @@
+main {
+    background-color: #cccccc;
+}
+
+.side-block
+{
+    background-color: #192227;
+
+    border-top: 10px solid #ffffff;  
+
+   
+
+    border-color: #1aa3ff;
+
+    border-radius: 30px;
+
+
+    background-image: url(../nia-framework/images/big_app_icon.png);
+    background-position-x: 25px;
+    background-position-y: 27px;
+    background-size: 45%;
+}
+
+.side-block:hover
+{
+    background-color: #243138;
+
+    border-radius: 25px;
+
+    border-right: 5px solid #123456;
+} 
+
